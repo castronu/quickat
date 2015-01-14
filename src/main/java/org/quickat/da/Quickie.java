@@ -18,12 +18,14 @@ public class Quickie {
     private String title;
     private String description;
     private Date date;
+    private Long userGroupId;
+    private Long speakerId;
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -49,6 +51,22 @@ public class Quickie {
 
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    public Long getSpeakerId() {
+        return speakerId;
+    }
+
+    public void setSpeakerId(Long speakerId) {
+        this.speakerId = speakerId;
+    }
+
+    public Long getUserGroupId() {
+        return userGroupId;
+    }
+
+    public void setUserGroupId(Long userGroupId) {
+        this.userGroupId = userGroupId;
     }
 
     @Override

@@ -39,9 +39,8 @@ public class QuickieController {
     public Quickie createQuickie(@RequestBody Quickie quickie) {
         logger.info(quickie.toString());
         quickie.setDate(new Date());
-        quickiesRepository.save(quickie);
-
-        return new Quickie();
-
+        quickie.setUserGroupId(1L);
+        quickie.setSpeakerId(1L);
+        return quickiesRepository.save(quickie);
     }
 }
