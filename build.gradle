@@ -35,7 +35,6 @@ configurations {
 dependencies {
     compile("org.springframework.boot:spring-boot-starter-data-jpa")
 
-    compile("org.springframework.boot:spring-boot-starter-data-rest")
     compile("org.springframework.boot:spring-boot-starter-actuator")
     compile("org.springframework.boot:spring-boot-starter-web")
     compile("org.springframework.boot:spring-boot-starter-data-jpa")
@@ -54,3 +53,8 @@ eclipse {
 task wrapper(type: Wrapper) {
     gradleVersion = '1.12'
 }
+
+applicationDefaultJvmArgs = [
+        "-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=5005"
+]
+
