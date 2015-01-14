@@ -10,18 +10,14 @@ import java.util.Date;
  * Created by aposcia on 14.01.15.
  */
 @Entity(name = "quickies")
-public class Quicky {
-
+public class Quickie {
     @Id
     @GeneratedValue
     private Long id;
 
     private String title;
-
     private String description;
-
     private Date date;
-
 
     public long getId() {
         return id;
