@@ -8,6 +8,8 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @ComponentScan
 @EnableAutoConfiguration
+//@EnableJpaRepositories
+//@Import(RepositoryRestMvcConfiguration.class)
 public class QuickatApplication {
 
     public static void main(String[] args) {
