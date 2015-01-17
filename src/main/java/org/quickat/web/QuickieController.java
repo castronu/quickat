@@ -36,7 +36,7 @@ public class QuickieController {
     @Transactional
     public Quickie createQuickie(@RequestBody Quickie quickie) {
         logger.info(quickie.toString());
-        quickie.setDate(new Date());
+        quickie.setPostDate(new Date());
         quickie.setUserGroupId(1L);
         quickie.setSpeakerId(1L);
         return quickiesRepository.save(quickie);

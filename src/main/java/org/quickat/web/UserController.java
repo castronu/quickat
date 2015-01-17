@@ -1,6 +1,8 @@
 package org.quickat.web;
 
+import org.quickat.da.Quickie;
 import org.quickat.da.User;
+import org.quickat.repository.QuickiesRepository;
 import org.quickat.repository.UsersRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,22 +22,31 @@ public class UserController {
     @Autowired
     public UsersRepository usersRepository;
 
+    @Autowired
+    public QuickiesRepository quickiesRepository;
+
     @RequestMapping
     public Iterable<User> getUsers() {
         return usersRepository.findAll();
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public User getQuickie(@PathVariable(value = "id") Long id) {
+    public User getUser(@PathVariable(value = "id") Long id) {
         return usersRepository.findOne(id);
     }
 
     @RequestMapping(method = RequestMethod.POST)
     @Transactional
-    public User createQuickie(@RequestBody User user) {
+    public User getUsers(@RequestBody User user) {
         logger.info(user.toString());
 
         return usersRepository.save(user);
+    }
+
+
+    @RequestMapping(value = "/{speakerId}/quickies", method = RequestMethod.GET)
+    public Iterable<Quickie> getQuickiesOfSpeaker(@PathVariable(value = "speakerId") Long speakerId) {
+        return quickiesRepository.findBySpeakerId(speakerId);
     }
 
 }
