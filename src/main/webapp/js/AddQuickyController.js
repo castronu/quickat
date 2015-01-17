@@ -1,7 +1,7 @@
 (function () {
     'use strict';
-    quickiesApp.controller('AddQuickyController', ['$scope', '$location', 'flash', 'Quickies',
-        function ($scope, $location, flash, Quickies) {
+    quickiesApp.controller('AddQuickyController', ['$scope', '$location', 'Quickies',
+        function ($scope, $location, Quickies) {
             $scope.title = "Add quicky";
 
             $scope.quickie = {};
