@@ -6,7 +6,15 @@ function MyQuickiesController($scope, $http) {
         $scope.quickies = data;
     });
 
-
     $scope.title = "My quickies";
+
+    $scope.deleteQuickie = function (id) {
+        alert(id);
+        /*if (popupService.showPopup('Really delete this?')) {
+         movie.$delete(function () {
+         $window.location.href = ''; //redirect to home
+         });
+         } */
+    };
 
 }

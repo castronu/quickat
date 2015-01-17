@@ -49,13 +49,13 @@ public class QuickieControllerTest {
     @Before
     public void setUp() throws Exception {
         quickiesRepository.deleteAll();
-        springBootQuickie = QuickieBuilder.aQuickie().withDate(new Date()).
+        springBootQuickie = QuickieBuilder.aQuickie().withQuickieDate(new Date()).
                 withTitle("Spring Boot").
                 build();
-        Quickie scalaQuickie = QuickieBuilder.aQuickie().withDate(new Date()).
+        Quickie scalaQuickie = QuickieBuilder.aQuickie().withQuickieDate(new Date()).
                 withTitle("Scala").
                 build();
-        Quickie vagrantQuickie = QuickieBuilder.aQuickie().withDate(new Date()).
+        Quickie vagrantQuickie = QuickieBuilder.aQuickie().withQuickieDate(new Date()).
                 withTitle("Vagrant").
                 build();
         quickiesRepository.save(Arrays.asList(scalaQuickie, springBootQuickie, vagrantQuickie));

@@ -5,13 +5,14 @@ import org.quickat.da.Quickie;
 import java.util.Date;
 
 /**
- * Created by castronu on 17/01/15.
+ * Created by aposcia on 17.01.15.
  */
 public class QuickieBuilder {
     private Long id;
     private String title;
     private String description;
-    private Date date;
+    private Date postDate;
+    private Date quickieDate;
     private Long userGroupId;
     private Long speakerId;
 
@@ -37,8 +38,13 @@ public class QuickieBuilder {
         return this;
     }
 
-    public QuickieBuilder withDate(Date date) {
-        this.date = date;
+    public QuickieBuilder withPostDate(Date postDate) {
+        this.postDate = postDate;
+        return this;
+    }
+
+    public QuickieBuilder withQuickieDate(Date quickieDate) {
+        this.quickieDate = quickieDate;
         return this;
     }
 
@@ -53,7 +59,7 @@ public class QuickieBuilder {
     }
 
     public QuickieBuilder but() {
-        return aQuickie().withId(id).withTitle(title).withDescription(description).withDate(date).withUserGroupId(userGroupId).withSpeakerId(speakerId);
+        return aQuickie().withId(id).withTitle(title).withDescription(description).withPostDate(postDate).withQuickieDate(quickieDate).withUserGroupId(userGroupId).withSpeakerId(speakerId);
     }
 
     public Quickie build() {
@@ -61,7 +67,8 @@ public class QuickieBuilder {
         quickie.setId(id);
         quickie.setTitle(title);
         quickie.setDescription(description);
-        quickie.setDate(date);
+        quickie.setPostDate(postDate);
+        quickie.setQuickieDate(quickieDate);
         quickie.setUserGroupId(userGroupId);
         quickie.setSpeakerId(speakerId);
         return quickie;

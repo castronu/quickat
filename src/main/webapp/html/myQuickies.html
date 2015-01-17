@@ -2,30 +2,26 @@
     <p class="huge text-center">My QUICKIES</p>
     <hr>
 
-    <div ng-repeat="phone in quickies">
-        <span>{{phone.name}}</span>
 
-        <p>{{phone.snippet}}</p>
-    </div>
     <table class="table table-striped">
         <thead>
         <tr>
-            <td class="col-md-2">Post Date</td>
-            <td class="col-md-3">Quicky Title</td>
-            <td class="col-md-5">Quicky Description</td>
+            <td class="col-md-2">Date</td>
+            <td class="col-md-3">Title</td>
+            <td class="col-md-5">Description</td>
             <td class="col-md-1">Votes</td>
             <td class="col-md-1">Action</td>
         </tr>
         </thead>
         <tbody>
         <tr ng-repeat="quickie in quickies">
-            <td>{{quickie.date | date:"MM/dd/yyyy 'at' HH:mm"}}</td>
+            <td>{{quickie.quickieDate | date:"MM/dd/yyyy 'at' HH:mm"}}</td>
             <td>{{quickie.title}}</td>
             <td>{{quickie.description}}</td>
             <td>1</td>
             <td>
                 <span class="glyphicon glyphicon-pencil"></span>
-                <span class="glyphicon glyphicon-trash"></span>
+                <a ng-click="deleteQuickie(quickie.id)"><span class="glyphicon glyphicon-trash"></span></a>
             </td>
         </tr>
         </tbody>
