@@ -2,6 +2,11 @@
     <p class="huge text-center">My QUICKIES</p>
     <hr>
 
+    <div ng-repeat="phone in quickies">
+        <span>{{phone.name}}</span>
+
+        <p>{{phone.snippet}}</p>
+    </div>
     <table class="table table-striped">
         <thead>
         <tr>
@@ -13,31 +18,11 @@
         </tr>
         </thead>
         <tbody>
-        <tr>
-            <td>12/09/2014</td>
-            <td>Java 8</td>
-            <td>Labdas in Java 6</td>
+        <tr ng-repeat="quickie in quickies">
+            <td>{{quickie.date | date:"MM/dd/yyyy 'at' HH:mm"}}</td>
+            <td>{{quickie.title}}</td>
+            <td>{{quickie.description}}</td>
             <td>1</td>
-            <td>
-                <span class="glyphicon glyphicon-pencil"></span>
-                <span class="glyphicon glyphicon-trash"></span>
-            </td>
-        </tr>
-        <tr>
-            <td>12/09/2014</td>
-            <td>Java 8</td>
-            <td>Labdas in Java 6</td>
-            <td>100</td>
-            <td>
-                <span class="glyphicon glyphicon-pencil"></span>
-                <span class="glyphicon glyphicon-trash"></span>
-            </td>
-        </tr>
-        <tr>
-            <td>12/09/2014</td>
-            <td>Java 8</td>
-            <td>Labdas in Java 6</td>
-            <td>0</td>
             <td>
                 <span class="glyphicon glyphicon-pencil"></span>
                 <span class="glyphicon glyphicon-trash"></span>
