@@ -29,6 +29,7 @@ import java.util.Date;
 import java.util.Properties;
 
 import static com.jayway.restassured.RestAssured.when;
+import static org.hamcrest.Matchers.is;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -40,13 +41,15 @@ public class QuickieControllerTest {
     @Value("${local.server.port}")
     int port;
 
+    Quickie springBootQuickie;
+
     @Autowired
     public QuickiesRepository quickiesRepository;
 
     @Before
     public void setUp() throws Exception {
         quickiesRepository.deleteAll();
-        Quickie springBootQuickie = QuickieBuilder.aQuickie().withDate(new Date()).
+        springBootQuickie = QuickieBuilder.aQuickie().withDate(new Date()).
                 withTitle("Spring Boot").
                 build();
         Quickie scalaQuickie = QuickieBuilder.aQuickie().withDate(new Date()).
@@ -55,7 +58,7 @@ public class QuickieControllerTest {
         Quickie vagrantQuickie = QuickieBuilder.aQuickie().withDate(new Date()).
                 withTitle("Vagrant").
                 build();
-        quickiesRepository.save(Arrays.asList(scalaQuickie,springBootQuickie,vagrantQuickie));
+        quickiesRepository.save(Arrays.asList(scalaQuickie, springBootQuickie, vagrantQuickie));
 
         RestAssured.port = port;
     }
@@ -77,6 +80,12 @@ public class QuickieControllerTest {
 
     @Test
     public void testGetQuickie() throws Exception {
+
+        Integer springBootId = Integer.valueOf(springBootQuickie.getId().toString());
+        when().get("/quickies/{id}", springBootQuickie.getId()).
+                then().
+                statusCode(HttpStatus.SC_OK).
+                body("title", is("Spring Boot")).body("id", is(springBootId));
 
     }
 
@@ -155,14 +164,15 @@ class TestConfiguration {
         testDataSource.setUsername("sa");
         testDataSource.setPassword("sa");
         Properties connectionProperties = new Properties();
-        connectionProperties.setProperty("hibernate.hbm2ddl.auto","create-drop");
+        connectionProperties.setProperty("hibernate.hbm2ddl.auto", "create-drop");
         testDataSource.setConnectionProperties(connectionProperties);
         return testDataSource;
 
     }
+
     @Bean
-    public HibernateJpaVendorAdapter hibernateJpaVendorAdapter(){
-        HibernateJpaVendorAdapter hibernateJpaVendorAdapter=new HibernateJpaVendorAdapter();
+    public HibernateJpaVendorAdapter hibernateJpaVendorAdapter() {
+        HibernateJpaVendorAdapter hibernateJpaVendorAdapter = new HibernateJpaVendorAdapter();
         hibernateJpaVendorAdapter.setDatabasePlatform("org.hibernate.dialect.HSQLDialect");
         hibernateJpaVendorAdapter.setShowSql(true);
         return hibernateJpaVendorAdapter;
