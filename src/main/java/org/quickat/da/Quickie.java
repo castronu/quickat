@@ -17,7 +17,8 @@ public class Quickie {
 
     private String title;
     private String description;
-    private Date date;
+    private Date postDate;
+    private Date quickieDate;
     private Long userGroupId;
     private Long speakerId;
 
@@ -45,13 +46,6 @@ public class Quickie {
         this.description = description;
     }
 
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
-    }
 
     public Long getSpeakerId() {
         return speakerId;
@@ -69,13 +63,33 @@ public class Quickie {
         this.userGroupId = userGroupId;
     }
 
+    public Date getPostDate() {
+        return postDate;
+    }
+
+    public void setPostDate(Date postDate) {
+        this.postDate = postDate;
+    }
+
+
+    public Date getQuickieDate() {
+        return quickieDate;
+    }
+
+    public void setQuickieDate(Date quickieDate) {
+        this.quickieDate = quickieDate;
+    }
+
     @Override
     public String toString() {
         return "Quickie{" +
                 "id=" + id +
                 ", title='" + title + '\'' +
                 ", description='" + description + '\'' +
-                ", date=" + date +
+                ", postDate=" + postDate +
+                ", quickieDate=" + quickieDate +
+                ", userGroupId=" + userGroupId +
+                ", speakerId=" + speakerId +
                 '}';
     }
 }
