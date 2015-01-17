@@ -2,7 +2,8 @@ quickiesApp
     .controller('MyQuickiesController', MyQuickiesController);
 
 function MyQuickiesController($scope, $http) {
-    $http.get('quickies/').success(function (data) {
+    //TODO: when login implemented, retrieve user id from session
+    $http.get('users/1/quickies/').success(function (data) {
         $scope.quickies = data;
     });
 

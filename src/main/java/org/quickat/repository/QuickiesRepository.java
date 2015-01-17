@@ -11,6 +11,9 @@ import org.springframework.stereotype.Repository;
 public interface QuickiesRepository extends CrudRepository<Quickie, Long> {
 
 
+    Iterable<Quickie> findBySpeakerId(Long speakerId);
+
+
 //    @
     //  public getBlabla(String id);
 }

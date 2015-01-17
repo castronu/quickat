@@ -2,7 +2,6 @@
     <p class="huge text-center">My QUICKIES</p>
     <hr>
 
-
     <table class="table table-striped">
         <thead>
         <tr>
@@ -10,6 +9,7 @@
             <td class="col-md-3">Title</td>
             <td class="col-md-5">Description</td>
             <td class="col-md-1">Votes</td>
+            <td class="col-md-1">Posted</td>
             <td class="col-md-1">Action</td>
         </tr>
         </thead>
@@ -19,6 +19,7 @@
             <td>{{quickie.title}}</td>
             <td>{{quickie.description}}</td>
             <td>1</td>
+            <td>{{quickie.postDate | date:'short'}}</td>
             <td>
                 <span class="glyphicon glyphicon-pencil"></span>
                 <a ng-click="deleteQuickie(quickie.id)"><span class="glyphicon glyphicon-trash"></span></a>
