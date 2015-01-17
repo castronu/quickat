@@ -1,5 +1,8 @@
 package org.quickat.web;
 
+import com.jayway.restassured.RestAssured;
+import org.apache.http.HttpStatus;
+import org.hamcrest.Matchers;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -9,6 +12,7 @@ import org.quickat.da.Quickie;
 import org.quickat.da.builder.QuickieBuilder;
 import org.quickat.repository.QuickiesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.IntegrationTest;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.context.annotation.Bean;
@@ -20,10 +24,12 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
 import javax.sql.DataSource;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.Properties;
 
-import static org.junit.Assert.*;
+import static com.jayway.restassured.RestAssured.when;
+
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = TestConfiguration.class)
@@ -31,16 +37,27 @@ import static org.junit.Assert.*;
 @IntegrationTest("server.port:0")
 public class QuickieControllerTest {
 
+    @Value("${local.server.port}")
+    int port;
+
     @Autowired
     public QuickiesRepository quickiesRepository;
 
     @Before
     public void setUp() throws Exception {
+        quickiesRepository.deleteAll();
         Quickie springBootQuickie = QuickieBuilder.aQuickie().withDate(new Date()).
                 withTitle("Spring Boot").
                 build();
-        quickiesRepository.save(springBootQuickie);
+        Quickie scalaQuickie = QuickieBuilder.aQuickie().withDate(new Date()).
+                withTitle("Scala").
+                build();
+        Quickie vagrantQuickie = QuickieBuilder.aQuickie().withDate(new Date()).
+                withTitle("Vagrant").
+                build();
+        quickiesRepository.save(Arrays.asList(scalaQuickie,springBootQuickie,vagrantQuickie));
 
+        RestAssured.port = port;
     }
 
     @After
@@ -50,6 +67,11 @@ public class QuickieControllerTest {
 
     @Test
     public void testGetQuickies() throws Exception {
+
+        when().get("/quickies").
+                then().
+                statusCode(HttpStatus.SC_OK).
+                body("title", Matchers.hasItems("Vagrant", "Scala", "Spring Boot"));
 
     }
 
