@@ -32,6 +32,7 @@
     border-color: #d9534f;
     color: #fff;
 }
+
 /**/
 #page-wrapper {
     border-left: 1px solid #e7e7e7;
@@ -39,11 +40,13 @@
     padding: 0 30px;
     position: inherit;
 }
+
 #page-wrapper {
     background-color: #fff;
     min-height: 568px;
     padding: 0 15px;
 }
+
 /**/
 
 /*top 3*/
@@ -81,6 +84,7 @@
     color: #ccd1d9;
     text-align: center;
 }
+
 .pn {
     box-shadow: 0 2px 1px rgba(0, 0, 0, 0.2);
     height: 250px;
@@ -134,9 +138,11 @@
     margin: 0 10px 0 20px;
     width: 30px;
 }
+
 .bg-theme {
     background-color: #68dff0;
 }
+
 .bg-theme {
     background-color: #68dff0;
 }
@@ -145,6 +151,7 @@
     float: left;
     width: 170px;
 }
+
 .ds i {
     font-size: 12px;
     line-height: 16px;
@@ -152,8 +159,15 @@
 
 /*mine*/
 .vote {
-    font-family:	"Helvetica Neue",​Helvetica,​Arial,​sans-serif;
-    font-size:	30px;
-    color:	#0f0f0f;
+    font-family: "Helvetica Neue", ​Helvetica, ​Arial, ​sans-serif;
+    font-size: 30px;
+    color: #0f0f0f;
     margin-top: 15px;
+}
+
+.commentContainer {
+    background-color: rgba(51, 122, 183, 0.1);
+    padding-top: 15px;
+    padding-left: 25px;
+
 }
