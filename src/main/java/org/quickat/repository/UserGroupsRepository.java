@@ -1,13 +1,13 @@
 package org.quickat.repository;
 
 import org.quickat.da.Quickie;
+import org.quickat.da.UserGroup;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 /**
- * Created by aposcia on 14.01.15.
+ * @author Christophe Pollet
  */
 @Repository
-public interface QuickiesRepository extends CrudRepository<Quickie, Long> {
-    Iterable<Quickie> findBySpeakerId(Long speakerId);
+public interface UserGroupsRepository extends CrudRepository<UserGroup, Long> {
 }

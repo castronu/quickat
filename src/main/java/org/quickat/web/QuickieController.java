@@ -16,7 +16,6 @@ import java.util.Date;
 @RestController
 @RequestMapping("quickies")
 public class QuickieController {
-
     final static Logger logger = LoggerFactory.getLogger(QuickieController.class);
 
     @Autowired
@@ -37,7 +36,6 @@ public class QuickieController {
     public Quickie createQuickie(@RequestBody Quickie quickie) {
         logger.info(quickie.toString());
         quickie.setPostDate(new Date());
-        quickie.setUserGroupId(1L);
         quickie.setSpeakerId(1L);
         return quickiesRepository.save(quickie);
     }

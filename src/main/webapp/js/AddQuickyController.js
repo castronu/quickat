@@ -1,19 +1,14 @@
 (function () {
     'use strict';
-    quickiesApp.controller('AddQuickyController', ['$scope', '$location', 'Quickies',
-        function ($scope, $location, Quickies) {
+    quickiesApp.controller('AddQuickyController', ['$scope', '$location', 'Quickies', 'UserGroups',
+        function ($scope, $location, Quickies, UserGroups) {
             $scope.title = "Add quicky";
 
             $scope.quickie = {};
 
-            $scope.openDatePicker = function($event) {
-                $event.preventDefault();
-                $event.stopPropagation();
+            $scope.userGroups = UserGroups.list();
 
-                $scope.opened = true;
-            };
-
-            $scope.submit = function() {
+            $scope.submit = function () {
                 Quickies.create({}, $scope.quickie,
                     function (value, responseHeaders) {
                         alert('Success');
