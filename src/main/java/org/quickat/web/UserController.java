@@ -26,13 +26,13 @@ public class UserController {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public User getQuickie(@PathVariable(value = "id") Long id) {
+    public User getUser(@PathVariable(value = "id") Long id) {
         return usersRepository.findOne(id);
     }
 
     @RequestMapping(method = RequestMethod.POST)
     @Transactional
-    public User createQuickie(@RequestBody User user) {
+    public User getUsers(@RequestBody User user) {
         logger.info(user.toString());
 
         return usersRepository.save(user);
