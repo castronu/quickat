@@ -1,8 +1,6 @@
 package org.quickat.da;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Date;
 
 /**
@@ -21,6 +19,8 @@ public class Vote {
     private Long quickieId;
     private Long voterId;
     private Date date;
+
+    @Enumerated(EnumType.STRING)
     private Type type;
 
     public Date getDate() {
