@@ -13,13 +13,24 @@ import org.quickat.da.builder.QuickieBuilder;
 import org.quickat.repository.QuickiesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.test.IntegrationTest;
 import org.springframework.boot.test.SpringApplicationConfiguration;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+import org.springframework.core.annotation.Order;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.core.userdetails.AuthenticationUserDetailsService;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.openid.OpenIDAuthenticationToken;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
@@ -34,7 +45,7 @@ import static org.hamcrest.Matchers.is;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = TestConfiguration.class)
-@WebAppConfiguration
+@WebAppConfiguration()
 @IntegrationTest("server.port:0")
 public class QuickieControllerTest {
 
@@ -153,7 +164,7 @@ public class QuickieControllerTest {
 }
 
 @Configuration
-@Import(QuickatApplication.class)
+@Import({NoSecurityConfig.class,QuickatApplication.class})
 class TestConfiguration {
 
     @Bean
@@ -179,3 +190,18 @@ class TestConfiguration {
     }
 
 }
+@Configuration
+@Order(1)
+class NoSecurityConfig extends WebSecurityConfigurerAdapter {
+
+    //https://github.com/rwinch/spring-boot-openid/blob/master/src/main/java/demo/MyController.java
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http.csrf().disable()
+                .authorizeRequests()
+                .antMatchers("/**").permitAll();
+    }
+
+
+}
+

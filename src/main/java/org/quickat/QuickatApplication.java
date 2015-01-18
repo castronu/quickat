@@ -10,8 +10,6 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @ComponentScan
 @EnableAutoConfiguration
 @EnableTransactionManagement
-//@EnableJpaRepositories
-//@Import(RepositoryRestMvcConfiguration.class)
 public class QuickatApplication {
 
     public static void main(String[] args) {
