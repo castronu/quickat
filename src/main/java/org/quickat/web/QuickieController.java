@@ -58,7 +58,7 @@ public class QuickieController {
                 break;
 
             case "past":
-                quickies = quickiesRepository.findByQuickieDateBefore(new Date());
+                 quickies = quickiesRepository.findByQuickieDateBefore(new Date());
         }
 
         List<FullQuickie> fullQuickies = new LinkedList<>();
