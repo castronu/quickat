@@ -160,8 +160,6 @@
 /*mine*/
 .vote {
     font-family: "Helvetica Neue", ​Helvetica, ​Arial, ​sans-serif;
-    font-size: 30px;
-    color: #0f0f0f;
     margin-top: 15px;
 }
 
@@ -170,4 +168,8 @@
     padding-top: 15px;
     padding-left: 25px;
 
+}
+
+.highlightGreen{
+    color:#0ce3ac;
 }
