@@ -1,5 +1,5 @@
 var quickiesApp = angular
-    .module('quickiesApp', ['ngRoute', 'ngResource', 'ui.bootstrap'])
+    .module('quickiesApp', ['ngRoute', 'ngResource', 'ui.bootstrap', 'angularMoment'])
     .config(config);
 
 function config($routeProvider) {

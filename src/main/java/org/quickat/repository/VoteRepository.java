@@ -9,4 +9,8 @@ import org.springframework.data.repository.CrudRepository;
  */
 public interface VoteRepository extends CrudRepository<Vote, Long> {
     Vote findByQuickieIdAndVoterIdAndType(Long quickieId, Long userId, Vote.Type type);
+
+    int countByQuickieIdAndType(Long id, Vote.Type vote);
+
+    int countByQuickieIdAndVoterIdAndType(Long quickieId, Long userId, Vote.Type type);
 }

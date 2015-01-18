@@ -5,14 +5,21 @@ import org.quickat.da.Quickie;
 import org.quickat.da.Vote;
 import org.quickat.da.builder.VoteBuilder;
 import org.quickat.repository.QuickiesRepository;
+import org.quickat.repository.UsersRepository;
 import org.quickat.repository.VoteRepository;
+import org.quickat.web.dto.FullQuickie;
+import org.quickat.web.exception.AlreadyVotedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
 import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Created by aposcia on 14.01.15.
@@ -26,11 +33,39 @@ public class QuickieController {
     public QuickiesRepository quickiesRepository;
 
     @Autowired
-    private VoteRepository voteRepository;
+    private VoteRepository votesRepository;
+
+    @Autowired
+    private UsersRepository usersRepository;
 
     @RequestMapping(method = RequestMethod.GET)
-    public Iterable<Quickie> getQuickies() {
-        return quickiesRepository.findAll();
+    public Iterable<FullQuickie> getQuickies(@RequestParam(value = "filter", defaultValue = "future", required = false) String filter) {
+        Iterable<Quickie> quickies = Collections.emptyList();
+
+        switch (filter) {
+            case "future":
+                quickies = quickiesRepository.findByQuickieDateAfter(new Date());
+                break;
+
+            case "past":
+                quickies = quickiesRepository.findByQuickieDateBefore(new Date());
+        }
+
+        List<FullQuickie> fullQuickies = new LinkedList<>();
+
+        // FIXME use a complete Quickie mapping instead? not sure... My opinion is that we should always communication
+        // FIXME with DTOs though HTTP
+        for (Quickie quickie : quickies) {
+            FullQuickie fullQuickie = new FullQuickie();
+            fullQuickie.quickie = quickie;
+            fullQuickie.speaker = usersRepository.findOne(quickie.getSpeakerId());
+            fullQuickie.votes = votesRepository.countByQuickieIdAndType(quickie.getId(), Vote.Type.VOTE);
+            fullQuickie.voted = votesRepository.countByQuickieIdAndVoterIdAndType(fullQuickie.quickie.getId(), ToDelete.USER_ID, Vote.Type.VOTE) > 0;
+
+            fullQuickies.add(fullQuickie);
+        }
+
+        return fullQuickies;
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
@@ -56,12 +91,21 @@ public class QuickieController {
                 .withVoterId(ToDelete.USER_ID)
                 .build();
 
-        voteRepository.save(vote);
+        try {
+            votesRepository.save(vote);
+        } catch (Exception e) { // FIXME should be MySQLIntegrityConstraintViolationException but not in signature
+            throw new AlreadyVotedException();
+        }
     }
 
     @RequestMapping(value = "/{id}/vote", method = RequestMethod.DELETE)
     public void unvoteQuickie(@PathVariable(value = "id") Long quickieId) {
-        Vote vote = voteRepository.findByQuickieIdAndVoterIdAndType(quickieId, ToDelete.USER_ID, Vote.Type.VOTE);
-        voteRepository.delete(vote);
+        Vote vote = votesRepository.findByQuickieIdAndVoterIdAndType(quickieId, ToDelete.USER_ID, Vote.Type.VOTE);
+        votesRepository.delete(vote);
+    }
+
+    @ExceptionHandler({AlreadyVotedException.class})
+    @ResponseStatus(value = HttpStatus.CONFLICT)
+    public void handleAlreadyVotedException() {
     }
 }
