@@ -4,12 +4,14 @@ package org.quickat.da;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Table;
 import java.util.Date;
 
 /**
  * Created by aposcia on 14.01.15.
  */
-@Entity(name = "quickies")
+@Entity
+@Table(name = "quickies")
 public class Quickie {
     @Id
     @GeneratedValue

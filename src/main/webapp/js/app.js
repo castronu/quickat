@@ -1,5 +1,5 @@
 var quickiesApp = angular
-    .module('quickiesApp', ['ngRoute', 'ui.bootstrap'])
+    .module('quickiesApp', ['ngRoute', 'ngResource', 'ui.bootstrap', 'angularMoment'])
     .config(config);
 
 function config($routeProvider) {
@@ -19,6 +19,14 @@ function config($routeProvider) {
         .when('/myQuickies', {
             templateUrl: 'html/myQuickies.html',
             controller: 'MyQuickiesController'
+        })
+        .when('/myProfile', {
+            templateUrl: 'html/myProfile.html',
+            controller: 'MyProfileController'
+        })
+        .when('/createProfile', {
+            templateUrl: 'html/createProfile.html',
+            controller: 'CreateProfileController'
         })
         .otherwise({
             templateUrl: 'html/futureQuickies.html',

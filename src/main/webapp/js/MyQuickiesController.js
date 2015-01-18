@@ -1,20 +1,19 @@
-quickiesApp
-    .controller('MyQuickiesController', MyQuickiesController);
+(function () {
+    'use strict';
+    quickiesApp.controller('MyQuickiesController', ['$scope', '$location', 'Users', 'Quickies',
+        function ($scope, $location, Users, Quickies) {
+            $scope.title = "My quickies";
 
-function MyQuickiesController($scope, $http) {
-    $http.get('quickies/').success(function (data) {
-        $scope.quickies = data;
-    });
+            $scope.deleteQuickie = function (idToDelete, index) {
+                Quickies.delete({'id': idToDelete}, function (success) {
+                    if (success) {
+                        $scope.quickies.splice(index, 1);
+                    }
+                });
+            };
 
-    $scope.title = "My quickies";
+            $scope.quickies = Users.quickies();
 
-    $scope.deleteQuickie = function (id) {
-        alert(id);
-        /*if (popupService.showPopup('Really delete this?')) {
-         movie.$delete(function () {
-         $window.location.href = ''; //redirect to home
-         });
-         } */
-    };
-
-}
+        }
+    ]);
+})();
