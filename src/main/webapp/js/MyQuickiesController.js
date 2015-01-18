@@ -10,7 +10,6 @@
                         $scope.quickies.splice(index, 1);
                     }
                 });
-
             };
 
             $scope.quickies = Users.quickies();
