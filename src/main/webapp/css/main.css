@@ -68,24 +68,24 @@
     border-radius: 50%;
 }
 
-.img-thumb-xs{
-    width:40px;
-    height:40px;
+.img-thumb-xs {
+    width: 40px;
+    height: 40px;
 }
 
-.img-thumb-s{
-    width:50px;
-    height:50px;
+.img-thumb-s {
+    width: 50px;
+    height: 50px;
 }
 
-.img-thumb-m{
-    width:70px;
-    height:70px;
+.img-thumb-m {
+    width: 70px;
+    height: 70px;
 }
 
-.img-thumb-l{
-    width:100px;
-    height:100px;
+.img-thumb-l {
+    width: 100px;
+    height: 100px;
 }
 
 .vote {
@@ -115,4 +115,24 @@
     font-size: 30px;
     line-height: 50px;
     margin-bottom: 20px;
+}
+
+.groupFilterLabel {
+    color: rgba(255, 255, 255, 1);
+}
+
+.groupFilterContainer {
+    margin-bottom: 5px;
+    border-radius: 5px;
+    text-align: center;
+    font-size: 20px;
+    font-weight: 700;
+    opacity: 0.9;
+}
+
+.groupFilterTitle {
+    color: #c2c2c2;
+    font-size: 20px;
+    line-height: 50px;
+    margin-bottom: 10px;
 }
