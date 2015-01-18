@@ -4,6 +4,7 @@ import org.quickat.ToDelete;
 import org.quickat.da.Quickie;
 import org.quickat.da.Vote;
 import org.quickat.da.builder.VoteBuilder;
+import org.quickat.repository.CommentsRepository;
 import org.quickat.repository.QuickiesRepository;
 import org.quickat.repository.UsersRepository;
 import org.quickat.repository.VoteRepository;
@@ -41,10 +42,13 @@ public class QuickieController {
     @Autowired
     private UsersRepository usersRepository;
 
+    @Autowired
+    private CommentsRepository commentsRepository;
+
     @RequestMapping(method = RequestMethod.GET)
     public Iterable<FullQuickie> getQuickies(@RequestParam(value = "filter", defaultValue = "future", required = false) String filter) {
-        Authentication auth = SecurityContextHolder.getContext(). getAuthentication();
-        logger.info("GetQuickies request from user: {}",auth.getName());
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        logger.info("GetQuickies request from user: {}", auth.getName());
 
         Iterable<Quickie> quickies = Collections.emptyList();
 
@@ -68,6 +72,8 @@ public class QuickieController {
             fullQuickie.votes = votesRepository.countByQuickieIdAndType(quickie.getId(), Vote.Type.VOTE);
             fullQuickie.voted = votesRepository.countByQuickieIdAndVoterIdAndType(fullQuickie.quickie.getId(), ToDelete.USER_ID, Vote.Type.VOTE) > 0;
 
+            //FIXME: user in comment... cf CPO comment
+            fullQuickie.comments = commentsRepository.findByQuickieId(fullQuickie.quickie.getId());
             fullQuickies.add(fullQuickie);
         }
 
