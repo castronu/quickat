@@ -46,6 +46,7 @@ public class UserController {
 
     @RequestMapping(value = "/{speakerId}/quickies", method = RequestMethod.GET)
     public Iterable<Quickie> getQuickiesOfSpeaker(@PathVariable(value = "speakerId") Long speakerId) {
+        logger.info("getQuickiesOfSpeaker with id {}", speakerId);
         return quickiesRepository.findBySpeakerId(speakerId);
     }
 

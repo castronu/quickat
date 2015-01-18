@@ -2,10 +2,13 @@
     'use strict';
     quickiesApp.factory('Quickies', ['$resource',
         function ($resource) {
-            return $resource('/quickies', {}, {
+            return $resource('/quickies/:id', {}, {
                 query: {method: 'GET'},
-                create: {method: 'POST'}
+                create: {method: 'POST'},
+                delete: {method: 'DELETE'}
             });
         }
-    ]);
-})();
+    ])
+    ;
+})
+();

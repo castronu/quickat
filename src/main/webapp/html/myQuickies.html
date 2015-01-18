@@ -22,7 +22,7 @@
             <td>{{quickie.postDate | date:'short'}}</td>
             <td>
                 <span class="glyphicon glyphicon-pencil"></span>
-                <a ng-click="deleteQuickie(quickie.id)"><span class="glyphicon glyphicon-trash"></span></a>
+                <a ng-click="deleteQuickie(quickie.id,$index)"><span class="glyphicon glyphicon-trash"></span></a>
             </td>
         </tr>
         </tbody>
