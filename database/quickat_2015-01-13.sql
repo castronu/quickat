@@ -44,7 +44,8 @@ CREATE TABLE `quickies` (
   `description` text NOT NULL,
   `user_group_id` int(11) NOT NULL,
   `speaker_id` int(11) NOT NULL,
-  `date` date NOT NULL,
+  `quickie_date` datetime NOT NULL,
+  `post_date` datetime NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
