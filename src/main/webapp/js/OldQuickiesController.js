@@ -4,7 +4,7 @@
         function ($scope, Quickies, Votes) {
             $scope.title = "Old quickies";
 
-            $scope.fullQuickies = Quickies.old();
+            $scope.fullQuickies = Quickies.past();
         }
     ]);
 })();
