@@ -73,6 +73,15 @@ public class QuickieController {
         return quickiesRepository.findOne(id);
     }
 
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    public void deleteQuickie(@PathVariable(value = "id") Long id) {
+        logger.info("Delete quickie with id: {}", id);
+        Quickie quickie = quickiesRepository.findOne(id);
+        if (quickie.getQuickieDate().before(new Date())) {
+            quickiesRepository.delete(id);
+        }
+    }
+
     @RequestMapping(method = RequestMethod.POST)
     @Transactional
     public Quickie createQuickie(@RequestBody Quickie quickie) {
