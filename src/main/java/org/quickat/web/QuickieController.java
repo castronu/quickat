@@ -59,8 +59,7 @@ public class QuickieController {
 
         List<FullQuickie> fullQuickies = new LinkedList<>();
 
-        // FIXME use a complete Quickie mapping instead? not sure... My opinion is that we should always communication
-        // FIXME with DTOs though HTTP
+        // FIXME use a complete Quickie mapping instead? not sure... My opinion is that we should always send DTOs though HTTP
         for (Quickie quickie : quickies) {
             FullQuickie fullQuickie = new FullQuickie();
             fullQuickie.quickie = quickie;
