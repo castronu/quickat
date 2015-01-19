@@ -1,6 +1,7 @@
 package org.quickat.web;
 
 import org.quickat.ToDelete;
+import org.quickat.da.Comment;
 import org.quickat.da.Quickie;
 import org.quickat.da.Vote;
 import org.quickat.da.builder.VoteBuilder;
@@ -58,7 +59,7 @@ public class QuickieController {
                 break;
 
             case "past":
-                 quickies = quickiesRepository.findByQuickieDateBefore(new Date());
+                quickies = quickiesRepository.findByQuickieDateBefore(new Date());
         }
 
         List<FullQuickie> fullQuickies = new LinkedList<>();
@@ -118,6 +119,11 @@ public class QuickieController {
         } catch (Exception e) { // FIXME should be MySQLIntegrityConstraintViolationException but not in signature
             throw new AlreadyVotedException();
         }
+    }
+
+    @RequestMapping(value = "/{id}/comments", method = RequestMethod.POST)
+    public void createComment(@PathVariable(value = "id") Long quickieId, @RequestBody Comment comment) {
+        logger.info("Recording comment {} for quickieId:", comment, quickieId);
     }
 
     @RequestMapping(value = "/{id}/vote", method = RequestMethod.DELETE)

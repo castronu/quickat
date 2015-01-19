@@ -67,4 +67,16 @@ public class Comment {
     public void setUserId(Long userId) {
         this.userId = userId;
     }
+
+    @Override
+    public String toString() {
+        return "Comment{" +
+                "id=" + id +
+                ", quickieId=" + quickieId +
+                ", userId=" + userId +
+                ", subject='" + subject + '\'' +
+                ", comment='" + comment + '\'' +
+                ", date=" + date +
+                '}';
+    }
 }
