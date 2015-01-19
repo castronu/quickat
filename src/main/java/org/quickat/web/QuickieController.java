@@ -21,10 +21,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Collections;
-import java.util.Date;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by aposcia on 14.01.15.
@@ -135,5 +132,20 @@ public class QuickieController {
     @ExceptionHandler({AlreadyVotedException.class})
     @ResponseStatus(value = HttpStatus.CONFLICT)
     public void handleAlreadyVotedException() {
+    }
+
+    @RequestMapping(value = "/top3")
+    public Iterable<Quickie> getTop3(@RequestParam(value = "type", defaultValue = "VOTE", required = false) Vote.Type voteType) {
+        //TODO: use votetype in repository, may use a param for number of top results that we want
+        List<Long> voteCounts = votesRepository.getVoteCounts();
+        voteCounts = voteCounts.subList(0, 3);
+
+        List<Quickie> results = new ArrayList<>(voteCounts.size());
+        for (Long vote : voteCounts) {
+            results.add(quickiesRepository.findOne(vote));
+        }
+        return results;
+
+
     }
 }

@@ -6,7 +6,8 @@ import java.util.Date;
 /**
  * @author Christophe Pollet
  */
-@Entity(name = "votes")
+@Entity
+@Table(name = "votes")
 public class Vote {
     public enum Type {
         VOTE, LIKE
