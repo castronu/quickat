@@ -34,7 +34,7 @@
 
 <br><br><br>
 
-<div class="container">
+<div class="container" ng-controller="CountersController">
     <div class="row">
         <div class="col-md-3 col-xs-3 ">
             <a href="#/futureQuickies">
@@ -45,7 +45,7 @@
                                 <img class="img-circle img-thumb-l" src="img/kitten4.jpg">
                             </div>
                             <div class="col-sm-9 text-right">
-                                <div class="huge">26</div>
+                                <div class="huge">{{counters.future}}</div>
                                 <div>Current Quickies</div>
                             </div>
                         </div>
@@ -62,7 +62,7 @@
                                 <img class="img-circle img-thumb-l" src="img/kitten2.jpg">
                             </div>
                             <div class="col-sm-9 text-right">
-                                <div class="huge">12</div>
+                                <div class="huge">{{counters.past}}</div>
                                 <div>Previous Quickies</div>
                             </div>
                         </div>
@@ -80,7 +80,7 @@
                                 <img class="img-circle img-thumb-l" src="img/kitten5.jpg">
                             </div>
                             <div class="col-sm-9 text-right">
-                                <div class="huge">{{3+2}}{{title}}</div>
+                                <div class="huge">{{counters.my}}</div>
                                 <div>My Quickies</div>
                             </div>
                         </div>
@@ -130,10 +130,11 @@
 <script src="js/services/Users.js"></script>
 <script src="js/services/Vote.js"></script>
 <script src="js/services/Comments.js"></script>
-<script src="js/FutureQuickiesController.js"></script>
 <script src="js/OldQuickiesController.js"></script>
+<script src="js/FutureQuickiesController.js"></script>
 <script src="js/AddQuickyController.js"></script>
 <script src="js/MyQuickiesController.js"></script>
 <script src="js/CommentController.js"></script>
+<script src="js/CountersController.js"></script>
 </body>
 </html>

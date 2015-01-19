@@ -17,4 +17,10 @@ public interface QuickiesRepository extends CrudRepository<Quickie, Long> {
     Iterable<Quickie> findByQuickieDateAfter(Date date);
 
     Iterable<Quickie> findByQuickieDateBefore(Date date);
+
+    long countByQuickieDateAfter(Date date);
+
+    long countByQuickieDateBefore(Date date);
+
+    long countBySpeakerId(Long speakerId);
 }

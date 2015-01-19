@@ -10,6 +10,7 @@ import org.quickat.repository.QuickiesRepository;
 import org.quickat.repository.UsersRepository;
 import org.quickat.repository.VoteRepository;
 import org.quickat.web.dto.FullQuickie;
+import org.quickat.web.dto.QuickiesCounters;
 import org.quickat.web.exception.AlreadyVotedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -78,6 +79,17 @@ public class QuickieController {
         }
 
         return fullQuickies;
+    }
+
+    @RequestMapping(value = "/counters", method = RequestMethod.GET)
+    public QuickiesCounters getCounters() {
+        QuickiesCounters quickiesCounters = new QuickiesCounters();
+
+        quickiesCounters.future= quickiesRepository.countByQuickieDateAfter(new Date());
+        quickiesCounters.past =quickiesRepository.countByQuickieDateBefore(new Date());
+        quickiesCounters.my = quickiesRepository.countBySpeakerId(ToDelete.USER_ID);
+
+        return quickiesCounters;
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
