@@ -154,7 +154,8 @@
                                             </li>
                                             <li>
                                                 <a href="" ng-click="toggleComment(quickie)"><i
-                                                        class="glyphicon glyphicon-comment"></i> 4 Comments</a>
+                                                        class="glyphicon glyphicon-comment"></i>
+                                                    {{quickie.comments.length}} Comment(s)</a>
                                             </li>
                                         </ul>
                                     </div>
@@ -182,33 +183,20 @@
                                             </div>
                                         </form>
                                     </div>
-                                    <div class="row commentsContainer">
+                                    <div ng-repeat="comment in quickie.comments" class="row commentsContainer">
                                         <table class="table">
                                             <tr>
                                                 <td class="col-md-3">
                                                     <a href="#" class="story-img">
-                                                        <img class="img-circle img-thumb-xs" src="img/kitten1.jpg"/>
+                                                        <img class="img-circle img-thumb-xs" src="img/kitten1.jpg">
                                                     </a>
                                                     <h5>ancraciun</h5>
                                                     <h5>
-                                                        <small>11/12/2014 15:30</small>
+                                                        <small><span am-time-ago="comment.date"></small>
                                                     </h5>
                                                 </td>
                                                 <td class="col-md-9">
-                                                    <h5>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis
-                                                        pharetra varius
-                                                        quam
-                                                        sit amet vulputate.
-                                                        Quisque mauris augue, molestie tincidunt condimentum vitae,
-                                                        gravida
-                                                        a libero.
-                                                        Aenean
-                                                        sit amet felis
-                                                        dolor, in sagittis nisi. Sed ac orci quis tortor imperdiet
-                                                        venenatis. Duis
-                                                        elementum
-                                                        auctor accumsan.
-                                                        Aliquam in felis sit amet augue.
+                                                    <h5>{{comment.comment}}
                                                     </h5>
                                                 </td>
                                             </tr>
