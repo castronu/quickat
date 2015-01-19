@@ -20,6 +20,10 @@ function config($routeProvider) {
             templateUrl: 'html/myQuickies.html',
             controller: 'MyQuickiesController'
         })
+        .when('/quickyDetails', {
+            templateUrl: 'html/quickyDetails.html',
+            controller: 'QuickyDetailsController'
+        })
         .when('/myProfile', {
             templateUrl: 'html/myProfile.html',
             controller: 'ProfileController'
