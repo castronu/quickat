@@ -62,7 +62,7 @@ public class QuickieController {
                 quickies = quickiesRepository.findByQuickieDateBefore(new Date());
         }
 
-        List<FullQuickie> fullQuickies = new LinkedList<>();
+        List<FullQuickie> fullQuickies = new LinkedList<FullQuickie>();
 
         // FIXME use a complete Quickie mapping instead? not sure... My opinion is that we should always send DTOs though HTTP
         for (Quickie quickie : quickies) {
