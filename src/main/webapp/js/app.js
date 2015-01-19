@@ -22,11 +22,11 @@ function config($routeProvider) {
         })
         .when('/myProfile', {
             templateUrl: 'html/myProfile.html',
-            controller: 'MyProfileController'
+            controller: 'ProfileController'
         })
         .when('/createProfile', {
             templateUrl: 'html/createProfile.html',
-            controller: 'CreateProfileController'
+            controller: 'ProfileController'
         })
         .otherwise({
             templateUrl: 'html/futureQuickies.html',
