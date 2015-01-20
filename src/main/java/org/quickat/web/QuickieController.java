@@ -58,6 +58,10 @@ public class QuickieController {
 
             case "past":
                 quickies = quickiesRepository.findByQuickieDateBefore(new Date());
+                break;
+            case "topActive":
+                quickies = getTop3(Vote.Type.VOTE);
+
         }
 
         List<FullQuickie> fullQuickies = new LinkedList<FullQuickie>();
@@ -150,8 +154,8 @@ public class QuickieController {
     public void handleAlreadyVotedException() {
     }
 
-    @RequestMapping(value = "/top3")
-    public Iterable<Quickie> getTop3(@RequestParam(value = "type", defaultValue = "VOTE", required = false) Vote.Type voteType) {
+
+    private Iterable<Quickie> getTop3(@RequestParam(value = "type", defaultValue = "VOTE", required = false) Vote.Type voteType) {
         //TODO: use votetype in repository, may use a param for number of top results that we want
         List<Long> voteCounts = votesRepository.getVoteCounts();
         voteCounts = voteCounts.subList(0, 3);
