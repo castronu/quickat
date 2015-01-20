@@ -31,6 +31,7 @@ import java.util.*;
 @RequestMapping("quickies")
 public class QuickieController {
     final static Logger logger = LoggerFactory.getLogger(QuickieController.class);
+    private static final int NB_TOP_RESULTS_TO_RETURN = 3;
 
     @Autowired
     public QuickiesRepository quickiesRepository;
@@ -61,6 +62,9 @@ public class QuickieController {
                 break;
             case "topActive":
                 quickies = getTop3(Vote.Type.VOTE);
+                break;
+            case "topPast":
+                quickies = getTop3(Vote.Type.LIKE);
 
         }
 
@@ -155,10 +159,10 @@ public class QuickieController {
     }
 
 
-    private Iterable<Quickie> getTop3(@RequestParam(value = "type", defaultValue = "VOTE", required = false) Vote.Type voteType) {
-        //TODO: use votetype in repository, may use a param for number of top results that we want
-        List<Long> voteCounts = votesRepository.getVoteCounts();
-        voteCounts = voteCounts.subList(0, 3);
+    private Iterable<Quickie> getTop3(Vote.Type voteType) {
+        List<Long> voteCounts = votesRepository.getVoteCountsOfType(voteType);
+        int nbElemsToRetrieve = voteCounts.size() >= NB_TOP_RESULTS_TO_RETURN ? NB_TOP_RESULTS_TO_RETURN : voteCounts.size();
+        voteCounts = voteCounts.subList(0, nbElemsToRetrieve);
 
         List<Quickie> results = new ArrayList<>(voteCounts.size());
         for (Long vote : voteCounts) {

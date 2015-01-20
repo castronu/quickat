@@ -6,6 +6,8 @@
 
             $scope.fullQuickies = Quickies.past();
 
+            $scope.topQuickies = Quickies.topPast();
+
         }
     ]);
 })();
