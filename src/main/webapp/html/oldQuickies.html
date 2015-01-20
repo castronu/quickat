@@ -15,11 +15,17 @@
                             </a>
 
                             <div class="vote highlightBlue">
-                                <p>155 Votes</p>
+                                <p>{{fullQuickie.likes}} likes</p>
 
                                 <p>
-                                    <button class="btn btn-default btn-lg" title="Vote"><span
-                                            class="glyphicon glyphicon-thumbs-up"></span></button>
+                                    <button class="btn btn-default btn-lg" title="Like" ng-click="like(fullQuickie)"
+                                            ng-hide="quickie.liked">
+                                        <span class="glyphicon glyphicon-thumbs-up"></span>
+                                    </button>
+                                    <button class="btn btn-default btn-lg" title="Like" ng-click="dislike(fullQuickie)"
+                                            ng-show="quickie.liked">
+                                        <span class="glyphicon glyphicon-thumbs-down"></span>
+                                    </button>
                                 </p>
                             </div>
                         </div>
@@ -120,7 +126,7 @@
                                 <div class="header">
                                     <strong class="primary-font">{{topQuickie.speaker.nickname}}</strong>
                                     <strong class="primary-font pull-right highlightGreen">
-                                        {{topQuickie.votes}}
+                                        {{topQuickie.likes}}
                                     </strong>
                                 </div>
                                 <p>

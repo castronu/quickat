@@ -56,7 +56,6 @@ public class QuickieController {
             case "future":
                 quickies = quickiesRepository.findByQuickieDateAfter(new Date());
                 break;
-
             case "past":
                 quickies = quickiesRepository.findByQuickieDateBefore(new Date());
                 break;
@@ -76,7 +75,10 @@ public class QuickieController {
             fullQuickie.quickie = quickie;
             fullQuickie.speaker = usersRepository.findOne(quickie.getSpeakerId());
             fullQuickie.votes = votesRepository.countByQuickieIdAndType(quickie.getId(), Vote.Type.VOTE);
+            fullQuickie.likes = votesRepository.countByQuickieIdAndType(quickie.getId(), Vote.Type.LIKE);
             fullQuickie.voted = votesRepository.countByQuickieIdAndVoterIdAndType(fullQuickie.quickie.getId(), ToDelete.USER_ID, Vote.Type.VOTE) > 0;
+            fullQuickie.liked = votesRepository.countByQuickieIdAndVoterIdAndType(fullQuickie.quickie.getId(), ToDelete.USER_ID, Vote.Type.LIKE) > 0;
+
 
             //FIXME: user in comment... cf CPO comment
             fullQuickie.comments = commentsRepository.findByQuickieId(fullQuickie.quickie.getId());
