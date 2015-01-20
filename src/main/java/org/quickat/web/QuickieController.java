@@ -3,12 +3,11 @@ package org.quickat.web;
 import org.quickat.ToDelete;
 import org.quickat.da.Comment;
 import org.quickat.da.Quickie;
+import org.quickat.da.QuickieTweet;
 import org.quickat.da.Vote;
+import org.quickat.da.builder.QuickieTweetBuilder;
 import org.quickat.da.builder.VoteBuilder;
-import org.quickat.repository.CommentsRepository;
-import org.quickat.repository.QuickiesRepository;
-import org.quickat.repository.UsersRepository;
-import org.quickat.repository.VoteRepository;
+import org.quickat.repository.*;
 import org.quickat.web.dto.FullQuickie;
 import org.quickat.web.dto.QuickiesCounters;
 import org.quickat.web.exception.AlreadyVotedException;
@@ -19,6 +18,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.social.twitter.api.Tweet;
+import org.springframework.social.twitter.api.TweetData;
+import org.springframework.social.twitter.api.Twitter;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
@@ -36,6 +38,9 @@ public class QuickieController {
     public QuickiesRepository quickiesRepository;
 
     @Autowired
+    public QuickieTweetsRepository quickieTweetsRepository;
+
+    @Autowired
     private VoteRepository votesRepository;
 
     @Autowired
@@ -43,6 +48,9 @@ public class QuickieController {
 
     @Autowired
     private CommentsRepository commentsRepository;
+
+    @Autowired
+    private Twitter twitter;
 
     @RequestMapping(method = RequestMethod.GET)
     public Iterable<FullQuickie> getQuickies(@RequestParam(value = "filter", defaultValue = "future", required = false) String filter) {
@@ -110,8 +118,20 @@ public class QuickieController {
     public Quickie createQuickie(@RequestBody Quickie quickie) {
         quickie.setPostDate(new Date());
         quickie.setSpeakerId(ToDelete.USER_ID);
+        Quickie save = quickiesRepository.save(quickie);
 
-        return quickiesRepository.save(quickie);
+
+        String tweetText="Hey! A new quickie has been created: "+quickie.getTitle()+ "! retweet me to vote for it!";
+        Tweet tweet = twitter.timelineOperations().updateStatus(new TweetData(tweetText));
+
+        QuickieTweet quickieTweet = QuickieTweetBuilder.aQuickieTweet().
+                withQuickieId(save.getId()).
+                withActive(true).
+                withTweetId(String.valueOf(tweet.getId())).build();
+
+        quickieTweetsRepository.save(quickieTweet);
+        logger.info("Tweet Created!");
+        return save;
     }
 
     @RequestMapping(value = "/{id}/vote", method = RequestMethod.POST)

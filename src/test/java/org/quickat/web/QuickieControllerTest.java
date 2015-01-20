@@ -10,8 +10,13 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.quickat.QuickatApplication;
 import org.quickat.da.Quickie;
+import org.quickat.da.QuickieTweet;
+import org.quickat.da.Vote;
 import org.quickat.da.builder.QuickieBuilder;
+import org.quickat.da.builder.QuickieTweetBuilder;
+import org.quickat.repository.QuickieTweetsRepository;
 import org.quickat.repository.QuickiesRepository;
+import org.quickat.repository.VoteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -32,6 +37,10 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.openid.OpenIDAuthenticationToken;
+import org.springframework.social.twitter.api.SearchResults;
+import org.springframework.social.twitter.api.Tweet;
+import org.springframework.social.twitter.api.TweetData;
+import org.springframework.social.twitter.api.Twitter;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
@@ -42,6 +51,7 @@ import java.util.Properties;
 
 import static com.jayway.restassured.RestAssured.when;
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.iterableWithSize;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -56,9 +66,18 @@ public class QuickieControllerTest {
     Quickie springBootQuickie;
 
     @Autowired
+    public Twitter twitter;
+
+    @Autowired
+    public QuickieTweetsRepository quickieTweetsRepository;
+
+    @Autowired
     public QuickiesRepository quickiesRepository;
 
-    @Before
+    @Autowired
+    public VoteRepository voteRepository;
+
+    //@Before
     public void setUp() throws Exception {
         quickiesRepository.deleteAll();
         springBootQuickie = QuickieBuilder.aQuickie().withQuickieDate(new Date()).
@@ -102,68 +121,43 @@ public class QuickieControllerTest {
                 body("title", is("Spring Boot")).body("id", is(springBootId));
 
     }
-
+    @Ignore  //TODO REFACTOR THIS TEST
     @Test
-    public void testCreateQuickie() throws Exception {
+    public void testVoteByRetweet() throws Exception {
+//        twitter.timelineOperations().deleteStatus(557638996055318529L);
+
+        Quickie scalaQuickie = QuickieBuilder.aQuickie().withQuickieDate(new Date()).
+                withTitle("JUGquickie_Scala").withId(11L).
+                build();
+        quickiesRepository.save(scalaQuickie);
+
+        //Posting tweet (simulate a quickie creation)
+        TweetData tweetData = new TweetData("test quickie #JUGquickie_Scala2");
+        Tweet tweet = twitter.timelineOperations().updateStatus(tweetData);
+
+        //Saving on db (simulate a quickie creation)
+        QuickieTweet build = QuickieTweetBuilder.aQuickieTweet().withActive(true)
+                .withTweetId(String.valueOf(tweet.getId())).withQuickieId(11L).build();
+        quickieTweetsRepository.save(build);
+
+        System.out.println("Tweet created with id"+tweet.getId());
+
+        //The scheduler should be running and detect retweets...
+
+        System.out.println("Retweet the tweet "+ tweet.getId() + " in 60 seconds to pass the test!");
+        Thread.sleep(60000);
+
+        Vote vote = voteRepository.findByQuickieIdAndType(11L, Vote.Type.VOTE);
+
+
+        org.junit.Assert.assertThat(vote.getQuickieId(),is(11L));
+
+        twitter.timelineOperations().deleteStatus(tweet.getId());
+
 
     }
 
-    /*@Autowired   // 5
-            CharacterRepository repository;
 
-    Character mickey;
-    Character minnie;
-    Character pluto;
-
-    @Value("${local.server.port}")   // 6
-            int port;
-
-    @Before
-    public void setUp() {
-        // 7
-        mickey = new Character("Mickey Mouse");
-        minnie = new Character("Minnie Mouse");
-        pluto = new Character("Pluto");
-
-        // 8
-        repository.deleteAll();
-        repository.save(Arrays.asList(mickey, minnie, pluto));
-
-        // 9
-        RestAssured.port = port;
-    }
-
-    // 10
-    @Test
-    public void canFetchMickey() {
-        Integer mickeyId = mickey.getId();
-
-        when().
-                get("/characters/{id}", mickeyId).
-                then().
-                statusCode(HttpStatus.SC_OK).
-                body("name", Matchers.is("Mickey Mouse")).
-                body("id", Matchers.is(mickeyId));
-    }
-
-    @Test
-    public void canFetchAll() {
-        when().
-                get("/characters").
-                then().
-                statusCode(HttpStatus.SC_OK).
-                body("name", Matchers.hasItems("Mickey Mouse", "Minnie Mouse", "Pluto"));
-    }
-
-    @Test
-    public void canDeletePluto() {
-        Integer plutoId = pluto.getId();
-
-        when()
-                .delete("/characters/{id}", plutoId).
-                then().
-                statusCode(HttpStatus.SC_NO_CONTENT);
-    }*/
 }
 
 @Configuration
