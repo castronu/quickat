@@ -6,17 +6,6 @@
 
             $scope.fullQuickies = Quickies.past();
 
-            $scope.submit = function () {
-                Comments.create({}, $scope.quickie,
-                    function (value, responseHeaders) {
-                        alert('Success');
-                        $location.path("/");
-                    },
-                    function (value, responseHeaders) {
-                        alert('Error');
-                    }
-                );
-            }
         }
     ]);
 })();

@@ -82,8 +82,8 @@ public class QuickieController {
     public QuickiesCounters getCounters() {
         QuickiesCounters quickiesCounters = new QuickiesCounters();
 
-        quickiesCounters.future= quickiesRepository.countByQuickieDateAfter(new Date());
-        quickiesCounters.past =quickiesRepository.countByQuickieDateBefore(new Date());
+        quickiesCounters.future = quickiesRepository.countByQuickieDateAfter(new Date());
+        quickiesCounters.past = quickiesRepository.countByQuickieDateBefore(new Date());
         quickiesCounters.my = quickiesRepository.countBySpeakerId(ToDelete.USER_ID);
 
         return quickiesCounters;
@@ -133,6 +133,10 @@ public class QuickieController {
     @RequestMapping(value = "/{id}/comments", method = RequestMethod.POST)
     public void createComment(@PathVariable(value = "id") Long quickieId, @RequestBody Comment comment) {
         logger.info("Recording comment {} for quickieId:", comment, quickieId);
+        comment.setDate(new Date());
+        comment.setSubject("NA");
+        comment.setUserId(ToDelete.USER_ID);
+        commentsRepository.save(comment);
     }
 
     @RequestMapping(value = "/{id}/vote", method = RequestMethod.DELETE)

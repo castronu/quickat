@@ -5,23 +5,19 @@
             $scope.title = "Old quickies";
 
             $scope.comment = {};
-            //$scope.comment.comment = "TEST DE COMMNET";
-
-
             $scope.submit = function () {
-                alert('test');
-                /*Comments.create({}, $scope.comment,
-                 function (value, responseHeaders) {
-                 alert('Success');
-                 $location.path("/");
-                 },
-                 function (value, responseHeaders) {
-                 alert('Error');
-                 }
-                 );*/
+                $scope.comment.quickieId = $scope.fullQuickie.quickie.id;
+                Comments.create({"quickieId": $scope.comment.quickieId}, $scope.comment,
+                    function () {
+                        $scope.fullQuickie.comments.push($scope.comment);
+                        $scope.comment = {};
+                    },
+                    function (value, responseHeaders) {
+                        alert('Error ' + value)
+                    });
+
+                console.log($scope.comment.comment);
             }
         }
     ]);
 })();
-
-
