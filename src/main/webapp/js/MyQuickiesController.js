@@ -1,7 +1,7 @@
 (function () {
     'use strict';
     quickiesApp.controller('MyQuickiesController', ['$scope', '$location', 'Users', 'Quickies',
-        function ($scope, $location, Users, Quickies) {
+        function ($scope, $location, UserQuickies, Quickies) {
             $scope.title = "My quickies";
 
             $scope.deleteQuickie = function (idToDelete, index) {
@@ -12,8 +12,7 @@
                 });
             };
 
-            $scope.quickies = Users.quickies();
-
+            $scope.quickies = UserQuickies.quickies();
         }
     ]);
 })();

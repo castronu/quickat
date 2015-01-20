@@ -22,6 +22,7 @@ public class User {
     private String linkedinUid;
     private String googleUid;
     private String webpage;
+    private String about;
 
     public String getEmail() {
         return email;
@@ -101,5 +102,13 @@ public class User {
 
     public void setWebpage(String webpage) {
         this.webpage = webpage;
+    }
+
+    public String getAbout() {
+        return about;
+    }
+
+    public void setAbout(String about) {
+        this.about = about;
     }
 }
