@@ -1,5 +1,6 @@
 package org.quickat.web;
 
+import org.quickat.ToDelete;
 import org.quickat.da.Quickie;
 import org.quickat.da.User;
 import org.quickat.repository.QuickiesRepository;
@@ -9,6 +10,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Date;
 
 /**
  * Created by aposcia on 14.01.15.
@@ -35,19 +38,27 @@ public class UserController {
         return usersRepository.findOne(id);
     }
 
+//    @RequestMapping(method = RequestMethod.POST)
+//    @Transactional
+//    public User getUsers(@RequestBody User user) {
+//        logger.info(user.toString());
+//
+//        return usersRepository.save(user);
+//    }
+
     @RequestMapping(method = RequestMethod.POST)
     @Transactional
-    public User getUsers(@RequestBody User user) {
-        logger.info(user.toString());
-
-        return usersRepository.save(user);
+    public User createUser(@RequestBody User user) {
+        User createdUser = usersRepository.save(user);
+        logger.info("*** Saved user: "+createdUser.getId());
+        return createdUser;
     }
-
 
     @RequestMapping(value = "/{speakerId}/quickies", method = RequestMethod.GET)
     public Iterable<Quickie> getQuickiesOfSpeaker(@PathVariable(value = "speakerId") Long speakerId) {
         logger.info("getQuickiesOfSpeaker with id {}", speakerId);
         return quickiesRepository.findBySpeakerId(speakerId);
     }
+
 
 }

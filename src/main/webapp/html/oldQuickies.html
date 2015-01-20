@@ -15,11 +15,17 @@
                             </a>
 
                             <div class="vote highlightBlue">
-                                <p>155 Votes</p>
+                                <p>{{fullQuickie.likes}} likes</p>
 
                                 <p>
-                                    <button class="btn btn-default btn-lg" title="Vote"><span
-                                            class="glyphicon glyphicon-thumbs-up"></span></button>
+                                    <button class="btn btn-default btn-lg" title="Like" ng-click="like(fullQuickie)"
+                                            ng-hide="quickie.liked">
+                                        <span class="glyphicon glyphicon-thumbs-up"></span>
+                                    </button>
+                                    <button class="btn btn-default btn-lg" title="Like" ng-click="dislike(fullQuickie)"
+                                            ng-show="quickie.liked">
+                                        <span class="glyphicon glyphicon-thumbs-down"></span>
+                                    </button>
                                 </p>
                             </div>
                         </div>
@@ -104,13 +110,13 @@
         <div class="row">
             <div class="chat-panel panel panel-success">
                 <div class="panel-heading">
-                    TOP Quickies
+                    Most liked quickies
                 </div>
 
                 <!-- /.panel-heading -->
                 <div class="panel-body">
                     <ul class="chat">
-                        <li class="left clearfix">
+                        <li class="left clearfix" ng-repeat="topQuickie in topQuickies">
                             <span class="chat-img pull-left">
                                 <img class="img-circle img-thumb-s" alt="User Avatar"
                                      src="img/kitten1.jpg"/>
@@ -118,49 +124,13 @@
 
                             <div class="chat-body clearfix">
                                 <div class="header">
-                                    <strong class="primary-font">Jack Sparrow</strong>
-                                    <strong class="primary-font pull-right highlightBlue">
-                                        156 Votes
+                                    <strong class="primary-font">{{topQuickie.speaker.nickname}}</strong>
+                                    <strong class="primary-font pull-right highlightGreen">
+                                        {{topQuickie.likes}}
                                     </strong>
                                 </div>
                                 <p>
-                                    Lambdas with JAVA8
-                                </p>
-                            </div>
-                        </li>
-                        <li class="left clearfix">
-                            <span class="chat-img pull-left">
-                                <img class="img-circle img-thumb-s" alt="User Avatar"
-                                     src="img/kitten1.jpg"/>
-                            </span>
-
-                            <div class="chat-body clearfix">
-                                <div class="header">
-                                    <strong class="primary-font">Jack Sparrow</strong>
-                                    <strong class="primary-font pull-right highlightBlue">
-                                        156 Votes
-                                    </strong>
-                                </div>
-                                <p>
-                                    New in Angular 2.0
-                                </p>
-                            </div>
-                        </li>
-                        <li class="left clearfix">
-                        <span class="chat-img pull-left">
-                             <img class="img-circle img-thumb-s" alt="User Avatar"
-                                  src="img/kitten1.jpg"/>
-                        </span>
-
-                            <div class="chat-body clearfix">
-                                <div class="header">
-                                    <strong class="primary-font">Jack Sparrow</strong>
-                                    <strong class="primary-font pull-right highlightBlue">
-                                        156 Votes
-                                    </strong>
-                                </div>
-                                <p>
-                                    Spring BOOT
+                                    {{topQuickie.quickie.title}}
                                 </p>
                             </div>
                         </li>

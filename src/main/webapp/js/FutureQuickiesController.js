@@ -11,23 +11,25 @@
                 time: new Date()
             };
 
+            $scope.topQuickies = Quickies.topActive();
+
             $scope.vote = function (quickie) {
                 var vote = new Votes({
                     quickieId: quickie.quickie.id
                 });
 
-                vote.$save({}, function() {
+                vote.$save({}, function () {
                     quickie.voted = true;
                     quickie.votes++;
                 });
             };
 
-            $scope.unvote = function(quickie) {
+            $scope.unvote = function (quickie) {
                 var vote = new Votes({
                     quickieId: quickie.quickie.id
                 });
 
-                Votes.delete(vote, function() {
+                Votes.delete(vote, function () {
                     quickie.voted = false;
                     quickie.votes--;
                 });

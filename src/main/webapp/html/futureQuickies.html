@@ -12,7 +12,7 @@
                 <!-- /.panel-heading -->
                 <div class="panel-body">
                     <ul class="chat">
-                        <li class="left clearfix">
+                        <li class="left clearfix" ng-repeat="topQuickie in topQuickies">
                             <span class="chat-img pull-left">
                                 <img class="img-circle img-thumb-s" alt="User Avatar"
                                      src="img/kitten1.jpg"/>
@@ -20,52 +20,17 @@
 
                             <div class="chat-body clearfix">
                                 <div class="header">
-                                    <strong class="primary-font">Jack Sparrow</strong>
+                                    <strong class="primary-font">{{topQuickie.speaker.nickname}}</strong>
                                     <strong class="primary-font pull-right highlightGreen">
-                                        156 Votes
+                                        {{topQuickie.votes}}
                                     </strong>
                                 </div>
                                 <p>
-                                    Lambdas with JAVA8
+                                    {{topQuickie.quickie.title}}
                                 </p>
                             </div>
                         </li>
-                        <li class="left clearfix">
-                            <span class="chat-img pull-left">
-                                <img class="img-circle img-thumb-s" alt="User Avatar"
-                                     src="img/kitten1.jpg"/>
-                            </span>
 
-                            <div class="chat-body clearfix">
-                                <div class="header">
-                                    <strong class="primary-font">Jack Sparrow</strong>
-                                    <strong class="primary-font pull-right highlightGreen">
-                                        156 Votes
-                                    </strong>
-                                </div>
-                                <p>
-                                    New in Angular 2.0
-                                </p>
-                            </div>
-                        </li>
-                        <li class="left clearfix">
-                            <span class="chat-img pull-left">
-                               <img class="img-circle img-thumb-s" alt="User Avatar"
-                                    src="img/kitten1.jpg"/>
-                            </span>
-
-                            <div class="chat-body clearfix">
-                                <div class="header">
-                                    <strong class="primary-font">Jack Sparrow</strong>
-                                    <strong class="primary-font pull-right highlightGreen">
-                                        156 Votes
-                                    </strong>
-                                </div>
-                                <p>
-                                    Spring BOOT
-                                </p>
-                            </div>
-                        </li>
                     </ul>
                 </div>
             </div>

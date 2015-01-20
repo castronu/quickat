@@ -3,27 +3,24 @@
     <hr>
 
 
-    <div class="col-md-6"><h3>First Name Last Name</h3></div>
+    <div class="col-md-6"><h3>{{user.firstname}} {{ user.lastname}}</h3></div>
     <div class="col-md-6">
-        <button class="btn btn-primary  pull-right">Edit Profile</button>
+        <a href="#/editProfile/{{user.id}}" class="btn btn-primary  pull-right">Edit Profile</a>
     </div>
-<br/>
-    <h4 class="col-md-12"><b>Username: </b>username</h4>
 
-    <h4 class="col-md-12"><b>Email: </b>email</h4>
+    <br/>
 
-    <h4 class="col-md-12"><b>Website: </b>website</h4>
+    <h4 class="col-md-12"><b>Username: </b>{{user.nickname}}</h4>
+
+    <h4 class="col-md-12"><b>Email: </b>{{user.email}}</h4>
+
+    <h4 class="col-md-12"><b>Website: </b>{{user.webpage}}</h4>
 
     <h4 class="col-md-12"><b>About me: </b></h4>
 
     <div class="col-md-10 col-md-offset-1">
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla interdum accumsan ex, sit amet faucibus nunc
-            laoreet a. Ut fermentum enim vel velit euismod, et pulvinar magna ullamcorper. Suspendisse at mi vitae nulla
-            sollicitudin feugiat. Nulla eget laoreet sem, vehicula elementum sem. Sed commodo facilisis ex, eget
-            dignissim
-            lacus condimentum nec. Duis sit amet diam massa. Vestibulum imperdiet augue at sem tincidunt, pretium
-            vulputate
-            quam eleifend. Quisque consectetur suscipit blandit.
+        <p>
+            {{user.about}}
         </p>
     </div>
 
