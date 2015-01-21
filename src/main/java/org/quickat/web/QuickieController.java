@@ -55,9 +55,6 @@ public class QuickieController {
 
     @RequestMapping(method = RequestMethod.GET)
     public Iterable<FullQuickie> getQuickies(@RequestParam(value = "filter", defaultValue = "future", required = false) String filter) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        logger.info("GetQuickies request from user: {}", auth.getName());
-
         Iterable<Quickie> quickies = Collections.emptyList();
 
         switch (filter) {
@@ -120,9 +117,9 @@ public class QuickieController {
         Quickie quickie = quickiesRepository.findOne(id);
         if (quickie.getQuickieDate().before(new Date())) {
             quickiesRepository.delete(id);
-            return new ResponseEntity<Boolean>(Boolean.TRUE, HttpStatus.OK);
+            return new ResponseEntity<>(Boolean.TRUE, HttpStatus.OK);
         }
-        return new ResponseEntity<Boolean>(Boolean.FALSE, HttpStatus.METHOD_NOT_ALLOWED);
+        return new ResponseEntity<>(Boolean.FALSE, HttpStatus.METHOD_NOT_ALLOWED);
     }
 
     @RequestMapping(method = RequestMethod.POST)

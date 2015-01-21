@@ -42,11 +42,11 @@ var quickiesApp = angular
                 templateUrl: 'html/myProfile.html',
                 controller: 'ProfileController'
             })
-            .when('/createProfile', {
-                templateUrl: 'html/createProfile.html',
+            .when('/myProfile', {
+                templateUrl: 'html/myProfile.html',
                 controller: 'ProfileController'
             })
-            .when('/editProfile/:userId', {
+            .when('/editProfile', {
                 templateUrl: 'html/createProfile.html',
                 controller: 'ProfileController'
             })

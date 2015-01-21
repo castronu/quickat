@@ -12,7 +12,8 @@
         function ($resource) {
             return $resource('/users/:id', {}, {
                 query: {method: 'GET'},
-                create: {method: 'POST'}
+                create: {method: 'POST'},
+                update: {method: 'PUT'}
             });
         }
     ]);

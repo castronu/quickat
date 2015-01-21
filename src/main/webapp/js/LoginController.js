@@ -1,7 +1,7 @@
 (function () {
     'use strict';
-    quickiesApp.controller('LoginController', ['$scope', 'store', '$location', 'auth',
-        function ($scope, store, $location, auth) {
+    quickiesApp.controller('LoginController', ['$scope', 'store', '$location', 'auth', 'Users',
+        function ($scope, store, $location, auth, Users) {
             $scope.auth = auth;
 
             $scope.login = function () {
@@ -10,6 +10,17 @@
                     store.set('profile', profile);
                     store.set('token', token);
                     $location.path('/');
+
+                    var user = new Users({
+                        userId: profile.user_id,
+                        name: profile.name,
+                        nickname: profile.nickname,
+                        picture: profile.picture
+                    });
+
+                    user.$save({}, function() {
+                        $location.path('/myProfile');
+                    });
                 }, function () {
                     // Error callback
                 });
@@ -20,8 +31,6 @@
                 store.remove('profile');
                 store.remove('token');
             };
-
-
         }
     ]);
 })();

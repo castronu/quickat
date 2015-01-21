@@ -9,4 +9,7 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface UsersRepository extends CrudRepository<User, Long> {
+    int countByAuthId(String userId);
+
+    User findByAuthId(String authId);
 }

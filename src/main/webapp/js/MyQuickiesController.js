@@ -1,6 +1,6 @@
 (function () {
     'use strict';
-    quickiesApp.controller('MyQuickiesController', ['$scope', '$location', 'Users', 'Quickies',
+    quickiesApp.controller('MyQuickiesController', ['$scope', '$location', 'UserQuickies', 'Quickies',
         function ($scope, $location, UserQuickies, Quickies) {
             $scope.title = "My quickies";
 

@@ -68,6 +68,7 @@ public class Auth0Config extends WebSecurityConfigurerAdapter {
                 .antMatchers(env.getRequiredProperty("auth0.securedRoute")).authenticated()
                 .antMatchers(HttpMethod.POST, "/quickies/**").authenticated()
                 .antMatchers(HttpMethod.DELETE, "/quickies/**").authenticated()
-                .antMatchers(HttpMethod.PUT, "/quickies/**").authenticated();
+                .antMatchers(HttpMethod.PUT, "/quickies/**").authenticated()
+                .antMatchers("/users/**").authenticated();
     }
 }

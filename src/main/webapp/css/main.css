@@ -44,6 +44,18 @@ img.profile-small {
 }
 
 /*top 3*/
+.chat-panel {
+    border: 0px;
+}
+
+.chat-panel .chat-panel-body {
+    padding-bottom: 0px;
+}
+
+.chat-panel .chat-panel-heading {
+    background-color: rgba(51, 122, 183, 0.1);
+}
+
 .chat {
     margin: 0;
     padding: 0;
@@ -109,7 +121,6 @@ img.profile-small {
     background-color: rgba(51, 122, 183, 0.1);
     padding-top: 15px;
     padding-left: 25px;
-
 }
 
 .highlightGreen {
@@ -145,4 +156,11 @@ img.profile-small {
     font-size: 20px;
     line-height: 50px;
     margin-bottom: 10px;
+}
+
+.userInfoContainer {
+    margin-top: 10px;
+    border: 1px solid #464545;
+    border-radius: 4px;
+    padding: 10px;
 }

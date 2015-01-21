@@ -17,12 +17,31 @@ public class User {
     private String lastname;
     private String nickname;
     private String email;
+    private String webpage;
+    private String about;
+    private String picture;
+    private String authId;
     private String facebookUid;
     private String twitterUid;
     private String linkedinUid;
     private String googleUid;
-    private String webpage;
-    private String about;
+
+
+    public String getAbout() {
+        return about;
+    }
+
+    public void setAbout(String about) {
+        this.about = about;
+    }
+
+    public String getAuthId() {
+        return authId;
+    }
+
+    public void setAuthId(String authId) {
+        this.authId = authId;
+    }
 
     public String getEmail() {
         return email;
@@ -32,28 +51,12 @@ public class User {
         this.email = email;
     }
 
-    public String getFacebookUid() {
-        return facebookUid;
-    }
-
-    public void setFacebookUid(String facebookUid) {
-        this.facebookUid = facebookUid;
-    }
-
     public String getFirstname() {
         return firstname;
     }
 
     public void setFirstname(String firstname) {
         this.firstname = firstname;
-    }
-
-    public String getGoogleUid() {
-        return googleUid;
-    }
-
-    public void setGoogleUid(String googleUid) {
-        this.googleUid = googleUid;
     }
 
     public Long getId() {
@@ -72,14 +75,6 @@ public class User {
         this.lastname = lastname;
     }
 
-    public String getLinkedinUid() {
-        return linkedinUid;
-    }
-
-    public void setLinkedinUid(String linkedinUid) {
-        this.linkedinUid = linkedinUid;
-    }
-
     public String getNickname() {
         return nickname;
     }
@@ -88,12 +83,12 @@ public class User {
         this.nickname = nickname;
     }
 
-    public String getTwitterUid() {
-        return twitterUid;
+    public String getPicture() {
+        return picture;
     }
 
-    public void setTwitterUid(String twitterUid) {
-        this.twitterUid = twitterUid;
+    public void setPicture(String picture) {
+        this.picture = picture;
     }
 
     public String getWebpage() {
@@ -104,11 +99,35 @@ public class User {
         this.webpage = webpage;
     }
 
-    public String getAbout() {
-        return about;
+    public String getFacebookUid() {
+        return facebookUid;
     }
 
-    public void setAbout(String about) {
-        this.about = about;
+    public void setFacebookUid(String facebookUid) {
+        this.facebookUid = facebookUid;
+    }
+
+    public String getGoogleUid() {
+        return googleUid;
+    }
+
+    public void setGoogleUid(String googleUid) {
+        this.googleUid = googleUid;
+    }
+
+    public String getLinkedinUid() {
+        return linkedinUid;
+    }
+
+    public void setLinkedinUid(String linkedinUid) {
+        this.linkedinUid = linkedinUid;
+    }
+
+    public String getTwitterUid() {
+        return twitterUid;
+    }
+
+    public void setTwitterUid(String twitterUid) {
+        this.twitterUid = twitterUid;
     }
 }

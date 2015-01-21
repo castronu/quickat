@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @ComponentScan
 @EnableAutoConfiguration
 @EnableTransactionManagement
-@EnableScheduling
+//@EnableScheduling
 public class QuickatApplication {
 
     public static void main(String[] args) {

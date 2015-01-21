@@ -30,6 +30,14 @@
                 });
             };
 
+            $scope.toggleComment = function (quickie) {
+                if (typeof quickie._view == 'undefined') {
+                    quickie._view = {
+                        comments: false
+                    }
+                }
+                quickie._view.comments = !quickie._view.comments;
+            };
         }
     ]);
 })();

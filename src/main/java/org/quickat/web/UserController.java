@@ -1,17 +1,20 @@
 package org.quickat.web;
 
-import org.quickat.ToDelete;
 import org.quickat.da.Quickie;
 import org.quickat.da.User;
 import org.quickat.repository.QuickiesRepository;
 import org.quickat.repository.UsersRepository;
+import org.quickat.web.dto.UserProfile;
+import org.quickat.web.exception.UserAlreadyExistsException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Created by aposcia on 14.01.15.
@@ -28,30 +31,69 @@ public class UserController {
     @Autowired
     public QuickiesRepository quickiesRepository;
 
-    @RequestMapping
-    public Iterable<User> getUsers() {
-        return usersRepository.findAll();
+    @RequestMapping(method = RequestMethod.GET)
+    public Iterable<UserProfile> getUsers() {
+        List<UserProfile> userProfiles = new LinkedList<>();
+
+        for (User user : usersRepository.findAll()) {
+            userProfiles.add(buildUserProfile(user));
+        }
+
+        return userProfiles;
+    }
+
+    @RequestMapping(value = "/me", method = RequestMethod.GET)
+    public UserProfile getUser() {
+        return buildUserProfile(usersRepository.findByAuthId(Auth0Helper.getAuthId()));
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public User getUser(@PathVariable(value = "id") Long id) {
-        return usersRepository.findOne(id);
+    public UserProfile getUser(@PathVariable(value = "id") Long id) {
+        return buildUserProfile(usersRepository.findOne(id));
     }
 
-//    @RequestMapping(method = RequestMethod.POST)
-//    @Transactional
-//    public User getUsers(@RequestBody User user) {
-//        logger.info(user.toString());
-//
-//        return usersRepository.save(user);
-//    }
+    private UserProfile buildUserProfile(User user) {
+        UserProfile userProfile = new UserProfile();
+        userProfile.about = user.getAbout();
+        userProfile.email = user.getEmail();
+        userProfile.firstName = user.getFirstname();
+        userProfile.lastName = user.getLastname();
+        userProfile.nickname = user.getNickname();
+        userProfile.picture = user.getPicture();
+        userProfile.webPage = user.getWebpage();
+
+        return userProfile;
+    }
 
     @RequestMapping(method = RequestMethod.POST)
     @Transactional
-    public User createUser(@RequestBody User user) {
-        User createdUser = usersRepository.save(user);
-        logger.info("*** Saved user: "+createdUser.getId());
-        return createdUser;
+    public void createUser(@RequestBody UserProfile userProfile) {
+        if (usersRepository.countByAuthId(userProfile.userId) > 0) {
+            throw new UserAlreadyExistsException();
+        }
+
+        User user = new User();
+        user.setFirstname(userProfile.firstName);
+        user.setPicture(userProfile.picture);
+        user.setNickname(userProfile.nickname);
+        user.setAuthId(userProfile.userId);
+        usersRepository.save(user);
+    }
+
+    @RequestMapping(method = RequestMethod.PUT)
+    @Transactional
+    public void updateUser(@RequestBody UserProfile userProfile) {
+        User user = usersRepository.findByAuthId(Auth0Helper.getAuthId());
+
+        user.setFirstname(userProfile.firstName);
+        user.setLastname(userProfile.lastName);
+        user.setPicture(userProfile.picture);
+        user.setNickname(userProfile.nickname);
+        user.setWebpage(userProfile.webPage);
+        user.setEmail(userProfile.email);
+        user.setAbout(userProfile.about);
+
+        usersRepository.save(user);
     }
 
     @RequestMapping(value = "/{speakerId}/quickies", method = RequestMethod.GET)
@@ -60,5 +102,8 @@ public class UserController {
         return quickiesRepository.findBySpeakerId(speakerId);
     }
 
-
+    @ExceptionHandler({UserAlreadyExistsException.class})
+    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
+    public void handleAlreadyVotedException() {
+    }
 }
