@@ -59,9 +59,10 @@ public class QuickieController {
             case "past":
                 quickies = quickiesRepository.findByQuickieDateBefore(new Date());
                 break;
+
             case "topActive":
                 quickies = getTop3(Vote.Type.VOTE);
-
+                break;
         }
 
         List<FullQuickie> fullQuickies = new LinkedList<FullQuickie>();
@@ -134,6 +135,12 @@ public class QuickieController {
         }
     }
 
+    @RequestMapping(value = "/{id}/vote", method = RequestMethod.DELETE)
+    public void unvoteQuickie(@PathVariable(value = "id") Long quickieId) {
+        Vote vote = votesRepository.findByQuickieIdAndVoterIdAndType(quickieId, ToDelete.USER_ID, Vote.Type.VOTE);
+        votesRepository.delete(vote);
+    }
+
     @RequestMapping(value = "/{id}/comments", method = RequestMethod.POST)
     public void createComment(@PathVariable(value = "id") Long quickieId, @RequestBody Comment comment) {
         logger.info("Recording comment {} for quickieId:", comment, quickieId);
@@ -143,17 +150,10 @@ public class QuickieController {
         commentsRepository.save(comment);
     }
 
-    @RequestMapping(value = "/{id}/vote", method = RequestMethod.DELETE)
-    public void unvoteQuickie(@PathVariable(value = "id") Long quickieId) {
-        Vote vote = votesRepository.findByQuickieIdAndVoterIdAndType(quickieId, ToDelete.USER_ID, Vote.Type.VOTE);
-        votesRepository.delete(vote);
-    }
-
     @ExceptionHandler({AlreadyVotedException.class})
     @ResponseStatus(value = HttpStatus.CONFLICT)
     public void handleAlreadyVotedException() {
     }
-
 
     private Iterable<Quickie> getTop3(@RequestParam(value = "type", defaultValue = "VOTE", required = false) Vote.Type voteType) {
         //TODO: use votetype in repository, may use a param for number of top results that we want
@@ -165,7 +165,5 @@ public class QuickieController {
             results.add(quickiesRepository.findOne(vote));
         }
         return results;
-
-
     }
 }

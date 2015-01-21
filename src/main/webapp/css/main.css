@@ -1,4 +1,8 @@
 /*menu*/
+a {
+    cursor: pointer;
+}
+
 .huge {
     font-size: 40px;
 }

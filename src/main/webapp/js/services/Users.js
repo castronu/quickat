@@ -5,7 +5,7 @@
             return $resource('/users/:id/:cmd', {}, {
                 query: {method: 'GET'},
                 create: {method: 'POST'},
-                quickies: {method: 'GET', params: {cmd: "quickies", id: 1}, isArray: true}
+                quickies: {method: 'GET', params: {cmd: "quickies", id: 1}, isArray: true}//FIXME - can we get quickies for all users?
             });
         }
     ]);
