@@ -8,6 +8,8 @@
                     store.set('profile', profile);
                     store.set('token', token);
                     $location.path('/');
+
+                    $scope.isAuthenticated = auth.isAuthenticated;
                 }, function () {
                     // Error callback
                 });
@@ -17,11 +19,11 @@
                 auth.signout();
                 store.remove('profile');
                 store.remove('token');
-            }
 
-            $scope.isAuthenticated = function () {
-                auth.isAuthenticated;
-            }
+                $scope.isAuthenticated = auth.isAuthenticated;
+            };
+
+
         }
     ]);
 })();
