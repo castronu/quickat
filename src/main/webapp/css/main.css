@@ -160,7 +160,10 @@ img.profile-small {
 
 .userInfoContainer {
     margin-top: 10px;
-    border: 1px solid #464545;
     border-radius: 4px;
     padding: 10px;
+}
+
+.userInfoContainerFooter {
+    background-color: rgba(48, 48, 48, 1);
 }
