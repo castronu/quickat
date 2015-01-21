@@ -3,6 +3,12 @@ a {
     cursor: pointer;
 }
 
+img.profile-small {
+    height: 21px;
+    vertical-align: bottom;
+    margin-right: 5px
+}
+
 .huge {
     font-size: 40px;
 }
