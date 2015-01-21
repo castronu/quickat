@@ -3,19 +3,20 @@
 
     <div class="col-md-8 col-md-offset-2">
         <hr>
-        <form class="form form-horizontal">
+        <form class="form form-horizontal" ng-submit="submit()">
             <div class="form-group">
                 <label for="firstName" class="col-sm-2 pull-left">First Name</label>
 
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" id="firstName" placeholder="First Name" ng-model="">
+                    <input type="text" class="form-control" id="firstName" placeholder="First Name" ng-model="user.firstname"/>
                 </div>
             </div>
+
             <div class="form-group">
                 <label for="lastName" class="col-sm-2 pull-left">Last Name</label>
 
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" id="lastName" placeholder="Last Name" ng-model="">
+                    <input type="text" class="form-control" id="lastName" placeholder="Last Name" ng-model="user.lastname"/>
                 </div>
             </div>
 
@@ -23,7 +24,7 @@
                 <label for="username" class="col-sm-2  pull-left">Username</label>
 
                 <div class="col-sm-10">
-                    <input type="datetime-local" class="form-control" id="username" placeholder="Username" ng-model="">
+                    <input type="text" class="form-control" id="username" placeholder="Username" ng-model="user.nickname"/>
                 </div>
             </div>
 
@@ -31,7 +32,7 @@
                 <label for="email" class="col-sm-2  pull-left">E-mail</label>
 
                 <div class="col-sm-10">
-                    <input type="datetime-local" class="form-control" id="email" placeholder="E-mail" ng-model="">
+                    <input type="email" class="form-control" id="email" placeholder="E-mail" ng-model="user.email"/>
                 </div>
             </div>
 
@@ -39,7 +40,7 @@
                 <label for="website" class="col-sm-2  pull-left">Website</label>
 
                 <div class="col-sm-10">
-                    <input type="datetime-local" class="form-control" id="website" placeholder="Website" ng-model="">
+                    <input type="text" class="form-control" id="website" placeholder="Website" ng-model="user.webpage"/>
                 </div>
             </div>
 
@@ -47,7 +48,7 @@
                 <label for="bio" class="col-sm-2  pull-left">About me</label>
 
                 <div class="col-sm-10">
-                    <textarea class="form-control" id="bio" placeholder="About me" rows="7" ng-model=""></textarea>
+                    <textarea class="form-control" id="bio" placeholder="About me" rows="7" ng-model="user.about"></textarea>
                 </div>
             </div>
 

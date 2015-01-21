@@ -12,5 +12,7 @@ public class FullQuickie {
     public User speaker;
     public Iterable<Comment> comments;
     public int votes;
+    public int likes;
     public boolean voted;
+    public boolean liked;
 }

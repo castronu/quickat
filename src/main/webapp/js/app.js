@@ -38,15 +38,17 @@ var quickiesApp = angular
                 templateUrl: 'html/quickyDetails.html',
                 controller: 'QuickyDetailsController'
             })
-            .when('/myProfile', {
+            .when('/myProfile/:userId', {
                 templateUrl: 'html/myProfile.html',
-                controller: 'ProfileController',
-                requiresLogin: true
+                controller: 'ProfileController'
             })
             .when('/createProfile', {
                 templateUrl: 'html/createProfile.html',
-                controller: 'ProfileController',
-                requiresLogin: true
+                controller: 'ProfileController'
+            })
+            .when('/editProfile/:userId', {
+                templateUrl: 'html/createProfile.html',
+                controller: 'ProfileController'
             })
             .when('/login', {
                 templateUrl: 'html/login.html'

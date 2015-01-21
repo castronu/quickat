@@ -3,12 +3,11 @@ package org.quickat.web;
 import org.quickat.ToDelete;
 import org.quickat.da.Comment;
 import org.quickat.da.Quickie;
+import org.quickat.da.QuickieTweet;
 import org.quickat.da.Vote;
+import org.quickat.da.builder.QuickieTweetBuilder;
 import org.quickat.da.builder.VoteBuilder;
-import org.quickat.repository.CommentsRepository;
-import org.quickat.repository.QuickiesRepository;
-import org.quickat.repository.UsersRepository;
-import org.quickat.repository.VoteRepository;
+import org.quickat.repository.*;
 import org.quickat.web.dto.FullQuickie;
 import org.quickat.web.dto.QuickiesCounters;
 import org.quickat.web.exception.AlreadyVotedException;
@@ -19,6 +18,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.social.twitter.api.Tweet;
+import org.springframework.social.twitter.api.TweetData;
+import org.springframework.social.twitter.api.Twitter;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,9 +33,13 @@ import java.util.*;
 @RequestMapping("quickies")
 public class QuickieController {
     final static Logger logger = LoggerFactory.getLogger(QuickieController.class);
+    private static final int NB_TOP_RESULTS_TO_RETURN = 3;
 
     @Autowired
     public QuickiesRepository quickiesRepository;
+
+    @Autowired
+    public QuickieTweetsRepository quickieTweetsRepository;
 
     @Autowired
     private VoteRepository votesRepository;
@@ -43,6 +49,9 @@ public class QuickieController {
 
     @Autowired
     private CommentsRepository commentsRepository;
+
+    @Autowired
+    private Twitter twitter;
 
     @RequestMapping(method = RequestMethod.GET)
     public Iterable<FullQuickie> getQuickies(@RequestParam(value = "filter", defaultValue = "future", required = false) String filter) {
@@ -55,13 +64,16 @@ public class QuickieController {
             case "future":
                 quickies = quickiesRepository.findByQuickieDateAfter(new Date());
                 break;
-
             case "past":
                 quickies = quickiesRepository.findByQuickieDateBefore(new Date());
                 break;
 
             case "topActive":
                 quickies = getTop3(Vote.Type.VOTE);
+                break;
+
+            case "topPast":
+                quickies = getTop3(Vote.Type.LIKE);
                 break;
         }
 
@@ -73,7 +85,10 @@ public class QuickieController {
             fullQuickie.quickie = quickie;
             fullQuickie.speaker = usersRepository.findOne(quickie.getSpeakerId());
             fullQuickie.votes = votesRepository.countByQuickieIdAndType(quickie.getId(), Vote.Type.VOTE);
+            fullQuickie.likes = votesRepository.countByQuickieIdAndType(quickie.getId(), Vote.Type.LIKE);
             fullQuickie.voted = votesRepository.countByQuickieIdAndVoterIdAndType(fullQuickie.quickie.getId(), ToDelete.USER_ID, Vote.Type.VOTE) > 0;
+            fullQuickie.liked = votesRepository.countByQuickieIdAndVoterIdAndType(fullQuickie.quickie.getId(), ToDelete.USER_ID, Vote.Type.LIKE) > 0;
+
 
             //FIXME: user in comment... cf CPO comment
             fullQuickie.comments = commentsRepository.findByQuickieId(fullQuickie.quickie.getId());
@@ -115,8 +130,20 @@ public class QuickieController {
     public Quickie createQuickie(@RequestBody Quickie quickie) {
         quickie.setPostDate(new Date());
         quickie.setSpeakerId(ToDelete.USER_ID);
+        Quickie save = quickiesRepository.save(quickie);
 
-        return quickiesRepository.save(quickie);
+
+        String tweetText="Hey! A new quickie has been created: "+quickie.getTitle()+ "! retweet me to vote for it!";
+        Tweet tweet = twitter.timelineOperations().updateStatus(new TweetData(tweetText));
+
+        QuickieTweet quickieTweet = QuickieTweetBuilder.aQuickieTweet().
+                withQuickieId(save.getId()).
+                withActive(true).
+                withTweetId(String.valueOf(tweet.getId())).build();
+
+        quickieTweetsRepository.save(quickieTweet);
+        logger.info("Tweet Created!");
+        return save;
     }
 
     @RequestMapping(value = "/{id}/vote", method = RequestMethod.POST)
@@ -155,10 +182,11 @@ public class QuickieController {
     public void handleAlreadyVotedException() {
     }
 
-    private Iterable<Quickie> getTop3(@RequestParam(value = "type", defaultValue = "VOTE", required = false) Vote.Type voteType) {
-        //TODO: use votetype in repository, may use a param for number of top results that we want
-        List<Long> voteCounts = votesRepository.getVoteCounts();
-        voteCounts = voteCounts.subList(0, 3);
+
+    private Iterable<Quickie> getTop3(Vote.Type voteType) {
+        List<Long> voteCounts = votesRepository.getVoteCountsOfType(voteType);
+        int nbElemsToRetrieve = voteCounts.size() >= NB_TOP_RESULTS_TO_RETURN ? NB_TOP_RESULTS_TO_RETURN : voteCounts.size();
+        voteCounts = voteCounts.subList(0, nbElemsToRetrieve);
 
         List<Quickie> results = new ArrayList<>(voteCounts.size());
         for (Long vote : voteCounts) {

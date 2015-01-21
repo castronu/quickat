@@ -9,6 +9,17 @@ import java.util.Date;
 @Entity
 @Table(name = "votes")
 public class Vote {
+    @Override
+    public String toString() {
+        return "Vote{" +
+                "id=" + id +
+                ", quickieId=" + quickieId +
+                ", voterId=" + voterId +
+                ", date=" + date +
+                ", type=" + type +
+                '}';
+    }
+
     public enum Type {
         VOTE, LIKE
     }
