@@ -15,7 +15,20 @@ public class DefaultUserService implements UserService {
     private UsersRepository usersRepository;
 
     @Override
+    // FIXME that's really ugly :P
     public User getLoggedUser() {
-        return usersRepository.findByAuthId(Auth0Helper.getAuthId());
+        try {
+            User user = usersRepository.findByAuthId(Auth0Helper.getAuthId());
+
+            if (user == null) {
+                throw new Exception();
+            }
+
+            return user;
+        } catch (Exception e) {
+            User user = new User();
+            user.setId(-1l);
+            return user;
+        }
     }
 }
