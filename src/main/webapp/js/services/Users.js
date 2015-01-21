@@ -3,7 +3,7 @@
     quickiesApp.factory('UserQuickies', ['$resource',
         function ($resource) {
             return $resource('/users/:id/:cmd', {}, {
-                quickies: {method: 'GET', params: {cmd: "quickies", id: 1}, isArray: true}//FIXME - can we get quickies for all users?
+                quickies: {method: 'GET', params: {cmd: "quickies", id: 'me'}, isArray: true}//FIXME - can we get quickies for all users?
             });
         }
     ]);

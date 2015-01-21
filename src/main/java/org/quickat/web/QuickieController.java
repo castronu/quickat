@@ -1,13 +1,10 @@
 package org.quickat.web;
 
-import org.quickat.ToDelete;
-import org.quickat.da.Comment;
-import org.quickat.da.Quickie;
-import org.quickat.da.QuickieTweet;
-import org.quickat.da.Vote;
+import org.quickat.da.*;
 import org.quickat.da.builder.QuickieTweetBuilder;
 import org.quickat.da.builder.VoteBuilder;
 import org.quickat.repository.*;
+import org.quickat.service.UserService;
 import org.quickat.web.dto.FullQuickie;
 import org.quickat.web.dto.QuickiesCounters;
 import org.quickat.web.exception.AlreadyVotedException;
@@ -16,8 +13,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.social.twitter.api.Tweet;
 import org.springframework.social.twitter.api.TweetData;
 import org.springframework.social.twitter.api.Twitter;
@@ -51,6 +46,9 @@ public class QuickieController {
     private CommentsRepository commentsRepository;
 
     @Autowired
+    private UserService userService;
+
+    @Autowired
     private Twitter twitter;
 
     @RequestMapping(method = RequestMethod.GET)
@@ -74,6 +72,7 @@ public class QuickieController {
                 break;
         }
 
+        User user = userService.getLoggedUser();
         List<FullQuickie> fullQuickies = new LinkedList<FullQuickie>();
 
         // FIXME use a complete Quickie mapping instead? not sure... My opinion is that we should always send DTOs though HTTP
@@ -83,9 +82,8 @@ public class QuickieController {
             fullQuickie.speaker = usersRepository.findOne(quickie.getSpeakerId());
             fullQuickie.votes = votesRepository.countByQuickieIdAndType(quickie.getId(), Vote.Type.VOTE);
             fullQuickie.likes = votesRepository.countByQuickieIdAndType(quickie.getId(), Vote.Type.LIKE);
-            fullQuickie.voted = votesRepository.countByQuickieIdAndVoterIdAndType(fullQuickie.quickie.getId(), ToDelete.USER_ID, Vote.Type.VOTE) > 0;
-            fullQuickie.liked = votesRepository.countByQuickieIdAndVoterIdAndType(fullQuickie.quickie.getId(), ToDelete.USER_ID, Vote.Type.LIKE) > 0;
-
+            fullQuickie.voted = votesRepository.countByQuickieIdAndVoterIdAndType(fullQuickie.quickie.getId(), user.getId(), Vote.Type.VOTE) > 0;
+            fullQuickie.liked = votesRepository.countByQuickieIdAndVoterIdAndType(fullQuickie.quickie.getId(), user.getId(), Vote.Type.LIKE) > 0;
 
             //FIXME: user in comment... cf CPO comment
             fullQuickie.comments = commentsRepository.findByQuickieId(fullQuickie.quickie.getId());
@@ -101,7 +99,7 @@ public class QuickieController {
 
         quickiesCounters.future = quickiesRepository.countByQuickieDateAfter(new Date());
         quickiesCounters.past = quickiesRepository.countByQuickieDateBefore(new Date());
-        quickiesCounters.my = quickiesRepository.countBySpeakerId(ToDelete.USER_ID);
+        quickiesCounters.my = quickiesRepository.countBySpeakerId(userService.getLoggedUser().getId());
 
         return quickiesCounters;
     }
@@ -126,7 +124,7 @@ public class QuickieController {
     @Transactional
     public Quickie createQuickie(@RequestBody Quickie quickie) {
         quickie.setPostDate(new Date());
-        quickie.setSpeakerId(ToDelete.USER_ID);
+        quickie.setSpeakerId(userService.getLoggedUser().getId());
         Quickie save = quickiesRepository.save(quickie);
 
 
@@ -149,7 +147,7 @@ public class QuickieController {
                 .withDate(new Date())
                 .withQuickieId(quickieId)
                 .withType(Vote.Type.VOTE)
-                .withVoterId(ToDelete.USER_ID)
+                .withVoterId(userService.getLoggedUser().getId())
                 .build();
 
         try {
@@ -161,7 +159,7 @@ public class QuickieController {
 
     @RequestMapping(value = "/{id}/vote", method = RequestMethod.DELETE)
     public void unvoteQuickie(@PathVariable(value = "id") Long quickieId) {
-        Vote vote = votesRepository.findByQuickieIdAndVoterIdAndType(quickieId, ToDelete.USER_ID, Vote.Type.VOTE);
+        Vote vote = votesRepository.findByQuickieIdAndVoterIdAndType(quickieId, userService.getLoggedUser().getId(), Vote.Type.VOTE);
         votesRepository.delete(vote);
     }
 
@@ -170,7 +168,7 @@ public class QuickieController {
         logger.info("Recording comment {} for quickieId:", comment, quickieId);
         comment.setDate(new Date());
         comment.setSubject("NA");
-        comment.setUserId(ToDelete.USER_ID);
+        comment.setUserId(userService.getLoggedUser().getId());
         commentsRepository.save(comment);
     }
 

@@ -4,6 +4,7 @@ import org.quickat.da.Quickie;
 import org.quickat.da.User;
 import org.quickat.repository.QuickiesRepository;
 import org.quickat.repository.UsersRepository;
+import org.quickat.service.UserService;
 import org.quickat.web.dto.UserProfile;
 import org.quickat.web.exception.UserAlreadyExistsException;
 import org.slf4j.Logger;
@@ -31,6 +32,9 @@ public class UserController {
     @Autowired
     public QuickiesRepository quickiesRepository;
 
+    @Autowired
+    private UserService userService;
+
     @RequestMapping(method = RequestMethod.GET)
     public Iterable<UserProfile> getUsers() {
         List<UserProfile> userProfiles = new LinkedList<>();
@@ -44,7 +48,7 @@ public class UserController {
 
     @RequestMapping(value = "/me", method = RequestMethod.GET)
     public UserProfile getUser() {
-        return buildUserProfile(usersRepository.findByAuthId(Auth0Helper.getAuthId()));
+        return buildUserProfile(userService.getLoggedUser());
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
@@ -98,6 +102,14 @@ public class UserController {
 
     @RequestMapping(value = "/{speakerId}/quickies", method = RequestMethod.GET)
     public Iterable<Quickie> getQuickiesOfSpeaker(@PathVariable(value = "speakerId") Long speakerId) {
+        logger.info("getQuickiesOfSpeaker with id {}", speakerId);
+        return quickiesRepository.findBySpeakerId(speakerId);
+    }
+
+    @RequestMapping(value = "/me/quickies", method = RequestMethod.GET)
+    public Iterable<Quickie> getQuickiesOfCurrentSpeaker() {
+        Long speakerId = userService.getLoggedUser().getId();
+
         logger.info("getQuickiesOfSpeaker with id {}", speakerId);
         return quickiesRepository.findBySpeakerId(speakerId);
     }

@@ -15,7 +15,7 @@
                         <li class="left clearfix" ng-repeat="topQuickie in topQuickies">
                             <span class="chat-img pull-left">
                                 <img class="img-circle img-thumb-s" alt="User Avatar"
-                                     src="img/kitten1.jpg"/>
+                                     ng-src="{{topQuickie.speaker.picture}}"/>
                             </span>
 
                             <div class="chat-body clearfix">
@@ -129,9 +129,9 @@
                                 <!-- speaker -->
                                 <div class="col-xs-3 text-center">
                                     <a href="#" class="story-img">
-                                        <img class="img-circle img-thumb-m" src="img/kitten1.jpg"/>
+                                        <img class="img-circle img-thumb-m" ng-src="{{quickie.speaker.picture}}"/>
                                     </a>
-                                    <br/>
+                                    <br>
                                     {{quickie.speaker.nickname}}
                                 </div>
 
