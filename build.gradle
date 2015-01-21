@@ -43,7 +43,6 @@ dependencies {
         exclude module: "servlet-api"
     }
 
-    compile("org.springframework.boot:spring-boot-starter-thymeleaf")// really needed?
     compile("org.springframework.boot:spring-boot-starter-social-twitter")// I guess, for twitter?
     compile("org.springframework.security:spring-security-openid")// really needed?
     compile("org.apache.httpcomponents:httpclient:4.3.3")

@@ -4,13 +4,13 @@
 
     <div class="col-md-4 col-sm-12">
         <div class="row">
-            <div class="chat-panel panel panel-primary">
-                <div class="panel-heading">
-                    TOP Quickies
+            <div class="panel chat-panel">
+                <div class="panel-heading chat-panel-heading text-center">
+                    TOP 3 QUICKIES
                 </div>
 
                 <!-- /.panel-heading -->
-                <div class="panel-body">
+                <div class="panel-body chat-panel-body">
                     <ul class="chat">
                         <li class="left clearfix" ng-repeat="topQuickie in topQuickies">
                             <span class="chat-img pull-left">
@@ -21,8 +21,8 @@
                             <div class="chat-body clearfix">
                                 <div class="header">
                                     <strong class="primary-font">{{topQuickie.speaker.nickname}}</strong>
-                                    <strong class="primary-font pull-right highlightGreen">
-                                        {{topQuickie.votes}}
+                                    <strong class="primary-font pull-right highlightBlue">
+                                        {{topQuickie.votes}} Votes
                                     </strong>
                                 </div>
                                 <p>
@@ -83,7 +83,7 @@
                                 <img class="img-circle img-thumb-l" src="img/geneva-jug.png"/>
                             </a>
 
-                            <div class="vote highlightGreen">
+                            <div class="vote highlightBlue">
                                 <p>{{quickie.votes}} votes</p>
 
                                 <p>
@@ -113,12 +113,12 @@
 
                                         <!-- quickie footer -->
                                         <ul class="list-inline">
-                                            <li class="highlightGreen">
+                                            <li class="highlightBlue">
                                                 Proposed
                                                 <span am-time-ago="quickie.quickie.postDate"></span>
                                             </li>
                                             <li>
-                                                <a href="" ng-click="toggleComment(quickie)"><i
+                                                <a href="" ng-click="toggleComment(quickie)" class="highlightBlue"><i
                                                         class="glyphicon glyphicon-comment"></i>
                                                     {{quickie.comments.length}} Comment(s)</a>
                                             </li>
@@ -139,10 +139,10 @@
                                 <div class="col-xs-12" ng-show="quickie._view.comments">
                                     <div class="row commentContainer">
                                         <form class="form form-horizontal">
-                                            <div class="form-group col-md-12">
-                                                <textarea placeholder="Comment" class="col-md-12" rows="3"/>
+                                            <div class="form-group col-xs-12">
+                                                <textarea placeholder="Comment" class="col-xs-12" rows="3"/>
                                             </div>
-                                            <div class="form-group col-md-12">
+                                            <div class="form-group col-xs-12">
                                                 <i>Username</i>
                                                 <button class="btn btn-default pull-right btn-sm">Post</button>
                                             </div>
@@ -151,7 +151,7 @@
                                     <div ng-repeat="comment in quickie.comments" class="row commentsContainer">
                                         <table class="table">
                                             <tr>
-                                                <td class="col-md-3">
+                                                <td class="col-xs-3">
                                                     <a href="#" class="story-img">
                                                         <img class="img-circle img-thumb-xs" src="img/kitten1.jpg">
                                                     </a>
@@ -160,7 +160,7 @@
                                                         <small><span am-time-ago="comment.date"></small>
                                                     </h5>
                                                 </td>
-                                                <td class="col-md-9">
+                                                <td class="col-xs-9">
                                                     <h5>{{comment.comment}}
                                                     </h5>
                                                 </td>

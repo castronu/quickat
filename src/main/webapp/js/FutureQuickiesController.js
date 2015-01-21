@@ -42,7 +42,7 @@
                     }
                 }
                 quickie._view.comments = !quickie._view.comments;
-            }
+            };
         }
     ]);
 })();
