@@ -9,7 +9,8 @@
                     // Success callback
                     store.set('profile', profile);
                     store.set('token', token);
-                    $location.path('/');
+
+                    $scope.$emit('refreshCounters');
 
                     var user = new Users({
                         userId: profile.user_id,
@@ -19,7 +20,7 @@
                     });
 
                     user.$save({}, function() {
-                        $location.path('/myProfile');
+                        $location.path('/editProfile');
                     });
                 }, function () {
                     // Error callback
@@ -30,7 +31,9 @@
                 auth.signout();
                 store.remove('profile');
                 store.remove('token');
-                $location.path('/');
+
+                $location.path("/");
+                $scope.$emit('refreshCounters');
             };
         }
     ]);
