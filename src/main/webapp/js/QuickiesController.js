@@ -79,6 +79,44 @@
                 }
                 quickie._view.comments = !quickie._view.comments;
             };
+            $scope.selectFilter = function (group) {
+                var selectedGroups = selectedFilters();
+                var index = selectedGroups.indexOf(group);
+
+                if (index > -1) {
+                    selectedGroups.splice(index, 1);
+                } else {
+                    selectedGroups.push(group);
+                }
+
+                if (selectedGroups.length > 0) {
+                    $location.search({filter: selectedGroups.join(',')});
+                } else {
+                    $location.search({});
+                }
+            };
+            $scope.deselectFilters = function() {
+                $location.search({});
+            };
+            $scope.filterSelected = function (group) {
+                var selectedGroups = selectedFilters();
+                return selectedGroups.indexOf(group) > -1;
+            };
+
+            function selectedFilters() {
+                var filter = $location.search().filter;
+
+                if (typeof filter == 'undefined') {
+                    filter = '';
+                }
+
+                var selectedGroups = [];
+                if (filter != '') {
+                    selectedGroups = filter.split(',');
+                }
+
+                return selectedGroups;
+            }
         }
     ]);
 })();
