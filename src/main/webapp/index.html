@@ -22,14 +22,7 @@
             <ul class="nav navbar-nav navbar-right">
                 <li ng-hide="auth.isAuthenticated"><a ng-click="login()">Login</a></li>
                 <li ng-show="auth.isAuthenticated"><a ng-click="logout()">Logout</a></li>
-                <!--<li ng-show="auth.isAuthenticated"><a href="#/createProfile">Create Profile</a></li>-->
                 <li ng-show="auth.isAuthenticated"><a href="#/myProfile"><img src="{{auth.profile.picture}}" class="profile-small"> View Profile</a></li>
-                <!--<li class="dropdown" ng-show="isAuthenticated">-->
-                    <!--<a href="#" class="dropdown-toggle" data-toggle="dropdown">Username<b class="caret"></b></a>-->
-                    <!--<ul class="dropdown-menu">-->
-                        <!--<li><a href="#">Logout</a></li>-->
-                    <!--</ul>-->
-                <!--</li>-->
             </ul>
         </div>
     </div>
@@ -139,12 +132,9 @@
 <script src="js/services/Users.js"></script>
 <script src="js/services/Vote.js"></script>
 <script src="js/services/Comments.js"></script>
-<script src="js/OldQuickiesController.js"></script>
-<script src="js/FutureQuickiesController.js"></script>
 <script src="js/QuickiesController.js"></script>
 <script src="js/AddQuickyController.js"></script>
 <script src="js/MyQuickiesController.js"></script>
-<script src="js/CommentController.js"></script>
 <script src="js/CountersController.js"></script>
 <script src="js/QuickyDetailsController.js"></script>
 <script src="js/LoginController.js"></script>
