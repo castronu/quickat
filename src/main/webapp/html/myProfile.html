@@ -12,7 +12,7 @@
                     <ul class="chat">
                         <li class="left clearfix"><span class="glyphicon glyphicon-user"></span> {{user.nickname}}</li>
                         <li class="left clearfix"><span class="glyphicon glyphicon-envelope"></span> {{user.email}}</li>
-                        <li class="left clearfix"><span class="glyphicon glyphicon-home"></span> <a href="{{user.webPage}}">{{user.webPage}}</a></li>
+                        <li class="left clearfix"><span class="glyphicon glyphicon-home"></span> <a ng-href="{{user.webPage|url}}">{{user.webPage}}</a></li>
                     </ul>
                 </div>
             </div>
