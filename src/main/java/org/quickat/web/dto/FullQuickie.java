@@ -1,8 +1,9 @@
 package org.quickat.web.dto;
 
-import org.quickat.da.Comment;
 import org.quickat.da.Quickie;
 import org.quickat.da.User;
+
+import java.util.List;
 
 /**
  * @author Christophe Pollet
@@ -10,9 +11,11 @@ import org.quickat.da.User;
 public class FullQuickie {
     public Quickie quickie;
     public User speaker;
-    public Iterable<Comment> comments;
+    public List<FullComment> comments;
     public int votes;
     public int likes;
     public boolean voted;
     public boolean liked;
+    public int score;
+    public boolean scored;
 }

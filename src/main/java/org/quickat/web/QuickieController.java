@@ -5,6 +5,7 @@ import org.quickat.da.builder.QuickieTweetBuilder;
 import org.quickat.da.builder.VoteBuilder;
 import org.quickat.repository.*;
 import org.quickat.service.UserService;
+import org.quickat.web.dto.FullComment;
 import org.quickat.web.dto.FullQuickie;
 import org.quickat.web.dto.QuickiesCounters;
 import org.quickat.web.exception.AlreadyVotedException;
@@ -59,34 +60,53 @@ public class QuickieController {
             case "future":
                 quickies = quickiesRepository.findByQuickieDateAfter(new Date());
                 break;
+            case "topFuture":
+                quickies = getTop3(Vote.Type.VOTE);
+                break;
             case "past":
                 quickies = quickiesRepository.findByQuickieDateBefore(new Date());
                 break;
-
-            case "topActive":
-                quickies = getTop3(Vote.Type.VOTE);
-                break;
-
             case "topPast":
                 quickies = getTop3(Vote.Type.LIKE);
                 break;
         }
 
         User user = userService.getLoggedUser();
-        List<FullQuickie> fullQuickies = new LinkedList<FullQuickie>();
+        List<FullQuickie> fullQuickies = new LinkedList<>();
 
         // FIXME use a complete Quickie mapping instead? not sure... My opinion is that we should always send DTOs though HTTP
         for (Quickie quickie : quickies) {
             FullQuickie fullQuickie = new FullQuickie();
             fullQuickie.quickie = quickie;
             fullQuickie.speaker = usersRepository.findOne(quickie.getSpeakerId());
+
+            switch (filter) {
+                case "future":
+                case "topFuture":
+                    fullQuickie.score = votesRepository.countByQuickieIdAndType(quickie.getId(), Vote.Type.VOTE);
+                    fullQuickie.scored = votesRepository.countByQuickieIdAndVoterIdAndType(quickie.getId(), user.getId(), Vote.Type.VOTE) > 0;
+                    break;
+                case "past":
+                case "topPast":
+                    fullQuickie.score = votesRepository.countByQuickieIdAndType(quickie.getId(), Vote.Type.LIKE);
+                    fullQuickie.scored = votesRepository.countByQuickieIdAndVoterIdAndType(quickie.getId(), user.getId(), Vote.Type.LIKE) > 0;
+                    break;
+            }
+
             fullQuickie.votes = votesRepository.countByQuickieIdAndType(quickie.getId(), Vote.Type.VOTE);
             fullQuickie.likes = votesRepository.countByQuickieIdAndType(quickie.getId(), Vote.Type.LIKE);
-            fullQuickie.voted = votesRepository.countByQuickieIdAndVoterIdAndType(fullQuickie.quickie.getId(), user.getId(), Vote.Type.VOTE) > 0;
-            fullQuickie.liked = votesRepository.countByQuickieIdAndVoterIdAndType(fullQuickie.quickie.getId(), user.getId(), Vote.Type.LIKE) > 0;
+            fullQuickie.voted = votesRepository.countByQuickieIdAndVoterIdAndType(quickie.getId(), user.getId(), Vote.Type.VOTE) > 0;
+            fullQuickie.liked = votesRepository.countByQuickieIdAndVoterIdAndType(quickie.getId(), user.getId(), Vote.Type.LIKE) > 0;
 
-            //FIXME: user in comment... cf CPO comment
-            fullQuickie.comments = commentsRepository.findByQuickieId(fullQuickie.quickie.getId());
+            fullQuickie.comments = new LinkedList<>();
+            for (Comment comment : commentsRepository.findByQuickieIdOrderByDateDesc(quickie.getId())) {
+                FullComment fullComment = new FullComment();
+                fullComment.comment = comment.getComment();
+                fullComment.date = comment.getDate();
+                fullComment.user = usersRepository.findOne(comment.getUserId());
+                fullQuickie.comments.add(fullComment);
+            }
+
             fullQuickies.add(fullQuickie);
         }
 
@@ -128,7 +148,7 @@ public class QuickieController {
         Quickie save = quickiesRepository.save(quickie);
 
 
-        String tweetText="Hey! A new quickie has been created: "+quickie.getTitle()+ "! retweet me to vote for it!";
+        String tweetText = "Hey! A new quickie has been created: " + quickie.getTitle() + "! retweet me to vote for it!";
         Tweet tweet = twitter.timelineOperations().updateStatus(new TweetData(tweetText));
 
         QuickieTweet quickieTweet = QuickieTweetBuilder.aQuickieTweet().
@@ -146,7 +166,7 @@ public class QuickieController {
         Vote vote = VoteBuilder.aVote()
                 .withDate(new Date())
                 .withQuickieId(quickieId)
-                .withType(Vote.Type.VOTE)
+                .withType(getVoteType(quickieId))
                 .withVoterId(userService.getLoggedUser().getId())
                 .build();
 
@@ -157,9 +177,18 @@ public class QuickieController {
         }
     }
 
+    private Vote.Type getVoteType(Long quickieId) {
+        Quickie quickie = quickiesRepository.findOne(quickieId);
+        if (quickie.getQuickieDate().after(new Date())) {
+            return Vote.Type.VOTE;
+        } else {
+            return Vote.Type.LIKE;
+        }
+    }
+
     @RequestMapping(value = "/{id}/vote", method = RequestMethod.DELETE)
     public void unvoteQuickie(@PathVariable(value = "id") Long quickieId) {
-        Vote vote = votesRepository.findByQuickieIdAndVoterIdAndType(quickieId, userService.getLoggedUser().getId(), Vote.Type.VOTE);
+        Vote vote = votesRepository.findByQuickieIdAndVoterIdAndType(quickieId, userService.getLoggedUser().getId(), getVoteType(quickieId));
         votesRepository.delete(vote);
     }
 
@@ -170,6 +199,21 @@ public class QuickieController {
         comment.setSubject("NA");
         comment.setUserId(userService.getLoggedUser().getId());
         commentsRepository.save(comment);
+    }
+
+    @RequestMapping(value = "/{id}/comments", method = RequestMethod.GET)
+    public List<FullComment> getComments(@PathVariable(value = "id") Long quickieId) {
+        List<FullComment> comments = new LinkedList<>();
+
+        for (Comment comment : commentsRepository.findByQuickieIdOrderByDateDesc(quickieId)) {
+            FullComment fullComment = new FullComment();
+            fullComment.comment = comment.getComment();
+            fullComment.date = comment.getDate();
+            fullComment.user = usersRepository.findOne(comment.getUserId());
+            comments.add(fullComment);
+        }
+
+        return comments;
     }
 
     @ExceptionHandler({AlreadyVotedException.class})

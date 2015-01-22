@@ -16,18 +16,10 @@ var quickiesApp = angular
         $httpProvider.interceptors.push('jwtInterceptor');
 
         $routeProvider
-            .when('/futureQuickies', {
-                templateUrl: 'html/futureQuickies.html',
-                controller: 'FutureQuickiesController'
-            })
             .when('/addQuicky', {
                 templateUrl: 'html/addQuicky.html',
                 controller: 'AddQuickyController',
                 requiresLogin: true
-            })
-            .when('/oldQuickies', {
-                templateUrl: 'html/oldQuickies.html',
-                controller: 'OldQuickiesController'
             })
             .when('/myQuickies', {
                 templateUrl: 'html/myQuickies.html',
@@ -53,9 +45,26 @@ var quickiesApp = angular
             .when('/login', {
                 templateUrl: 'html/login.html'
             })
+            .when('/quickies/past', {
+                templateUrl: 'html/quickies.html',
+                controller: 'QuickiesController',
+                resolve: {
+                    quickieService: 'PastQuickiesService'
+                }
+            })
+            .when('/quickies/future', {
+                templateUrl: 'html/quickies.html',
+                controller: 'QuickiesController',
+                resolve: {
+                    quickieService: 'FutureQuickiesService'
+                }
+            })
             .otherwise({
-                templateUrl: 'html/futureQuickies.html',
-                controller: 'FutureQuickiesController'
+                templateUrl: 'html/quickies.html',
+                controller: 'QuickiesController',
+                resolve: {
+                    quickieService: 'FutureQuickiesService'
+                }
             });
     })
     .run(function (auth, $rootScope, store, jwtHelper, $location) {

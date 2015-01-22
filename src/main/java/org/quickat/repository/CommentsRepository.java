@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface CommentsRepository extends CrudRepository<Comment, Long> {
+    Iterable<Comment> findByQuickieId(Long quickieId);
 
-    public Iterable<Comment> findByQuickieId(Long quickieId);
+    Iterable<Comment> findByQuickieIdOrderByDateDesc(Long quickieId);
 }

@@ -19,7 +19,7 @@
                         picture: profile.picture
                     });
 
-                    user.$save({}, function() {
+                    user.$save({}, function () {
                         $location.path('/editProfile');
                     });
                 }, function () {
@@ -32,8 +32,10 @@
                 store.remove('profile');
                 store.remove('token');
 
-                $location.path("/");
                 $scope.$emit('refreshCounters');
+
+                $location.path("/");
+
             };
         }
     ]);

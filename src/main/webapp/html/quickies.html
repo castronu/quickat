@@ -1,43 +1,43 @@
 <div class="row">
-    <p class="text-center pageTitle">Quickies Archive</p>
+    <p class="text-center pageTitle">{{page.title}}</p>
     <hr/>
-
     <div class="col-md-4 col-sm-12">
+        <!-- top quickies -->
         <div class="row">
             <div class="panel chat-panel">
                 <div class="panel-heading chat-panel-heading text-center">
-                    TOP 3 QUICKIES
+                    Top 3 quickies
                 </div>
 
                 <!-- /.panel-heading -->
                 <div class="panel-body chat-panel-body">
                     <ul class="chat">
-                        <li class="left clearfix" ng-repeat="topQuickie in topQuickies">
+                        <li class="left clearfix" ng-repeat="quickie in topQuickies">
                             <span class="chat-img pull-left">
                                 <img class="img-circle img-thumb-s" alt="User Avatar"
-                                     ng-src="{{topQuickie.speaker.picture}}"/>
+                                     ng-src="{{quickie.speaker.picture}}"/>
                             </span>
 
                             <div class="chat-body clearfix">
                                 <div class="header">
-                                    <strong class="primary-font">{{topQuickie.speaker.nickname}}</strong>
+                                    <strong class="primary-font">{{quickie.speaker.nickname}}</strong>
                                     <strong class="primary-font pull-right highlightBlue">
-                                        {{topQuickie.likes}}
+                                        {{quickie.score}} {{page.scoreTitle}}
                                     </strong>
                                 </div>
                                 <p>
-                                    {{topQuickie.quickie.title}}
+                                    {{quickie.quickie.title}}
                                 </p>
                             </div>
                         </li>
+
                     </ul>
                 </div>
             </div>
         </div>
+        <!-- groups -->
         <div class="row">
-
-            <p class="groupFilterTitle">Display QUICKIES for group</p>
-
+            <p class="groupFilterTitle">Display quickies for group</p>
             <a href="">
                 <div class="col-md-5 label-warning groupFilterContainer">
                     <label class="groupFilterLabel">Geneva Jug</label>
@@ -74,25 +74,26 @@
     <div class="col-md-8  col-sm-12">
         <div class="panel">
             <div class="panel-body">
-                <div ng-repeat="fullQuickie in fullQuickies" class="post">
+                <div class="post" ng-repeat="quickie in quickies">
                     <div class="row">
-                        <br/>
-
+                        <!-- left column -->
                         <div class="col-md-2 col-sm-3 text-center">
+                            <!-- group icon -->
                             <a href="#" class="story-img">
-                                <img class="img-circle img-thumb-l" src="img/geneva-jug.png"/>
+                                <img class="img-circle img-thumb-l" src="img/geneva-jug.png"/><!-- FIXME -->
                             </a>
 
+                            <!-- score -->
                             <div class="vote highlightBlue">
-                                <p>{{fullQuickie.likes}} likes</p>
+                                <p>{{quickie.score}} {{page.scoreTitle}}</p>
 
-                                <p>
-                                    <button class="btn btn-default btn-lg" title="Like" ng-click="like(fullQuickie)"
-                                            ng-hide="quickie.liked">
+                                <p ng-show="auth.isAuthenticated">
+                                    <button class="btn btn-default btn-lg" title="Vote" ng-click="thumbUp(quickie)"
+                                            ng-hide="quickie.scored">
                                         <span class="glyphicon glyphicon-thumbs-up"></span>
                                     </button>
-                                    <button class="btn btn-default btn-lg" title="Like" ng-click="dislike(fullQuickie)"
-                                            ng-show="quickie.liked">
+                                    <button class="btn btn-default btn-lg" title="Vote" ng-click="thumbDown(quickie)"
+                                            ng-show="quickie.scored">
                                         <span class="glyphicon glyphicon-thumbs-down"></span>
                                     </button>
                                 </p>
@@ -101,66 +102,75 @@
 
                         <div class="col-md-10 col-sm-9">
                             <div class="row">
-                                <h3>{{fullQuickie.quickie.title}}</h3>
+                                <h3>{{quickie.quickie.title}}</h3>
 
+                                <!-- description -->
                                 <div class="col-xs-9">
                                     <div class="row">
-                                        <p>{{fullQuickie.quickie.description}}</p>
-
-                                        <p class="lead">
-                                            <a href="#/quickyDetails" class="btn btn-default">Read More</a>
+                                        <p>
+                                            {{quickie.quickie.description}}
                                         </p>
 
+                                        <p class="lead">
+                                            <a href="#/quickyDetails" class="btn btn-default">Read More</a><!-- FIXME -->
+                                        </p>
+
+                                        <!-- quickie footer -->
                                         <ul class="list-inline">
-                                            <li class="highlightBlue">{{fullQuickie.quickie.postDate
-                                                | date:"MM/dd/yyyy 'at' HH:mm"}}
+                                            <li class="highlightBlue">
+                                                Proposed
+                                                <span am-time-ago="quickie.quickie.postDate"></span>
                                             </li>
-                                            <li><a href="" ng-click="toggleComment(fullQuickie)" class="highlightBlue"><i
-                                                    class="glyphicon glyphicon-comment highlightBlue"></i>
-                                                {{fullQuickie.comments.length}} comment(s)</a>
+                                            <li>
+                                                <a href="" ng-click="toggleComment(quickie)" class="highlightBlue"><i
+                                                        class="glyphicon glyphicon-comment"></i>
+                                                    {{quickie.comments.length}} Comment(s)</a>
                                             </li>
                                         </ul>
                                     </div>
                                 </div>
 
+                                <!-- speaker -->
                                 <div class="col-xs-3 text-center">
                                     <a href="#" class="story-img">
-                                        <img class="img-circle img-thumb-m" ng-src="{{fullQuickie.speaker.picture}}"/>
+                                        <img class="img-circle img-thumb-m" ng-src="{{quickie.speaker.picture}}"/>
                                     </a>
                                     <br>
-                                    {{fullQuickie.speaker.nickname}}
+                                    {{quickie.speaker.nickname}}
                                 </div>
 
-                                <div class="col-xs-12"  ng-show="fullQuickie._view.comments">
-                                    <div class="row commentContainer" ng-controller="CommentController">
-                                        <form class="form form-horizontal"
-                                              ng-submit="submit()">
+                                <!-- comments -->
+                                <div class="col-xs-12" ng-show="quickie._view.comments">
+                                    <!-- form -->
+                                    <div class="row commentContainer" ng-show="auth.isAuthenticated">
+                                        <form class="form form-horizontal" ng-submit="submitComment(quickie)">
                                             <div class="form-group col-xs-12">
                                                 <textarea placeholder="Comment" class="col-xs-12" rows="3"
-                                                          ng-model="comment.comment"/>
+                                                          ng-model="quickie.comment.comment"/>
                                             </div>
-                                            <div class="form-group col-md-12">
-                                                <i>Username</i>
-                                                <button type="submit" class="btn btn-default pull-right btn-sm">Post
+                                            <div class="form-group col-xs-12">
+                                                <button type="submit" class="btn btn-default pull-right btn-sm">
+                                                    Post
                                                 </button>
                                             </div>
                                         </form>
                                     </div>
-                                    <div ng-repeat="comment in fullQuickie.comments" class="row commentsContainer">
+                                    <!-- comments list -->
+                                    <div ng-repeat="comment in quickie.comments" class="row commentsContainer">
                                         <table class="table">
                                             <tr>
                                                 <td class="col-xs-3">
                                                     <a href="#" class="story-img">
-                                                        <img class="img-circle img-thumb-xs" src="img/kitten1.jpg">
+                                                        <img class="img-circle img-thumb-xs"
+                                                             ng-src="{{comment.user.picture}}">
                                                     </a>
-                                                    <h5>ancraciun</h5>
+                                                    <h5>{{comment.user.nickname}}</h5>
                                                     <h5>
-                                                        <small><span am-time-ago="comment.date"/></small>
+                                                        <small><span am-time-ago="comment.date"></span></small>
                                                     </h5>
                                                 </td>
                                                 <td class="col-xs-9">
-                                                    <h5>{{comment.comment}}
-                                                    </h5>
+                                                    <h5>{{comment.comment}}</h5>
                                                 </td>
                                             </tr>
                                         </table>
@@ -169,13 +179,9 @@
                             </div>
                         </div>
                     </div>
-                    <hr>
+                    <hr/>
                 </div>
-
             </div>
         </div>
     </div>
-
-
-</div>
 </div>

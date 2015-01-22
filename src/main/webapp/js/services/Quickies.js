@@ -17,10 +17,10 @@
                     },
                     isArray: true
                 },
-                topActive: {
+                topFuture: {
                     method: 'GET',
                     params: {
-                        filter: 'topActive'
+                        filter: 'topFuture'
                     },
                     isArray: true
                 },
