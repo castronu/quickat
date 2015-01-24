@@ -4,35 +4,31 @@ import org.quickat.da.Quickie;
 import org.quickat.da.User;
 import org.quickat.repository.QuickiesRepository;
 import org.quickat.repository.UsersRepository;
+import org.quickat.service.QuickiesSupplier;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.PrintWriter;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.function.Supplier;
 
 /**
  * @author Christophe Pollet
  */
 @Component
 public class ListCommand extends BaseCommand {
+    private static final Logger logger = LoggerFactory.getLogger(ListCommand.class);
+
     @Autowired
     private QuickiesRepository quickiesRepository;
 
     @Autowired
     private UsersRepository usersRepository;
 
-    private Map<String, Supplier<Iterable<Quickie>>> methods;
-
-    public ListCommand() {
-        methods = new HashMap<>();
-        methods.put("future", () -> quickiesRepository.findByQuickieDateAfter(new Date()));
-        methods.put("past", () -> quickiesRepository.findByQuickieDateBefore(new Date()));
-        methods.put("top3future", () -> quickiesRepository.getFutureOrderedByVoteCount(3));
-        methods.put("top3past", () -> quickiesRepository.getPastOrderedByLikeCount(3));
-    }
+    @Autowired
+    private QuickiesSupplier quickiesSupplier;
 
     @Override
     public void execute(String[] args, PrintWriter out) {
@@ -41,20 +37,20 @@ public class ListCommand extends BaseCommand {
             return;
         }
 
-        if (!methods.containsKey(args[0])) {
+        try {
+            for (Quickie quickie : quickiesSupplier.getQuickies(args[0])) {
+                User speaker = usersRepository.findOne(quickie.getSpeakerId());
+                Map<String, Object> parameters = new HashMap<>();
+                parameters.put("id", quickie.getId());
+                parameters.put("name", quickie.getTitle());
+                parameters.put("speaker", speaker.getFirstname() + " " + speaker.getLastname());
+                out.append(evaluateLocalTemplate("quickie.vm", parameters));
+            }
+            out.flush();
+        } catch (IllegalArgumentException e) {
+            logger.error(e.getMessage(), e);
             out.append("Error: illegal argument [").append(args[0]).append("]. See help.\n").flush();
-            return;
         }
-
-        for (Quickie quickie : methods.get(args[0]).get()) {
-            User speaker = usersRepository.findOne(quickie.getSpeakerId());
-            Map<String, Object> parameters = new HashMap<>();
-            parameters.put("id", quickie.getId());
-            parameters.put("name", quickie.getTitle());
-            parameters.put("speaker", speaker.getFirstname() + " " + speaker.getLastname());
-            out.append(evaluateLocalTemplate("quickie.vm", parameters));
-        }
-        out.flush();
     }
 
     @Override

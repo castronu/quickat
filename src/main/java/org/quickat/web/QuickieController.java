@@ -4,6 +4,7 @@ import org.quickat.da.*;
 import org.quickat.da.builder.QuickieTweetBuilder;
 import org.quickat.da.builder.VoteBuilder;
 import org.quickat.repository.*;
+import org.quickat.service.QuickiesSupplier;
 import org.quickat.service.UserService;
 import org.quickat.web.dto.FullComment;
 import org.quickat.web.dto.FullQuickie;
@@ -20,7 +21,10 @@ import org.springframework.social.twitter.api.Twitter;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Created by aposcia on 14.01.15.
@@ -28,8 +32,7 @@ import java.util.*;
 @RestController
 @RequestMapping("quickies")
 public class QuickieController {
-    final static Logger logger = LoggerFactory.getLogger(QuickieController.class);
-    private static final int NB_TOP_RESULTS_TO_RETURN = 3;
+    private final static Logger logger = LoggerFactory.getLogger(QuickieController.class);
 
     @Autowired
     public QuickiesRepository quickiesRepository;
@@ -52,23 +55,17 @@ public class QuickieController {
     @Autowired
     private Twitter twitter;
 
+    @Autowired
+    private QuickiesSupplier quickiesSupplier;
+
     @RequestMapping(method = RequestMethod.GET)
     public Iterable<FullQuickie> getQuickies(@RequestParam(value = "filter", defaultValue = "future", required = false) String filter) {
         Iterable<Quickie> quickies = Collections.emptyList();
 
-        switch (filter) {
-            case "future":
-                quickies = quickiesRepository.findByQuickieDateAfter(new Date());
-                break;
-            case "topFuture":
-                quickies = getTop3(Vote.Type.VOTE);
-                break;
-            case "past":
-                quickies = quickiesRepository.findByQuickieDateBefore(new Date());
-                break;
-            case "topPast":
-                quickies = getTop3(Vote.Type.LIKE);
-                break;
+        try {
+            quickies = quickiesSupplier.getQuickies(filter);
+        } catch (IllegalArgumentException e) {
+            logger.error(e.getMessage(), e);
         }
 
         User user = userService.getLoggedUser();
@@ -93,6 +90,7 @@ public class QuickieController {
                     break;
             }
 
+            // FIXME  remove if useless
             fullQuickie.votes = votesRepository.countByQuickieIdAndType(quickie.getId(), Vote.Type.VOTE);
             fullQuickie.likes = votesRepository.countByQuickieIdAndType(quickie.getId(), Vote.Type.LIKE);
             fullQuickie.voted = votesRepository.countByQuickieIdAndVoterIdAndType(quickie.getId(), user.getId(), Vote.Type.VOTE) > 0;
@@ -146,7 +144,6 @@ public class QuickieController {
         quickie.setPostDate(new Date());
         quickie.setSpeakerId(userService.getLoggedUser().getId());
         Quickie save = quickiesRepository.save(quickie);
-
 
         String tweetText = "Hey! A new quickie has been created: " + quickie.getTitle() + "! retweet me to vote for it!";
         Tweet tweet = twitter.timelineOperations().updateStatus(new TweetData(tweetText));
@@ -219,18 +216,5 @@ public class QuickieController {
     @ExceptionHandler({AlreadyVotedException.class})
     @ResponseStatus(value = HttpStatus.CONFLICT)
     public void handleAlreadyVotedException() {
-    }
-
-
-    private Iterable<Quickie> getTop3(Vote.Type voteType) {
-        List<Long> voteCounts = votesRepository.getVoteCountsOfType(voteType);
-        int nbElemsToRetrieve = voteCounts.size() >= NB_TOP_RESULTS_TO_RETURN ? NB_TOP_RESULTS_TO_RETURN : voteCounts.size();
-        voteCounts = voteCounts.subList(0, nbElemsToRetrieve);
-
-        List<Quickie> results = new ArrayList<>(voteCounts.size());
-        for (Long vote : voteCounts) {
-            results.add(quickiesRepository.findOne(vote));
-        }
-        return results;
     }
 }
