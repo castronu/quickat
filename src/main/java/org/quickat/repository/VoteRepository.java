@@ -14,8 +14,6 @@ import java.util.List;
  */
 @Repository
 public interface VoteRepository extends CrudRepository<Vote, Long> {
-    static final String FIND_TOP3_QUERY = "select v.quickieId from Vote v where type = :type group by v.quickieId order by count(v) desc";
-
     Vote findByQuickieIdAndVoterIdAndType(Long quickieId, Long userId, Vote.Type type);
 
     Vote findByQuickieIdAndType(Long quickieId, Vote.Type type);
@@ -24,7 +22,5 @@ public interface VoteRepository extends CrudRepository<Vote, Long> {
 
     int countByQuickieIdAndVoterIdAndType(Long quickieId, Long userId, Vote.Type type);
 
-    @Query(value = FIND_TOP3_QUERY)
-    List<Long> getVoteCountsOfType(@Param(value = "type") Vote.Type type);
-
+    int countByQuickieIdAndTweetIdAndType(Long quickieId, long tweetId, Vote.Type vote);
 }

@@ -27,16 +27,16 @@ public interface QuickiesRepository extends CrudRepository<Quickie, Long> {
 
     @Query(value = "select quickies.* " +
             "from votes, quickies " +
-            "where votes.quickie_id = quickies.id and type = 'VOTE' and quickies.quickie_date > now() " +
-            "group by quickie_id " +
+            "where votes.quickie_id = quickies.id and votes.type = 'VOTE' and quickies.quickie_date > now() " +
+            "group by votes.quickie_id " +
             "order by count(votes.id) desc " +
             "limit ?#{[0]}", nativeQuery = true)
     Iterable<Quickie> getFutureOrderedByVoteCount(int limit);
 
     @Query(value = "select quickies.* " +
             "from votes, quickies " +
-            "where votes.quickie_id = quickies.id and type = 'LIKE' and quickies.quickie_date < now() " +
-            "group by quickie_id " +
+            "where votes.quickie_id = quickies.id and votes.type = 'LIKE' and quickies.quickie_date < now() " +
+            "group by votes.quickie_id " +
             "order by count(votes.id) desc " +
             "limit ?#{[0]}", nativeQuery = true)
     Iterable<Quickie> getPastOrderedByLikeCount(int limit);

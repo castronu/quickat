@@ -1,6 +1,6 @@
 package org.quickat.config;
 
-import org.quickat.service.TweetProcessor;
+import org.quickat.jobs.TweetProcessor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

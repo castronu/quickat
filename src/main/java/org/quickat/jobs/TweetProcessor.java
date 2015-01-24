@@ -1,4 +1,4 @@
-package org.quickat.service;
+package org.quickat.jobs;
 
 import org.quickat.da.QuickieTweet;
 import org.quickat.da.Vote;
@@ -54,20 +54,24 @@ public class TweetProcessor {
         }
         for (Tweet retweet : retweets) {
             long twitterUserId = retweet.getUser().getId();
-            Vote byQuickieIdAndVoterIdAndType = voteRepository.findByQuickieIdAndVoterIdAndType(
+            int count = voteRepository.countByQuickieIdAndTweetIdAndType(
                     tweetEntity.getQuickieId(),
                     twitterUserId, Vote.Type.VOTE);
-            if (byQuickieIdAndVoterIdAndType == null) {
-                LOGGER.info("User {} is going to vote for the quickie {}", retweet.getUser().getId(), tweetEntity.getQuickieId());
-                Vote vote = VoteBuilder.aVote().
-                        withDate(new Date()).
-                        withQuickieId(tweetEntity.getQuickieId()).
-                        withType(Vote.Type.VOTE).
-                        withVoterId(retweet.getUser().getId()).build();
+
+            if (count == 0) {
+                LOGGER.info("Tweet {} is going to vote for the quickie {}", retweet.getUser().getId(), tweetEntity.getQuickieId());
+
+                Vote vote = VoteBuilder.aVote()
+                        .withDate(new Date())
+                        .withQuickieId(tweetEntity.getQuickieId())
+                        .withType(Vote.Type.VOTE)
+                        .withTweetId(retweet.getUser().getId())
+                        .build();
+
                 voteRepository.save(vote);
                 LOGGER.info("Vote created! {}", vote);
             } else {
-                LOGGER.info("User {} has already voted for the quickie {}", retweet.getUser().getId(), tweetEntity.getQuickieId());
+                LOGGER.debug("Tweet {} has already voted for the quickie {}", retweet.getUser().getId(), tweetEntity.getQuickieId());
             }
         }
     }

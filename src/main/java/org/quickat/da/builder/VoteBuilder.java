@@ -11,6 +11,7 @@ public class VoteBuilder {
     private Long id;
     private Long quickieId;
     private Long voterId;
+    private Long tweetId;
     private Date date;
     private Vote.Type type;
 
@@ -36,6 +37,11 @@ public class VoteBuilder {
         return this;
     }
 
+    public VoteBuilder withTweetId(Long tweetId) {
+        this.tweetId = tweetId;
+        return this;
+    }
+
     public VoteBuilder withDate(Date date) {
         this.date = date;
         return this;
@@ -55,6 +61,7 @@ public class VoteBuilder {
         vote.setId(id);
         vote.setQuickieId(quickieId);
         vote.setVoterId(voterId);
+        vote.setTweetId(tweetId);
         vote.setDate(date);
         vote.setType(type);
         return vote;
