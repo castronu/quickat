@@ -1,0 +1,6 @@
+  list <filter>                   Lists quickies.
+                                     <filter> can be one of the following
+                                       - future
+                                       - past
+                                       - top3future
+                                       - top3past
