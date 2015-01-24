@@ -13,6 +13,7 @@ import org.quickat.web.exception.AlreadyVotedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.social.twitter.api.Tweet;
@@ -57,6 +58,9 @@ public class QuickieController {
 
     @Autowired
     private QuickiesSupplier quickiesSupplier;
+
+    @Autowired
+    private Environment env;
 
     @RequestMapping(method = RequestMethod.GET)
     public Iterable<FullQuickie> getQuickies(@RequestParam(value = "filter", defaultValue = "future", required = false) String filter) {
@@ -145,16 +149,22 @@ public class QuickieController {
         quickie.setSpeakerId(userService.getLoggedUser().getId());
         Quickie save = quickiesRepository.save(quickie);
 
-        String tweetText = "Hey! A new quickie has been created: " + quickie.getTitle() + "! retweet me to vote for it!";
-        Tweet tweet = twitter.timelineOperations().updateStatus(new TweetData(tweetText));
+        if (env.getProperty("twitter.post.enable", Boolean.class, false)) {
+            String tweetText = "Hey! A new quickie has been created: " +
+                    quickie.getTitle() +
+                    " (http://quickat.cpollet.net/#/quickies/" + save.getId() +
+                    ")! Retweet me to vote for it!";
+            Tweet tweet = twitter.timelineOperations().updateStatus(new TweetData(tweetText));
 
-        QuickieTweet quickieTweet = QuickieTweetBuilder.aQuickieTweet().
-                withQuickieId(save.getId()).
-                withActive(true).
-                withTweetId(String.valueOf(tweet.getId())).build();
+            QuickieTweet quickieTweet = QuickieTweetBuilder.aQuickieTweet().
+                    withQuickieId(save.getId()).
+                    withActive(true).
+                    withTweetId(String.valueOf(tweet.getId())).build();
 
-        quickieTweetsRepository.save(quickieTweet);
-        logger.info("Tweet Created!");
+            quickieTweetsRepository.save(quickieTweet);
+            logger.info("Tweet Created!");
+        }
+
         return save;
     }
 
