@@ -4,7 +4,7 @@ var quickiesApp = angular
         authProvider.init({
             domain: 'cpollet.auth0.com',
             clientID: 'SXOLuO6vugQOhmsBADUnT0b72gI90Tem',
-                callbackURL: location.href,
+            callbackURL: location.href,
             loginUrl: '/login'
         });
 

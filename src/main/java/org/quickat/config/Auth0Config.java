@@ -1,8 +1,7 @@
 package org.quickat.config;
 
-import com.auth0.spring.security.auth0.Auth0AuthenticationEntryPoint;
-import com.auth0.spring.security.auth0.Auth0AuthenticationFilter;
 import com.auth0.spring.security.auth0.Auth0AuthenticationProvider;
+import org.quickat.web.filter.Auth0AuthenticationFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -16,6 +15,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.context.SecurityContextPersistenceFilter;
 
+
 /**
  * @author Christophe Pollet
  *         source: https://gist.github.com/ethankhall/c9633b9319a866d79734
@@ -27,16 +27,9 @@ public class Auth0Config extends WebSecurityConfigurerAdapter {
     @Autowired
     private Environment env;
 
-    @Bean(name = "auth0EntryPoint")
-    public Auth0AuthenticationEntryPoint auth0AuthenticationEntryPoint() {
-        return new Auth0AuthenticationEntryPoint();
-    }
-
     @Bean(name = "auth0Filter")
-    public Auth0AuthenticationFilter auth0AuthenticationFilter(Auth0AuthenticationEntryPoint entryPoint) {
-        Auth0AuthenticationFilter filter = new Auth0AuthenticationFilter();
-        filter.setEntryPoint(entryPoint);
-        return filter;
+    public Auth0AuthenticationFilter auth0AuthenticationFilter() {
+        return new Auth0AuthenticationFilter();
     }
 
     @Bean(name = "auth0AuthenticationProvider")
@@ -53,19 +46,13 @@ public class Auth0Config extends WebSecurityConfigurerAdapter {
         auth.authenticationProvider(auth0AuthenticationProvider());
     }
 
-//    @Bean
-//    SimpleCORSFilter simpleCORSFilter() {
-//        return new SimpleCORSFilter();
-//    }
-
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                .addFilterAfter(auth0AuthenticationFilter(auth0AuthenticationEntryPoint()), SecurityContextPersistenceFilter.class)
-                        // .addFilterBefore(simpleCORSFilter(), Auth0AuthenticationFilter.class)
+                .addFilterAfter(auth0AuthenticationFilter(), SecurityContextPersistenceFilter.class)
                 .antMatcher("/**")
                 .authorizeRequests()
                 .antMatchers(env.getRequiredProperty("auth0.securedRoute")).authenticated()
