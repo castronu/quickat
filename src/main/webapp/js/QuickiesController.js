@@ -9,8 +9,8 @@
             top: function () {
                 return Quickies.topFuture();
             },
-            list: function () {
-                return Quickies.future();
+            list: function (groups) {
+                return Quickies.future({groups: groups});
             }
         }
     }]);
@@ -23,17 +23,18 @@
             top: function () {
                 return Quickies.topPast();
             },
-            list: function () {
-                return Quickies.past();
+            list: function (groups) {
+                return Quickies.past({groups: groups});
             }
         }
     }]);
-    quickiesApp.controller('QuickiesController', ['$scope', 'Quickies', 'Votes', '$routeParams', '$location', 'quickieService', 'Comments', 'auth',
-        function ($scope, Quickies, Votes, $routeParams, $location, quickieService, Comments, auth) {
+    quickiesApp.controller('QuickiesController', ['$scope', 'Quickies', 'Votes', '$routeParams', '$location', 'quickieService', 'Comments', 'auth', 'UserGroups',
+        function ($scope, Quickies, Votes, $routeParams, $location, quickieService, Comments, auth, UserGroups) {
             $scope.auth = auth;
             $scope.page = quickieService.page;
             $scope.topQuickies = quickieService.top();
-            $scope.quickies = quickieService.list();
+            $scope.quickies = quickieService.list($location.search().filter);
+            $scope.groups = UserGroups.list();
 
             $scope.submitComment = function (quickie) {
                 var comment = new Comments({
@@ -80,6 +81,8 @@
                 quickie._view.comments = !quickie._view.comments;
             };
             $scope.selectFilter = function (group) {
+                group = '' + group;
+
                 var selectedGroups = selectedFilters();
                 var index = selectedGroups.indexOf(group);
 
@@ -95,12 +98,12 @@
                     $location.search({});
                 }
             };
-            $scope.deselectFilters = function() {
+            $scope.deselectFilters = function () {
                 $location.search({});
             };
             $scope.filterSelected = function (group) {
                 var selectedGroups = selectedFilters();
-                return selectedGroups.indexOf(group) > -1;
+                return selectedGroups.indexOf('' + group) > -1;
             };
 
             function selectedFilters() {

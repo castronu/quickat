@@ -22,10 +22,7 @@ import org.springframework.social.twitter.api.Twitter;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Collections;
-import java.util.Date;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by aposcia on 14.01.15.
@@ -63,11 +60,22 @@ public class QuickieController {
     private Environment env;
 
     @RequestMapping(method = RequestMethod.GET)
-    public Iterable<FullQuickie> getQuickies(@RequestParam(value = "filter", defaultValue = "future", required = false) String filter) {
+    public Iterable<FullQuickie> getQuickies(@RequestParam(value = "filter", defaultValue = "future", required = false) String filter,
+                                             @RequestParam(value = "groups", defaultValue = "", required = false) String groups) {
         Iterable<Quickie> quickies = Collections.emptyList();
 
         try {
-            quickies = quickiesSupplier.getQuickies(filter);
+            String[] groupListArray = groups.split(",");
+            List<Long> groupList = new ArrayList<>(groupListArray.length);
+            for (String s : groupListArray) {
+                try {
+                    groupList.add(Long.parseLong(s));
+                } catch (NumberFormatException e) {
+                    // We don't care :)
+                }
+            }
+
+            quickies = quickiesSupplier.getQuickies(filter, groupList);
         } catch (IllegalArgumentException e) {
             logger.error(e.getMessage(), e);
         }

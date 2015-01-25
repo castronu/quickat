@@ -20,6 +20,7 @@ public class UserGroup {
     private Long contactId;
     private String bio;
     private String website;
+    private String color;
 
     public String getBio() {
         return bio;
@@ -83,5 +84,13 @@ public class UserGroup {
 
     public void setWebsite(String website) {
         this.website = website;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
     }
 }
