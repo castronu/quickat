@@ -39,35 +39,35 @@
         <div class="row">
             <p class="groupFilterTitle">Display quickies for group</p>
 
-            <div class="col-md-5 label-warning groupFilterContainer" ng-click="selectFilter('1')">
-                <label class="groupFilterLabel">
-                    <span class="glyphicon glyphicon-ok" ng-show="filterSelected('1')"></span> Geneva Jug
-                </label>
+            <div ng-repeat="group in groups">
+                <div class="col-md-5 groupFilterContainer" ng-if="$index % 4 == 0"
+                     ng-click="selectFilter(group.id)" style="background-color:{{group.color}}">
+                    <label class="groupFilterLabel">
+                        <span class="glyphicon glyphicon-ok" ng-show="filterSelected(group.id)"></span> {{group.name}}
+                    </label>
+                </div>
+                <div class="col-md-6 col-md-offset-1 {{group.htmlClass}} groupFilterContainer" ng-if="$index % 4 == 1"
+                     ng-click="selectFilter(group.id)" style="background-color:{{group.color}}">
+                    <label class="groupFilterLabel">
+                        <span class="glyphicon glyphicon-ok" ng-show="filterSelected(group.id)"></span> {{group.name}}
+                    </label>
+                </div>
+                <div class="col-md-6 {{group.htmlClass}} groupFilterContainer" ng-if="$index % 4 == 2"
+                     ng-click="selectFilter(group.id)" style="background-color:{{group.color}}">
+                    <label class="groupFilterLabel">
+                        <span class="glyphicon glyphicon-ok" ng-show="filterSelected(group.id)"></span> {{group.name}}
+                    </label>
+                </div>
+                <div class="col-md-5 col-md-offset-1 {{group.htmlClass}} groupFilterContainer" ng-if="$index % 4 == 3"
+                     ng-click="selectFilter(group.id)" style="background-color:{{group.color}}">
+                    <label class="groupFilterLabel">
+                        <span class="glyphicon glyphicon-ok" ng-show="filterSelected(group.id)"></span> {{group.name}}
+                    </label>
+                </div>
             </div>
-            <div class="col-md-6 col-md-offset-1 label-default groupFilterContainer" ng-click="selectFilter('2')">
-                <label class="groupFilterLabel">
-                    <span class="glyphicon glyphicon-ok" ng-show="filterSelected('2')"></span> Geneva Mug
-                </label>
-            </div>
-            <div class="col-md-6 label-primary groupFilterContainer" ng-click="selectFilter('3')">
-                <label class="groupFilterLabel">
-                    <span class="glyphicon glyphicon-ok" ng-show="filterSelected('3')"></span> Scala Romandie
-                </label>
-            </div>
-            <div class="col-md-5 col-md-offset-1 label-success groupFilterContainer" ng-click="selectFilter('4')">
-                <label class="groupFilterLabel">
-                    <span class="glyphicon glyphicon-ok" ng-show="filterSelected('4')"></span> Docker
-                </label>
-            </div>
-            <div class="col-md-5 label-danger groupFilterContainer" ng-click="selectFilter('5')">
-                <label class="groupFilterLabel">
-                    <span class="glyphicon glyphicon-ok" ng-show="filterSelected('5')"></span> Geneva .NET
-                </label>
-            </div>
-            <div class="col-md-6 col-md-offset-1 label-warning groupFilterContainer" ng-click="deselectFilters()">
+            <div class="col-md-6 col-md-offset-1 groupFilterContainer" ng-click="deselectFilters()">
                 <label class="groupFilterLabel">ALL Groups</label>
             </div>
-            </a>
         </div>
     </div>
 
