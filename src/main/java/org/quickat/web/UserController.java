@@ -73,17 +73,23 @@ public class UserController {
 
     @RequestMapping(method = RequestMethod.POST)
     @Transactional
-    public void createUser(@RequestBody UserProfile userProfile) {
-        if (usersRepository.countByAuthId(userProfile.userId) > 0) {
-            throw new UserAlreadyExistsException();
+    public UserProfile createUser(@RequestBody UserProfile userProfile) {
+        User user = usersRepository.findByAuthId(userProfile.userId);
+        if (user != null) {
+            userProfile.id = user.getId();
+            throw new UserAlreadyExistsException(userProfile);
         }
 
-        User user = new User();
+        user = new User();
         user.setFirstname(userProfile.firstName);
         user.setPicture(userProfile.picture);
         user.setNickname(userProfile.nickname);
         user.setAuthId(userProfile.userId);
         usersRepository.save(user);
+
+        userProfile.id = user.getId();
+
+        return userProfile;
     }
 
     @Transactional
@@ -122,7 +128,8 @@ public class UserController {
 
     @ExceptionHandler({UserAlreadyExistsException.class})
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
-    public void handleAlreadyVotedException() {
+    public UserProfile handleAlreadyExistsException(UserAlreadyExistsException e) {
+        return e.getUserProfile();
     }
 
     @ExceptionHandler({NotAllowedException.class})

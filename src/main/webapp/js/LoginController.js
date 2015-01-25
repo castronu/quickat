@@ -14,13 +14,16 @@
 
                     var user = new Users({
                         userId: profile.user_id,
-                        name: profile.name,
+                        firstName: profile.name,
                         nickname: profile.nickname,
                         picture: profile.picture
                     });
 
                     user.$save({}, function () {
-                        $location.path('/editProfile');
+                        store.set('id', user.id);
+                        $location.path('/profile/edit');
+                    }, function(response) {
+                        store.set('id', response.data.id);
                     });
                 }, function () {
                     // Error callback
@@ -31,6 +34,7 @@
                 auth.signout();
                 store.remove('profile');
                 store.remove('token');
+                store.remove('id');
 
                 $scope.$emit('refreshCounters');
 
