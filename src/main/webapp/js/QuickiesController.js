@@ -106,6 +106,10 @@
                 return selectedGroups.indexOf('' + group) > -1;
             };
 
+            $scope.getFirstChars = function(text){
+                return text.substring(0, 60);
+            }
+
             function selectedFilters() {
                 var filter = $location.search().filter;
 
