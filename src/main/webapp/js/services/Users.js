@@ -13,7 +13,7 @@
             return $resource('/users/:id', {}, {
                 query: {method: 'GET'},
                 create: {method: 'POST'},
-                update: {method: 'PUT'}
+                update: {method: 'PUT', params: {id: '@id'}}
             });
         }
     ]);

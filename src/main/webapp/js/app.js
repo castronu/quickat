@@ -30,16 +30,29 @@ var quickiesApp = angular
                 templateUrl: 'html/quickyDetails.html',
                 controller: 'QuickyDetailsController'
             })
-            .when('/myProfile/:userId', {
-                templateUrl: 'html/myProfile.html',
-                controller: 'ProfileController'
+            .when('/profile/me', {
+                templateUrl: 'html/profile.html',
+                controller: 'ProfileController',
+                resolve: {
+                    profileService: 'MyProfileService'
+                }
             })
-            .when('/myProfile', {
-                templateUrl: 'html/myProfile.html',
-                controller: 'ProfileController'
+            .when('/profile/edit', {
+                templateUrl: 'html/editProfile.html',
+                controller: 'ProfileController',
+                resolve: {
+                    profileService: 'MyProfileService'
+                }
+            })
+            .when('/profile/:userId', {
+                templateUrl: 'html/profile.html',
+                controller: 'ProfileController',
+                resolve: {
+                    profileService: 'UserProfileService'
+                }
             })
             .when('/editProfile', {
-                templateUrl: 'html/createProfile.html',
+                templateUrl: 'html/editProfile.html',
                 controller: 'ProfileController'
             })
             .when('/login', {
@@ -81,8 +94,13 @@ var quickiesApp = angular
                     if (!jwtHelper.isTokenExpired(token)) {
                         auth.authenticate(store.get('profile'), token);
                     } else {
-                        // Either show Login page or use the refresh token to get a new idToken
-                        $location.path('/');
+                        auth.signout();
+                        store.remove('profile');
+                        store.remove('token');
+
+                        $scope.$emit('refreshCounters');
+
+                        $location.path("/");
                     }
                 }
             }

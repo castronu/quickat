@@ -1,5 +1,5 @@
 <div class="row">
-    <p class="text-center pageTitle">My Profile</p>
+    <p class="text-center pageTitle">{{page.title}}</p>
     <hr>
 
     <div class="col-md-4">
@@ -19,12 +19,10 @@
         </div>
     </div>
 
-
     <div class="col-md-8">
-
         <h3 class="col-md-12">
             {{user.firstName}} {{ user.lastName}}
-            <a href="#/editProfile/{{user.id}}" class="btn-lg highlightBlue">
+            <a href="#/profile/edit" class="btn-lg highlightBlue" ng-show="page.editable">
                 <span class="glyphicon glyphicon-pencil " title="Edit profile"></span>
             </a>
         </h3>
@@ -34,7 +32,5 @@
                 {{user.about}}
             </p>
         </div>
-
     </div>
-
 </div>

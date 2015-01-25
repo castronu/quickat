@@ -23,7 +23,7 @@
                 <li><a href="#/help"><span class="glyphicon glyphicon-question-sign"></span> Help</a></li>
                 <li ng-hide="auth.isAuthenticated"><a ng-click="login()">Login</a></li>
                 <li ng-show="auth.isAuthenticated"><a ng-click="logout()">Logout</a></li>
-                <li ng-show="auth.isAuthenticated"><a href="#/myProfile"><img src="{{auth.profile.picture}}" class="profile-small"> View Profile</a></li>
+                <li ng-show="auth.isAuthenticated"><a href="#/profile/me"><img src="{{auth.profile.picture}}" class="profile-small"> View Profile</a></li>
             </ul>
         </div>
     </div>

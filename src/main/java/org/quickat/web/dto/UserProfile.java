@@ -4,6 +4,7 @@ package org.quickat.web.dto;
  * @author Christophe Pollet
  */
 public class UserProfile {
+    public Long id;
     public String userId;
     public String firstName;
     public String lastName;

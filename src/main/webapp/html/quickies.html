@@ -132,11 +132,13 @@
 
                                 <!-- speaker -->
                                 <div class="col-xs-3 text-center">
-                                    <a href="#" class="story-img">
+                                    <a href="#/profile/{{quickie.speaker.id}}" class="story-img">
                                         <img class="img-circle img-thumb-m" ng-src="{{quickie.speaker.picture}}"/>
                                     </a>
                                     <br>
-                                    {{quickie.speaker.nickname}}
+                                    <a href="#/profile/{{quickie.speaker.id}}">
+                                        {{quickie.speaker.nickname}}
+                                    </a>
                                 </div>
 
                                 <!-- comments -->
@@ -160,11 +162,12 @@
                                         <table class="table">
                                             <tr>
                                                 <td class="col-xs-3">
-                                                    <a href="#" class="story-img">
+                                                    <a href="#/profile/{{comment.user.id}}" class="story-img">
                                                         <img class="img-circle img-thumb-xs"
                                                              ng-src="{{comment.user.picture}}">
                                                     </a>
-                                                    <h5>{{comment.user.nickname}}</h5>
+                                                    <h5><a href="#/profile/{{comment.user.id}}">{{comment.user.nickname}}</a>
+                                                    </h5>
                                                     <h5>
                                                         <small><span am-time-ago="comment.date"></span></small>
                                                     </h5>

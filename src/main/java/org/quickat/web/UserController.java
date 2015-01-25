@@ -6,6 +6,7 @@ import org.quickat.repository.QuickiesRepository;
 import org.quickat.repository.UsersRepository;
 import org.quickat.service.UserService;
 import org.quickat.web.dto.UserProfile;
+import org.quickat.web.exception.NotAllowedException;
 import org.quickat.web.exception.UserAlreadyExistsException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -58,6 +59,7 @@ public class UserController {
 
     private UserProfile buildUserProfile(User user) {
         UserProfile userProfile = new UserProfile();
+        userProfile.id = user.getId();
         userProfile.about = user.getAbout();
         userProfile.email = user.getEmail();
         userProfile.firstName = user.getFirstname();
@@ -84,10 +86,14 @@ public class UserController {
         usersRepository.save(user);
     }
 
-    @RequestMapping(method = RequestMethod.PUT)
     @Transactional
-    public void updateUser(@RequestBody UserProfile userProfile) {
+    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+    public void updateUser(@PathVariable(value = "id") Long id, @RequestBody UserProfile userProfile) {
         User user = usersRepository.findByAuthId(Auth0Helper.getAuthId());
+
+        if (!userProfile.id.equals(id) || !user.getId().equals(id)) {
+            throw new NotAllowedException();
+        }
 
         user.setFirstname(userProfile.firstName);
         user.setLastname(userProfile.lastName);
@@ -117,5 +123,10 @@ public class UserController {
     @ExceptionHandler({UserAlreadyExistsException.class})
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
     public void handleAlreadyVotedException() {
+    }
+
+    @ExceptionHandler({NotAllowedException.class})
+    @ResponseStatus(value = HttpStatus.FORBIDDEN)
+    public void handleNotAllowedException() {
     }
 }
