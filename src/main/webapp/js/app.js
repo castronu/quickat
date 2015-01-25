@@ -1,5 +1,5 @@
 var quickiesApp = angular
-    .module('quickiesApp', ['ngRoute', 'ngResource', 'ui.bootstrap', 'angularMoment', 'auth0', 'angular-storage', 'angular-jwt', 'ui.bootstrap.datetimepicker'])
+    .module('quickiesApp', ['ngRoute', 'ngResource', 'ui.bootstrap', 'angularMoment', 'auth0', 'angular-storage', 'angular-jwt', 'ui.bootstrap.datetimepicker', 'ngSanitize'])
     .config(function ($routeProvider, authProvider, jwtInterceptorProvider, $httpProvider) {
         authProvider.init({
             domain: 'cpollet.auth0.com',

@@ -1,4 +1,4 @@
-<div class="row" ng-controller="QuickieDetailsController">
+<div class="row" style="margin-bottom: 20px">
     <p class="text-center pageTitle">Quickie detail</p>
     <hr/>
 
@@ -62,12 +62,11 @@
         </div>
         <div class="col-md-4">
             <a href="#" class="story-img pull-right">
-                <img class="img-circle img-thumb-l" src="img/geneva-jug.png"/>
+                <img class="img-circle img-thumb-l" ng-src="{{quickie.userGroup.icon}}"/>
             </a>
         </div>
         <div class="col-md-12">
-            <p>
-                {{quickie.quickie.description}}
+            <p ng-bind-html="quickie.quickie.description | nl2br">
             </p>
         </div>
     </div>

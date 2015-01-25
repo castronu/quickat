@@ -17,7 +17,7 @@
         <tr ng-repeat="quickie in quickies">
             <td>{{quickie.quickieDate | date:'short'}}</td>
             <td><a href="#/quickies/{{quickie.id}}">{{quickie.title}}</a></td>
-            <td>{{quickie.description}}</td>
+            <td>{{quickie.description | firstChars}}</td>
             <td>1</td>
             <td>{{quickie.postDate | date:'short'}}</td>
             <td>

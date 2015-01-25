@@ -1,7 +1,7 @@
 <div class="row">
     <p class="text-center pageTitle">{{page.title}}</p>
     <hr/>
-    <div class="col-md-4 col-sm-12">
+    <div class="col-md-4 col-sm-12" style="margin-bottom:20px">
         <!-- top quickies -->
         <div class="row">
             <div class="panel chat-panel">
@@ -69,16 +69,13 @@
                 <label class="groupFilterLabel">ALL Groups</label>
             </div>
         </div>
-        <div class="row">
+        <div class="row" style="margin-top:10px">
             <a class="twitter-timeline" href="https://twitter.com/hashtag/UGQuickie" data-widget-id="559466792285130752">#UGQuickie Tweets</a>
             <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
         </div>
-
     </div>
 
-
-
-    <div class="col-md-8">
+    <div class="col-md-8" style="margin-bottom:20px">
         <div class="panel">
             <div class="panel-body">
                 <div class="post" ng-repeat="quickie in quickies">
@@ -102,7 +99,7 @@
                                         <h4>{{quickie.quickie.title}}</h4>
 
                                         <p>
-                                            {{getFirstChars(quickie.quickie.description)}} ...
+                                            {{quickie.quickie.description | firstChars}}
                                         </p>
 
                                         <p class="lead">
@@ -115,7 +112,7 @@
                                 <div class="col-xs-2 text-center">
                                     <!-- group icon -->
                                     <a href="#" class="story-img hidden-xs hidden-sm">
-                                        <img class="img-circle img-thumb-m" src="img/geneva-jug.png"/><!-- FIXME -->
+                                        <img class="img-circle img-thumb-m" ng-src="{{quickie.userGroup.icon}}"/>
                                     </a>
 
                                     <!-- score -->

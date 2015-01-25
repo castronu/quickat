@@ -48,6 +48,9 @@ public class QuickieController {
     private CommentsRepository commentsRepository;
 
     @Autowired
+    private UserGroupsRepository userGroupsRepository;
+
+    @Autowired
     private UserService userService;
 
     @Autowired
@@ -125,6 +128,8 @@ public class QuickieController {
             fullComment.user = usersRepository.findOne(comment.getUserId());
             fullQuickie.comments.add(fullComment);
         }
+
+        fullQuickie.userGroup = userGroupsRepository.findOne(quickie.getUserGroupId());
 
         return fullQuickie;
     }
