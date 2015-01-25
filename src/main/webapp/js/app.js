@@ -59,6 +59,9 @@ var quickiesApp = angular
                     quickieService: 'FutureQuickiesService'
                 }
             })
+            .when('/help', {
+                templateUrl: 'html/help.html'
+            })
             .otherwise({
                 templateUrl: 'html/quickies.html',
                 controller: 'QuickiesController',
