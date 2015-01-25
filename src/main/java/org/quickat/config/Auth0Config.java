@@ -59,6 +59,6 @@ public class Auth0Config extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST, "/quickies/**").authenticated()
                 .antMatchers(HttpMethod.DELETE, "/quickies/**").authenticated()
                 .antMatchers(HttpMethod.PUT, "/quickies/**").authenticated()
-                .antMatchers("/users/**").authenticated();
+                .antMatchers(HttpMethod.PUT, "/users/**").authenticated();
     }
 }
