@@ -70,16 +70,6 @@ public class CommentCommand extends BaseCommand {
 
             out.append(evaluateLocalTemplate("comment.vm", parameters));
         }
-
-
-        /*Map<String, Object> parameters = new HashMap<>();
-        parameters.put("id", quickie.getId());
-        parameters.put("title", quickie.getTitle());
-        parameters.put("speaker", speaker.getFirstname() + " " + speaker.getLastname());
-        parameters.put("date", quickieDate);
-        parameters.put("description", quickie.getDescription());
-
-        out.append(evaluateLocalTemplate("info.vm", parameters)).flush();*/
     }
 
     @Override
