@@ -71,74 +71,78 @@
         </div>
     </div>
 
-    <div class="col-md-8  col-sm-12">
+    <div class="col-md-8">
         <div class="panel">
             <div class="panel-body">
                 <div class="post" ng-repeat="quickie in quickies">
                     <div class="row">
-                        <!-- left column -->
-                        <div class="col-md-2 col-sm-3 text-center">
-                            <!-- group icon -->
-                            <a href="#" class="story-img">
-                                <img class="img-circle img-thumb-l" src="img/geneva-jug.png"/><!-- FIXME -->
-                            </a>
-
-                            <!-- score -->
-                            <div class="vote highlightBlue">
-                                <p>{{quickie.score}} {{page.scoreTitle}}</p>
-
-                                <p ng-show="auth.isAuthenticated">
-                                    <button class="btn btn-default btn-lg" title="Vote" ng-click="thumbUp(quickie)"
-                                            ng-hide="quickie.scored">
-                                        <span class="glyphicon glyphicon-thumbs-up"></span>
-                                    </button>
-                                    <button class="btn btn-default btn-lg" title="Vote" ng-click="thumbDown(quickie)"
-                                            ng-show="quickie.scored">
-                                        <span class="glyphicon glyphicon-thumbs-down"></span>
-                                    </button>
-                                </p>
-                            </div>
-                        </div>
-
-                        <div class="col-md-10 col-sm-9">
+                        <div class="col-xs-12">
                             <div class="row">
-                                <h3>{{quickie.quickie.title}}</h3>
+                                <!-- speaker -->
+                                <div class="col-sm-3 col-xs-3 text-center">
+                                    <a href="#/profile/{{quickie.speaker.id}}" class="story-img">
+                                        <img class="img-circle img-thumb-m" ng-src="{{quickie.speaker.picture}}"/>
+                                    </a>
+                                    <br>
+                                    <a href="#/profile/{{quickie.speaker.id}}" class="highlightBlue">
+                                        {{quickie.speaker.nickname}}
+                                    </a>
+                                </div>
 
                                 <!-- description -->
-                                <div class="col-xs-9">
+                                <div class="col-sm-7 col-xs-7">
                                     <div class="row">
+                                        <h4>{{quickie.quickie.title}}</h4>
+
                                         <p>
                                             {{getFirstChars(quickie.quickie.description)}} ...
                                         </p>
 
                                         <p class="lead">
-                                            <a href="#/quickies/{{quickie.quickie.id}}" class="btn btn-default">Read More</a>
+                                            <a href="#/quickies/{{quickie.quickie.id}}" class="btn btn-default btn-sm">Read
+                                                More</a>
                                         </p>
-
-                                        <!-- quickie footer -->
-                                        <ul class="list-inline">
-                                            <li class="highlightBlue">
-                                                proposed
-                                                <span am-time-ago="quickie.quickie.postDate"></span>
-                                            </li>
-                                            <li>
-                                                <a href="" ng-click="toggleComment(quickie)" class="highlightBlue"><i
-                                                        class="glyphicon glyphicon-comment"></i>
-                                                    {{quickie.comments.length}} Comment(s)</a>
-                                            </li>
-                                        </ul>
                                     </div>
                                 </div>
 
-                                <!-- speaker -->
-                                <div class="col-xs-3 text-center">
-                                    <a href="#/profile/{{quickie.speaker.id}}" class="story-img">
-                                        <img class="img-circle img-thumb-m" ng-src="{{quickie.speaker.picture}}"/>
+                                <div class="col-xs-2 text-center">
+                                    <!-- group icon -->
+                                    <a href="#" class="story-img hidden-xs hidden-sm">
+                                        <img class="img-circle img-thumb-m" src="img/geneva-jug.png"/><!-- FIXME -->
                                     </a>
-                                    <br>
-                                    <a href="#/profile/{{quickie.speaker.id}}">
-                                        {{quickie.speaker.nickname}}
-                                    </a>
+
+                                    <!-- score -->
+                                    <div class="vote highlightBlue">
+                                        <p>{{quickie.score}} {{page.scoreTitle}}</p>
+
+                                        <p ng-show="auth.isAuthenticated">
+                                            <button class="btn btn-default" title="Vote"
+                                                    ng-click="thumbUp(quickie)"
+                                                    ng-hide="quickie.scored">
+                                                <span class="glyphicon glyphicon-thumbs-up"></span>
+                                            </button>
+                                            <button class="btn btn-default" title="Vote"
+                                                    ng-click="thumbDown(quickie)"
+                                                    ng-show="quickie.scored">
+                                                <span class="glyphicon glyphicon-thumbs-down"></span>
+                                            </button>
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <div class="col-xs-12">
+                                    <!-- quickie footer -->
+                                    <ul class="list-inline">
+                                        <li class="highlightBlue">
+                                            proposed
+                                            <span am-time-ago="quickie.quickie.postDate"></span>
+                                        </li>
+                                        <li>
+                                            <a href="" ng-click="toggleComment(quickie)" class="highlightBlue"><i
+                                                    class="glyphicon glyphicon-comment"></i>
+                                                {{quickie.comments.length}} Comment(s)</a>
+                                        </li>
+                                    </ul>
                                 </div>
 
                                 <!-- comments -->
@@ -166,7 +170,7 @@
                                                         <img class="img-circle img-thumb-xs"
                                                              ng-src="{{comment.user.picture}}">
                                                     </a>
-                                                    <h5><a href="#/profile/{{comment.user.id}}">{{comment.user.nickname}}</a>
+                                                    <h5><a href="#/profile/{{comment.user.id}}" class="highlightBlue">{{comment.user.nickname}}</a>
                                                     </h5>
                                                     <h5>
                                                         <small><span am-time-ago="comment.date"></span></small>
