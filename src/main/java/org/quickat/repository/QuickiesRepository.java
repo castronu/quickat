@@ -15,11 +15,11 @@ public interface QuickiesRepository extends CrudRepository<Quickie, Long> {
 
     Iterable<Quickie> findBySpeakerId(Long speakerId);
 
-    Iterable<Quickie> findByQuickieDateAfter(Date date);
+    Iterable<Quickie> findByQuickieDateIsNullOrQuickieDateAfter(Date date);
 
     Iterable<Quickie> findByQuickieDateBefore(Date date);
 
-    long countByQuickieDateAfter(Date date);
+    long countByQuickieDateIsNullOrQuickieDateAfter(Date date);
 
     long countByQuickieDateBefore(Date date);
 
@@ -27,7 +27,7 @@ public interface QuickiesRepository extends CrudRepository<Quickie, Long> {
 
     @Query(value = "select quickies.* " +
             "from votes, quickies " +
-            "where votes.quickie_id = quickies.id and votes.type = 'VOTE' and quickies.quickie_date > now() " +
+            "where votes.quickie_id = quickies.id and votes.type = 'VOTE' and (quickies.quickie_date is null or quickies.quickie_date > now()) " +
             "group by votes.quickie_id " +
             "order by count(votes.id) desc " +
             "limit ?#{[0]}", nativeQuery = true)

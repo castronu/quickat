@@ -4,6 +4,7 @@
 
     <link href="libs/bootstrap/css/bootstrap.darkly.min.css" rel="stylesheet"/>
     <link href="libs/font-awesome/css/font-awesome.min.css" rel="stylesheet"/>
+    <link href="libs/datetimepicker/datetimepicker.css" rel="stylesheet">
     <link href="css/main.css" rel="stylesheet"/>
 </head>
 <body ng-app="quickiesApp">
@@ -68,7 +69,7 @@
             </a>
         </div>
         <div class="col-md-3 col-xs-6">
-            <a href="#/myQuickies">
+            <a href="#/quickies/me">
                 <div class="panel panel-yellow">
                     <div class="panel-heading">
                         <div class="row">
@@ -86,7 +87,7 @@
 
         </div>
         <div class="col-md-3 col-xs-6">
-            <a href="#/addQuicky">
+            <a href="#/quickies/new">
                 <div class="panel panel-red">
                     <div class="panel-heading">
                         <div class="row">
@@ -135,11 +136,13 @@
 <script src="js/services/Comments.js"></script>
 <script src="js/QuickiesController.js"></script>
 <script src="js/AddQuickyController.js"></script>
+<script src="js/EditQuickieController.js"></script>
 <script src="js/MyQuickiesController.js"></script>
 <script src="js/CountersController.js"></script>
-<script src="js/QuickyDetailsController.js"></script>
+<script src="js/QuickieDetailsController.js"></script>
 <script src="js/LoginController.js"></script>
 <script src="js/ProfileController.js"></script>
 <script src="js/filters/UrlFilter.js"></script>
+<script src="libs/datetimepicker/datetimepicker.js"></script>
 </body>
 </html>

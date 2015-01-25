@@ -1,5 +1,5 @@
 <div class="row">
-    <p class="text-center pageTitle">My Quickies</p>
+    <p class="text-center pageTitle">My quickies</p>
     <hr>
 
     <table class="table table-striped">
@@ -15,13 +15,13 @@
         </thead>
         <tbody>
         <tr ng-repeat="quickie in quickies">
-            <td>{{quickie.quickieDate | date:"MM/dd/yyyy 'at' HH:mm"}}</td>
-            <td>{{quickie.title}}</td>
+            <td>{{quickie.quickieDate | date:'short'}}</td>
+            <td><a href="#/quickies/{{quickie.id}}">{{quickie.title}}</a></td>
             <td>{{quickie.description}}</td>
             <td>1</td>
             <td>{{quickie.postDate | date:'short'}}</td>
             <td>
-                <span class="glyphicon glyphicon-pencil"></span>
+                <a href="#/quickies/{{quickie.id}}/edit"><span class="glyphicon glyphicon-pencil"></span></a>
                 <a ng-click="deleteQuickie(quickie.id,$index)"><span class="glyphicon glyphicon-trash"></span></a>
             </td>
         </tr>

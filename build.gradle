@@ -48,6 +48,7 @@ dependencies {
     compile("org.apache.httpcomponents:httpcore:4.3.3")
 
     compile("org.apache.velocity:velocity")
+    compile("com.fasterxml.jackson.datatype:jackson-datatype-joda")
 
     runtime("org.springframework.boot:spring-boot-starter-tomcat")
 

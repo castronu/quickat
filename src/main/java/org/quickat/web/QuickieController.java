@@ -77,9 +77,7 @@ public class QuickieController {
 
         // FIXME use a complete Quickie mapping instead? not sure... My opinion is that we should always send DTOs though HTTP
         for (Quickie quickie : quickies) {
-            FullQuickie fullQuickie = new FullQuickie();
-            fullQuickie.quickie = quickie;
-            fullQuickie.speaker = usersRepository.findOne(quickie.getSpeakerId());
+            FullQuickie fullQuickie = buildFullQuickie(quickie, user);
 
             switch (filter) {
                 case "future":
@@ -94,32 +92,40 @@ public class QuickieController {
                     break;
             }
 
-            // FIXME  remove if useless
-            fullQuickie.votes = votesRepository.countByQuickieIdAndType(quickie.getId(), Vote.Type.VOTE);
-            fullQuickie.likes = votesRepository.countByQuickieIdAndType(quickie.getId(), Vote.Type.LIKE);
-            fullQuickie.voted = votesRepository.countByQuickieIdAndVoterIdAndType(quickie.getId(), user.getId(), Vote.Type.VOTE) > 0;
-            fullQuickie.liked = votesRepository.countByQuickieIdAndVoterIdAndType(quickie.getId(), user.getId(), Vote.Type.LIKE) > 0;
-
-            fullQuickie.comments = new LinkedList<>();
-            for (Comment comment : commentsRepository.findByQuickieIdOrderByDateDesc(quickie.getId())) {
-                FullComment fullComment = new FullComment();
-                fullComment.comment = comment.getComment();
-                fullComment.date = comment.getDate();
-                fullComment.user = usersRepository.findOne(comment.getUserId());
-                fullQuickie.comments.add(fullComment);
-            }
-
             fullQuickies.add(fullQuickie);
         }
 
         return fullQuickies;
     }
 
+    private FullQuickie buildFullQuickie(Quickie quickie, User user) {
+        FullQuickie fullQuickie = new FullQuickie();
+        fullQuickie.quickie = quickie;
+        fullQuickie.speaker = usersRepository.findOne(quickie.getSpeakerId());
+
+        // FIXME remove if useless
+        fullQuickie.votes = votesRepository.countByQuickieIdAndType(quickie.getId(), Vote.Type.VOTE);
+        fullQuickie.likes = votesRepository.countByQuickieIdAndType(quickie.getId(), Vote.Type.LIKE);
+        fullQuickie.voted = votesRepository.countByQuickieIdAndVoterIdAndType(quickie.getId(), user.getId(), Vote.Type.VOTE) > 0;
+        fullQuickie.liked = votesRepository.countByQuickieIdAndVoterIdAndType(quickie.getId(), user.getId(), Vote.Type.LIKE) > 0;
+
+        fullQuickie.comments = new LinkedList<>();
+        for (Comment comment : commentsRepository.findByQuickieIdOrderByDateDesc(quickie.getId())) {
+            FullComment fullComment = new FullComment();
+            fullComment.comment = comment.getComment();
+            fullComment.date = comment.getDate();
+            fullComment.user = usersRepository.findOne(comment.getUserId());
+            fullQuickie.comments.add(fullComment);
+        }
+
+        return fullQuickie;
+    }
+
     @RequestMapping(value = "/counters", method = RequestMethod.GET)
     public QuickiesCounters getCounters() {
         QuickiesCounters quickiesCounters = new QuickiesCounters();
 
-        quickiesCounters.future = quickiesRepository.countByQuickieDateAfter(new Date());
+        quickiesCounters.future = quickiesRepository.countByQuickieDateIsNullOrQuickieDateAfter(new Date());
         quickiesCounters.past = quickiesRepository.countByQuickieDateBefore(new Date());
         quickiesCounters.my = quickiesRepository.countBySpeakerId(userService.getLoggedUser().getId());
 
@@ -127,19 +133,44 @@ public class QuickieController {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public Quickie getQuickie(@PathVariable(value = "id") Long id) {
-        return quickiesRepository.findOne(id);
+    public FullQuickie getQuickie(@PathVariable(value = "id") Long id) {
+        return buildFullQuickie(quickiesRepository.findOne(id), userService.getLoggedUser());
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<Boolean> deleteQuickie(@PathVariable(value = "id") Long id) {
-        logger.info("Delete quickie with id: {}", id);
+        User user = usersRepository.findByAuthId(Auth0Helper.getAuthId());
         Quickie quickie = quickiesRepository.findOne(id);
-        if (quickie.getQuickieDate().before(new Date())) {
+
+        if (quickie == null || !quickie.getSpeakerId().equals(user.getId())) {
+            return new ResponseEntity<>(Boolean.FALSE, HttpStatus.FORBIDDEN);
+        }
+
+        if (quickie.getQuickieDate() == null || quickie.getQuickieDate().before(new Date())) {
             quickiesRepository.delete(id);
             return new ResponseEntity<>(Boolean.TRUE, HttpStatus.OK);
         }
-        return new ResponseEntity<>(Boolean.FALSE, HttpStatus.METHOD_NOT_ALLOWED);
+
+        return new ResponseEntity<>(Boolean.FALSE, HttpStatus.FORBIDDEN);
+    }
+
+    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+    public ResponseEntity<Boolean> updateQuickie(@RequestBody Quickie quickie) {
+        User user = usersRepository.findByAuthId(Auth0Helper.getAuthId());
+        Quickie originalQuickie = quickiesRepository.findOne(quickie.getId());
+
+        if (originalQuickie == null || !originalQuickie.getSpeakerId().equals(user.getId())) {
+            return new ResponseEntity<>(Boolean.FALSE, HttpStatus.FORBIDDEN);
+        }
+
+        originalQuickie.setUserGroupId(quickie.getUserGroupId());
+        originalQuickie.setDescription(quickie.getDescription());
+        originalQuickie.setQuickieDate(quickie.getQuickieDate());
+        originalQuickie.setTitle(quickie.getTitle());
+
+        quickiesRepository.save(originalQuickie);
+
+        return new ResponseEntity<>(Boolean.TRUE, HttpStatus.OK);
     }
 
     @RequestMapping(method = RequestMethod.POST)
@@ -186,7 +217,7 @@ public class QuickieController {
 
     private Vote.Type getVoteType(Long quickieId) {
         Quickie quickie = quickiesRepository.findOne(quickieId);
-        if (quickie.getQuickieDate().after(new Date())) {
+        if (quickie.getQuickieDate() == null || quickie.getQuickieDate().after(new Date())) {
             return Vote.Type.VOTE;
         } else {
             return Vote.Type.LIKE;

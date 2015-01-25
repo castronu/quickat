@@ -1,0 +1,74 @@
+<div class="row" ng-controller="QuickieDetailsController">
+    <p class="text-center pageTitle">Quickie detail</p>
+    <hr/>
+
+    <div class="col-md-4">
+        <div class="panel">
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-4">
+                        <img class="img-circle img-thumb-m img-thumbnail" alt="User Avatar"
+                             ng-src="{{quickie.speaker.picture}}"/>
+                    </div>
+                    <div class="col-md-8 groupFilterTitle">{{quickie.speaker.firstname}} {{quickie.speaker.lastname}}
+                    </div>
+
+                </div>
+                <div class="userInfoContainer">
+                    <ul class="chat">
+                        <li class="left clearfix"><span class="glyphicon glyphicon-user"></span>
+                            {{quickie.speaker.nickname}}
+                        </li>
+                        <li class="left clearfix"><span class="glyphicon glyphicon-envelope"></span>
+                            {{quickie.speaker.email}}
+                        </li>
+                        <li class="left clearfix"><span class="glyphicon glyphicon-home"></span> <a
+                                ng-href="{{quickie.speaker.webpage|url}}">{{quickie.speaker.webpage}}</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="panel-footer userInfoContainerFooter">
+                <div class="row">
+                    <div class="col-md-12">
+                        <a href="#/profile/{{quickie.speaker.id}}" class="btn btn-default btn-sm pull-right">View
+                            Profile</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="col-md-8">
+        <div class="col-md-8">
+            <h3>
+                {{quickie.quickie.title}}
+                <a href="#/quickies/{{quickie.quickie.id}}/edit" class="btn-lg highlightBlue" ng-show="page.editable">
+                    <span class="glyphicon glyphicon-pencil " title="Edit profile"></span>
+                </a>
+            </h3>
+
+            <ul class="list-inline">
+                <li class="highlightBlue">
+                    proposed <span am-time-ago="quickie.quickie.postDate"></span>
+                </li>
+                <li class="highlightBlue" ng-show="quickie.quickie.quickieDate">
+                    planned for {{quickie.quickie.quickieDate | date:'short'}}
+                </li>
+                <li class="highlightBlue" ng-hide="quickie.quickie.quickieDate">
+                    not planned, yet
+                </li>
+            </ul>
+        </div>
+        <div class="col-md-4">
+            <a href="#" class="story-img pull-right">
+                <img class="img-circle img-thumb-l" src="img/geneva-jug.png"/>
+            </a>
+        </div>
+        <div class="col-md-12">
+            <p>
+                {{quickie.quickie.description}}
+            </p>
+        </div>
+    </div>
+</div>

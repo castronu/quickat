@@ -31,6 +31,8 @@
                     },
                     isArray: true
                 },
+                get: {method: 'GET'},
+                update: {method: 'PUT'},
                 create: {method: 'POST'},
                 delete: {method: 'DELETE'},
                 counters: {method: 'GET', params: {id: 'counters'}} // a bit hack-ish, but who cares? ;)

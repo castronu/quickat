@@ -26,7 +26,7 @@ public class DefaultQuickiesSupplier implements QuickiesSupplier, InitializingBe
     @Override
     public void afterPropertiesSet() throws Exception {
         quickiesSuppliers = new HashMap<>(4);
-        quickiesSuppliers.put("future", () -> quickiesRepository.findByQuickieDateAfter(new Date()));
+        quickiesSuppliers.put("future", () -> quickiesRepository.findByQuickieDateIsNullOrQuickieDateAfter(new Date()));
         quickiesSuppliers.put("topFuture", () -> quickiesRepository.getFutureOrderedByVoteCount(TOP_SIZE));
         quickiesSuppliers.put("past", () -> quickiesRepository.findByQuickieDateBefore(new Date()));
         quickiesSuppliers.put("topPast", () -> quickiesRepository.getPastOrderedByLikeCount(TOP_SIZE));

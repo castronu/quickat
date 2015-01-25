@@ -9,6 +9,14 @@ img.profile-small {
     margin-right: 5px
 }
 
+.dropdown-menu {
+    background-color: #464545;
+}
+
+.datetimepicker {
+    width: 370px;
+}
+
 .huge {
     font-size: 40px;
 }

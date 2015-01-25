@@ -1,5 +1,5 @@
 var quickiesApp = angular
-    .module('quickiesApp', ['ngRoute', 'ngResource', 'ui.bootstrap', 'angularMoment', 'auth0', 'angular-storage', 'angular-jwt'])
+    .module('quickiesApp', ['ngRoute', 'ngResource', 'ui.bootstrap', 'angularMoment', 'auth0', 'angular-storage', 'angular-jwt', 'ui.bootstrap.datetimepicker'])
     .config(function ($routeProvider, authProvider, jwtInterceptorProvider, $httpProvider) {
         authProvider.init({
             domain: 'cpollet.auth0.com',
@@ -16,33 +16,21 @@ var quickiesApp = angular
         $httpProvider.interceptors.push('jwtInterceptor');
 
         $routeProvider
-            .when('/addQuicky', {
-                templateUrl: 'html/addQuicky.html',
-                controller: 'AddQuickyController',
-                requiresLogin: true
-            })
-            .when('/myQuickies', {
-                templateUrl: 'html/myQuickies.html',
-                controller: 'MyQuickiesController',
-                requiresLogin: true
-            })
-            .when('/quickyDetails', {
-                templateUrl: 'html/quickyDetails.html',
-                controller: 'QuickyDetailsController'
-            })
             .when('/profile/me', {
                 templateUrl: 'html/profile.html',
                 controller: 'ProfileController',
                 resolve: {
                     profileService: 'MyProfileService'
-                }
+                },
+                requiresLogin: true
             })
             .when('/profile/edit', {
                 templateUrl: 'html/editProfile.html',
                 controller: 'ProfileController',
                 resolve: {
                     profileService: 'MyProfileService'
-                }
+                },
+                requiresLogin: true
             })
             .when('/profile/:userId', {
                 templateUrl: 'html/profile.html',
@@ -51,12 +39,18 @@ var quickiesApp = angular
                     profileService: 'UserProfileService'
                 }
             })
-            .when('/editProfile', {
-                templateUrl: 'html/editProfile.html',
-                controller: 'ProfileController'
-            })
             .when('/login', {
                 templateUrl: 'html/login.html'
+            })
+            .when('/quickies/new', {
+                templateUrl: 'html/editQuickie.html',
+                controller: 'AddQuickyController',
+                requiresLogin: true
+            })
+            .when('/quickies/me', {
+                templateUrl: 'html/myQuickies.html',
+                controller: 'MyQuickiesController',
+                requiresLogin: true
             })
             .when('/quickies/past', {
                 templateUrl: 'html/quickies.html',
@@ -71,6 +65,15 @@ var quickiesApp = angular
                 resolve: {
                     quickieService: 'FutureQuickiesService'
                 }
+            })
+            .when('/quickies/:quickieId', {
+                templateUrl: 'html/quickieDetails.html',
+                controller: 'QuickieDetailsController'
+            })
+            .when('/quickies/:quickieId/edit', {
+                templateUrl: 'html/editQuickie.html',
+                controller: 'EditQuickieController',
+                requiresLogin: true
             })
             .when('/help', {
                 templateUrl: 'html/help.html'

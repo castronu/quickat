@@ -8,6 +8,7 @@
                 Quickies.delete({'id': idToDelete}, function (success) {
                     if (success) {
                         $scope.quickies.splice(index, 1);
+                        $scope.$emit('refreshCounters');
                     }
                 });
             };
