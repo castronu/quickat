@@ -55,6 +55,6 @@ public class ListCommand extends BaseCommand {
 
     @Override
     public boolean respondsTo(String command) {
-        return "list".equals(command);
+        return "list".equals(command) || "l".equals(command);
     }
 }

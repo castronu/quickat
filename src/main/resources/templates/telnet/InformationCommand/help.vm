@@ -1,2 +1,2 @@
-  info <id>                       Displays info about a quickie
+  info <id>, i <id>               Displays info about a quickie
                                     <id> is the quickie's id

@@ -16,7 +16,7 @@ public class HelpCommand extends BaseCommand {
 
     @Override
     public boolean respondsTo(String command) {
-        return "help".equals(command);
+        return "help".equals(command) || "h".equals(command);
     }
 
     @Override

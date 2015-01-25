@@ -63,6 +63,6 @@ public class InformationCommand extends BaseCommand {
 
     @Override
     public boolean respondsTo(String command) {
-        return "info".equals(command);
+        return "info".equals(command) || "i".equals(command);
     }
 }
