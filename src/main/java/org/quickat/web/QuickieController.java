@@ -181,7 +181,7 @@ public class QuickieController {
         Quickie save = quickiesRepository.save(quickie);
 
         if (env.getProperty("twitter.post.enable", Boolean.class, false)) {
-            String tweetText = "Hey! A new quickie has been created: " +
+            String tweetText = "Hey #UGQuickie! A new quickie has been proposed: " +
                     quickie.getTitle() +
                     " (http://quickat.cpollet.net/#/quickies/" + save.getId() +
                     ")! Retweet me to vote for it!";
