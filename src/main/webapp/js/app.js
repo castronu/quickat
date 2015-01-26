@@ -79,6 +79,9 @@ var quickiesApp = angular
             .when('/help', {
                 templateUrl: 'html/help.html'
             })
+            .when('/about', {
+                templateUrl: 'html/about.html'
+            })
             .otherwise({
                 templateUrl: 'html/quickies.html',
                 controller: 'QuickiesController',
