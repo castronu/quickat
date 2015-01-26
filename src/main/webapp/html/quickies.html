@@ -70,8 +70,17 @@
             </div>
         </div>
         <div class="row" style="margin-top:10px">
-            <a class="twitter-timeline" href="https://twitter.com/hashtag/UGQuickie" data-widget-id="559466792285130752">#UGQuickie Tweets</a>
-            <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+            <a class="twitter-timeline" href="https://twitter.com/hashtag/UGQuickie"
+               data-widget-id="559466792285130752">#UGQuickie Tweets</a>
+            <script>!function (d, s, id) {
+                var js, fjs = d.getElementsByTagName(s)[0], p = /^http:/.test(d.location) ? 'http' : 'https';
+                if (!d.getElementById(id)) {
+                    js = d.createElement(s);
+                    js.id = id;
+                    js.src = p + "://platform.twitter.com/widgets.js";
+                    fjs.parentNode.insertBefore(js, fjs);
+                }
+            }(document, "script", "twitter-wjs");</script>
         </div>
     </div>
 
@@ -106,6 +115,18 @@
                                             <a href="#/quickies/{{quickie.quickie.id}}" class="btn btn-default btn-sm">Read
                                                 More</a>
                                         </p>
+
+                                        <div data-addthis-toolbox
+                                             data-url="http://quickat.cpollet.net/#quickies/{{quickie.quickie.id}}"
+                                             data-title="{{quickie.quickie.title}}"
+                                             data-description="{{quickie.quickie.description}}"
+                                             id="bp-{{quickie.quickie.id}}"
+                                             class="addthis_toolbox addthis_default_style addthis_16x16_style">
+                                            <a class="addthis_button_facebook"></a>
+                                            <a class="addthis_button_twitter"></a>
+                                            <a class="addthis_button_google_plusone_share"></a>
+                                            <a class="addthis_button_email"></a>
+                                        </div>
                                     </div>
                                 </div>
 

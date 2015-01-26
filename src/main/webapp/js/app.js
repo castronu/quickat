@@ -1,5 +1,6 @@
 var quickiesApp = angular
-    .module('quickiesApp', ['ngRoute', 'ngResource', 'ui.bootstrap', 'angularMoment', 'auth0', 'angular-storage', 'angular-jwt', 'ui.bootstrap.datetimepicker', 'ngSanitize'])
+    .module('quickiesApp', ['ngRoute', 'ngResource', 'ui.bootstrap', 'angularMoment', 'auth0', 'angular-storage',
+                            'angular-jwt', 'ui.bootstrap.datetimepicker', 'ngSanitize'])
     .config(function ($routeProvider, authProvider, jwtInterceptorProvider, $httpProvider) {
         authProvider.init({
             domain: 'cpollet.auth0.com',
@@ -109,3 +110,28 @@ var quickiesApp = angular
             }
         });
     });
+
+quickiesApp.directive('addthisToolbox', ['$timeout', 'jQuery', function($timeout, jQuery) {
+    return {
+        restrict : 'A',
+        transclude : true,
+        replace : true,
+        template : '<div ng-transclude></div>',
+        link : function($scope, element, attrs) {
+            $timeout(function () {
+                addthis.init();
+                addthis.toolbox(jQuery(element).get(), {}, {
+                    url: attrs.url,
+                    title : attrs.title,
+                    description : attrs.description
+                });
+            });
+        }
+    };
+}]);
+quickiesApp.factory('jQuery', [
+    '$window',
+    function ($window) {
+        return $window.jQuery;
+    }
+]);

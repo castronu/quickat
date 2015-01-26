@@ -58,6 +58,19 @@
                 <li class="highlightBlue" ng-hide="quickie.quickie.quickieDate">
                     not planned, yet
                 </li>
+                <li>
+                    <div data-addthis-toolbox
+                         data-url="http://quickat.cpollet.net/#quickies/{{quickie.quickie.id}}"
+                         data-title="{{quickie.quickie.title}}"
+                         data-description="{{quickie.quickie.description}}"
+                         id="bp-{{quickie.quickie.id}}"
+                         class="addthis_toolbox addthis_default_style addthis_16x16_style">
+                        <a class="addthis_button_facebook"></a>
+                        <a class="addthis_button_twitter"></a>
+                        <a class="addthis_button_google_plusone_share"></a>
+                        <a class="addthis_button_email"></a>
+                    </div>
+                </li>
             </ul>
         </div>
         <div class="col-md-4">

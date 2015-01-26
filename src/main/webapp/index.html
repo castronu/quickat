@@ -1,11 +1,21 @@
+<!DOCTYPE html>
 <html>
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-    <link href="libs/bootstrap/css/bootstrap.darkly.min.css" rel="stylesheet"/>
-    <link href="libs/font-awesome/css/font-awesome.min.css" rel="stylesheet"/>
+    <link href="libs/bootstrap/css/bootstrap.darkly.min.css" rel="stylesheet">
+    <link href="libs/font-awesome/css/font-awesome.min.css" rel="stylesheet">
     <link href="libs/datetimepicker/datetimepicker.css" rel="stylesheet">
-    <link href="css/main.css" rel="stylesheet"/>
+    <link href="css/main.css" rel="stylesheet">
+
+    <script type="text/javascript">var switchTo5x=true;</script>
+    <!--<script type="text/javascript" src="http://w.sharethis.com/button/buttons.js"></script>-->
+    <!--<script type="text/javascript" src="http://s.sharethis.com/loader.js"></script>-->
+
+    <script type="text/javascript">
+        var addthis_config = {"data_track_addressbar":true};
+    </script>
+    <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-54c57e675f08faff" async="async"></script>
 </head>
 <body ng-app="quickiesApp">
 <nav class="navbar navbar-default navbar-fixed-top">
@@ -24,7 +34,7 @@
                 <li><a href="#/help"><span class="glyphicon glyphicon-question-sign"></span> Help</a></li>
                 <li ng-hide="auth.isAuthenticated"><a ng-click="login()">Login</a></li>
                 <li ng-show="auth.isAuthenticated"><a ng-click="logout()">Logout</a></li>
-                <li ng-show="auth.isAuthenticated"><a href="#/profile/me"><img src="{{auth.profile.picture}}"
+                <li ng-show="auth.isAuthenticated"><a href="#/profile/me"><img ng-src="{{auth.profile.picture}}"
                                                                                class="profile-small"> View Profile</a>
                 </li>
             </ul>
@@ -149,5 +159,12 @@
 <script src="js/filters/FirstChars.js"></script>
 <script src="js/filters/nl2br.js"></script>
 <script src="libs/datetimepicker/datetimepicker.js"></script>
+<!--<script type="text/javascript">-->
+    <!--stLight.options({publisher: "12685b54-9e40-4b84-8d8d-cdda39297bfc", doNotHash: false, doNotCopy: false, hashAddressBar: false});-->
+    <!--var options={ "publisher": "12685b54-9e40-4b84-8d8d-cdda39297bfc", "position": "left", "ad": { "visible": false, "openDelay": 5, "closeDelay": 0}, "chicklets": { "items": ["linkedin", "facebook", "twitter", "googleplus", "pinterest", "email", "sharethis"]}};-->
+    <!--var st_hover_widget = new sharethis.widgets.hoverbuttons(options);-->
+<!--</script>-->
+
+
 </body>
 </html>
