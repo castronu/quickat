@@ -31,6 +31,8 @@
         </div>
         <div class="navbar-collapse collapse navbar-responsive-collapse" ng-controller="LoginController">
             <ul class="nav navbar-nav navbar-right">
+                <li><a href="#/help"><span class="glyphicon glyphicon-send"></span> About</a></li>
+
                 <li><a href="#/help"><span class="glyphicon glyphicon-question-sign"></span> Help</a></li>
                 <li ng-hide="auth.isAuthenticated"><a ng-click="login()">Login</a></li>
                 <li ng-show="auth.isAuthenticated"><a ng-click="logout()">Logout</a></li>
@@ -160,9 +162,9 @@
 <script src="js/filters/nl2br.js"></script>
 <script src="libs/datetimepicker/datetimepicker.js"></script>
 <!--<script type="text/javascript">-->
-    <!--stLight.options({publisher: "12685b54-9e40-4b84-8d8d-cdda39297bfc", doNotHash: false, doNotCopy: false, hashAddressBar: false});-->
-    <!--var options={ "publisher": "12685b54-9e40-4b84-8d8d-cdda39297bfc", "position": "left", "ad": { "visible": false, "openDelay": 5, "closeDelay": 0}, "chicklets": { "items": ["linkedin", "facebook", "twitter", "googleplus", "pinterest", "email", "sharethis"]}};-->
-    <!--var st_hover_widget = new sharethis.widgets.hoverbuttons(options);-->
+<!--stLight.options({publisher: "12685b54-9e40-4b84-8d8d-cdda39297bfc", doNotHash: false, doNotCopy: false, hashAddressBar: false});-->
+<!--var options={ "publisher": "12685b54-9e40-4b84-8d8d-cdda39297bfc", "position": "left", "ad": { "visible": false, "openDelay": 5, "closeDelay": 0}, "chicklets": { "items": ["linkedin", "facebook", "twitter", "googleplus", "pinterest", "email", "sharethis"]}};-->
+<!--var st_hover_widget = new sharethis.widgets.hoverbuttons(options);-->
 <!--</script>-->
 
 
