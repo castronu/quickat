@@ -2,7 +2,7 @@
     'use strict';
     quickiesApp.factory('Quickies', ['$resource',
         function ($resource) {
-            return $resource('/quickies/:id', {}, {
+            return $resource('/api/quickies/:id', {}, {
                 past: {
                     method: 'GET',
                     params: {

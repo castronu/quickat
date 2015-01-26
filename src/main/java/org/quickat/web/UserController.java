@@ -22,7 +22,7 @@ import java.util.List;
  * Created by aposcia on 14.01.15.
  */
 @RestController
-@RequestMapping("users")
+@RequestMapping("api/users")
 public class UserController {
 
     final static Logger logger = LoggerFactory.getLogger(QuickieController.class);

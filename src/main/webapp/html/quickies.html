@@ -93,11 +93,11 @@
                             <div class="row">
                                 <!-- speaker -->
                                 <div class="col-sm-3 col-xs-3 text-center">
-                                    <a href="#/profile/{{quickie.speaker.id}}" class="story-img">
+                                    <a href="/profile/{{quickie.speaker.id}}" class="story-img">
                                         <img class="img-circle img-thumb-m" ng-src="{{quickie.speaker.picture}}"/>
                                     </a>
                                     <br>
-                                    <a href="#/profile/{{quickie.speaker.id}}" class="highlightBlue">
+                                    <a href="/profile/{{quickie.speaker.id}}" class="highlightBlue">
                                         {{quickie.speaker.nickname}}
                                     </a>
                                 </div>
@@ -112,12 +112,12 @@
                                         </p>
 
                                         <p class="lead">
-                                            <a href="#/quickies/{{quickie.quickie.id}}" class="btn btn-default btn-sm">Read
+                                            <a href="/quickies/{{quickie.quickie.id}}" class="btn btn-default btn-sm">Read
                                                 More</a>
                                         </p>
 
                                         <div data-addthis-toolbox
-                                             data-url="http://quickat.cpollet.net/#quickies/{{quickie.quickie.id}}"
+                                             data-url="http://quickat.cpollet.net/quickies/{{quickie.quickie.id}}"
                                              data-title="{{quickie.quickie.title}}"
                                              data-description="{{quickie.quickie.description}}"
                                              id="bp-{{quickie.quickie.id}}"
@@ -191,11 +191,11 @@
                                         <table class="table">
                                             <tr>
                                                 <td class="col-xs-3">
-                                                    <a href="#/profile/{{comment.user.id}}" class="story-img">
+                                                    <a href="/profile/{{comment.user.id}}" class="story-img">
                                                         <img class="img-circle img-thumb-xs"
                                                              ng-src="{{comment.user.picture}}">
                                                     </a>
-                                                    <h5><a href="#/profile/{{comment.user.id}}" class="highlightBlue">{{comment.user.nickname}}</a>
+                                                    <h5><a href="/profile/{{comment.user.id}}" class="highlightBlue">{{comment.user.nickname}}</a>
                                                     </h5>
                                                     <h5>
                                                         <small><span am-time-ago="comment.date"></span></small>

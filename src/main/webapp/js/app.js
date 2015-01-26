@@ -1,13 +1,15 @@
 var quickiesApp = angular
     .module('quickiesApp', ['ngRoute', 'ngResource', 'ui.bootstrap', 'angularMoment', 'auth0', 'angular-storage',
                             'angular-jwt', 'ui.bootstrap.datetimepicker', 'ngSanitize'])
-    .config(function ($routeProvider, authProvider, jwtInterceptorProvider, $httpProvider) {
+    .config(function ($routeProvider, authProvider, jwtInterceptorProvider, $httpProvider, $locationProvider) {
         authProvider.init({
             domain: 'cpollet.auth0.com',
             clientID: 'SXOLuO6vugQOhmsBADUnT0b72gI90Tem',
             callbackURL: location.href,
             loginUrl: '/login'
         });
+
+        $locationProvider.html5Mode(true);
 
         jwtInterceptorProvider.tokenGetter = ['store', function (store) {
             // Return the saved token

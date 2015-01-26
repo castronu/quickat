@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <base href="/">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
     <link href="libs/bootstrap/css/bootstrap.darkly.min.css" rel="stylesheet">
@@ -31,12 +32,12 @@
         </div>
         <div class="navbar-collapse collapse navbar-responsive-collapse" ng-controller="LoginController">
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="#/about"><span class="glyphicon glyphicon-send"></span> About</a></li>
+                <li><a ng-href="/about"><span class="glyphicon glyphicon-send"></span> About</a></li>
 
-                <li><a href="#/help"><span class="glyphicon glyphicon-question-sign"></span> Help</a></li>
+                <li><a href="/help"><span class="glyphicon glyphicon-question-sign"></span> Help</a></li>
                 <li ng-hide="auth.isAuthenticated"><a ng-click="login()">Login</a></li>
                 <li ng-show="auth.isAuthenticated"><a ng-click="logout()">Logout</a></li>
-                <li ng-show="auth.isAuthenticated"><a href="#/profile/me"><img ng-src="{{auth.profile.picture}}"
+                <li ng-show="auth.isAuthenticated"><a href="/profile/me"><img ng-src="{{auth.profile.picture}}"
                                                                                class="profile-small"> View Profile</a>
                 </li>
             </ul>
@@ -49,7 +50,7 @@
 <div class="container" ng-controller="CountersController">
     <div class="row">
         <div class="col-md-3 col-xs-6 ">
-            <a href="#/quickies/future">
+            <a href="/quickies/future">
                 <div class="panel panel-primary">
                     <div class="panel-heading">
                         <div class="row">
@@ -66,7 +67,7 @@
             </a>
         </div>
         <div class="col-md-3 col-xs-6">
-            <a href="#/quickies/past">
+            <a href="/quickies/past">
                 <div class="panel panel-green">
                     <div class="panel-heading">
                         <div class="row">
@@ -83,7 +84,7 @@
             </a>
         </div>
         <div class="col-md-3 col-xs-6">
-            <a href="#/quickies/me">
+            <a href="/quickies/me">
                 <div class="panel panel-yellow">
                     <div class="panel-heading">
                         <div class="row">
@@ -101,7 +102,7 @@
 
         </div>
         <div class="col-md-3 col-xs-6">
-            <a href="#/quickies/new">
+            <a href="/quickies/new">
                 <div class="panel panel-red">
                     <div class="panel-heading">
                         <div class="row">
