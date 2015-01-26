@@ -27,7 +27,7 @@ public class BrainfuckController {
         try {
             brainfuckEngine.interpret(BRAINFUCK_CODE);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("BrainFuck",e);
         }
 
         String result = brainfuckEngine.getResult();
