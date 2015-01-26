@@ -25,7 +25,7 @@ import java.util.List;
 @RequestMapping("users")
 public class UserController {
 
-    final static Logger logger = LoggerFactory.getLogger(QuickieController.class);
+    final static Logger logger = LoggerFactory.getLogger(UserController.class);
 
     @Autowired
     public UsersRepository usersRepository;

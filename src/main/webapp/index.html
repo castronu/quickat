@@ -8,14 +8,15 @@
     <link href="libs/datetimepicker/datetimepicker.css" rel="stylesheet">
     <link href="css/main.css" rel="stylesheet">
 
-    <script type="text/javascript">var switchTo5x=true;</script>
+    <script type="text/javascript">var switchTo5x = true;</script>
     <!--<script type="text/javascript" src="http://w.sharethis.com/button/buttons.js"></script>-->
     <!--<script type="text/javascript" src="http://s.sharethis.com/loader.js"></script>-->
 
     <script type="text/javascript">
-        var addthis_config = {"data_track_addressbar":true};
+        var addthis_config = {"data_track_addressbar": true};
     </script>
-    <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-54c57e675f08faff" async="async"></script>
+    <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-54c57e675f08faff"
+            async="async"></script>
 </head>
 <body ng-app="quickiesApp">
 <nav class="navbar navbar-default navbar-fixed-top">
@@ -27,7 +28,9 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">Quickcat</a>
+            <div ng-controller="BrainfuckController">
+                <a class="navbar-brand" href="#">{{applicationName}}</a>
+            </div>
         </div>
         <div class="navbar-collapse collapse navbar-responsive-collapse" ng-controller="LoginController">
             <ul class="nav navbar-nav navbar-right">
@@ -147,11 +150,13 @@
 <script src="js/services/Quickies.js"></script>
 <script src="js/services/UserGroups.js"></script>
 <script src="js/services/Users.js"></script>
+<script src="js/services/Brainfuck.js"></script>
 <script src="js/services/Vote.js"></script>
 <script src="js/services/Comments.js"></script>
 <script src="js/QuickiesController.js"></script>
 <script src="js/AddQuickyController.js"></script>
 <script src="js/EditQuickieController.js"></script>
+<script src="js/BrainfuckController.js"></script>
 <script src="js/MyQuickiesController.js"></script>
 <script src="js/CountersController.js"></script>
 <script src="js/QuickieDetailsController.js"></script>

@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("userGroups")
 public class UserGroupsController {
-    final static Logger logger = LoggerFactory.getLogger(QuickieController.class);
+    final static Logger logger = LoggerFactory.getLogger(UserGroupsController.class);
 
     @Autowired
     public UserGroupsRepository userGroupsRepository;
