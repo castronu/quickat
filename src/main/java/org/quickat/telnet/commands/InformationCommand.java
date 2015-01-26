@@ -48,8 +48,11 @@ public class InformationCommand extends BaseCommand {
 
         User speaker = usersRepository.findOne(quickie.getSpeakerId());
 
-        ZonedDateTime instant = quickie.getQuickieDate().toInstant().atZone(ZoneId.of("UTC"));
-        String quickieDate = LocalDateTime.from(instant).format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+        String quickieDate = "not planned";
+        if (quickie.getQuickieDate() != null) {
+            ZonedDateTime instant = quickie.getQuickieDate().toInstant().atZone(ZoneId.of("UTC"));
+            quickieDate = LocalDateTime.from(instant).format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+        }
 
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("id", quickie.getId());
