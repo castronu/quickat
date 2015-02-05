@@ -28,7 +28,7 @@ import java.util.*;
  * Created by aposcia on 14.01.15.
  */
 @RestController
-@RequestMapping("quickies")
+@RequestMapping("api/quickies")
 public class QuickieController {
     private final static Logger logger = LoggerFactory.getLogger(QuickieController.class);
 
@@ -196,7 +196,7 @@ public class QuickieController {
         if (env.getProperty("twitter.post.enable", Boolean.class, false)) {
             String tweetText = "Hey #UGQuickie! A new quickie has been proposed: " +
                     quickie.getTitle() +
-                    " (http://quickat.cpollet.net/#/quickies/" + save.getId() +
+                    " (http://quickat.cpollet.net/quickies/" + save.getId() +
                     ")! Retweet me to vote for it!";
             Tweet tweet = twitter.timelineOperations().updateStatus(new TweetData(tweetText));
 

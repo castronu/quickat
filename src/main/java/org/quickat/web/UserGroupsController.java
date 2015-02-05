@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author Christophe Pollet
  */
 @RestController
-@RequestMapping("userGroups")
+@RequestMapping("api/userGroups")
 public class UserGroupsController {
     final static Logger logger = LoggerFactory.getLogger(UserGroupsController.class);
 

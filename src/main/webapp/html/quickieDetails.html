@@ -30,7 +30,7 @@
             <div class="panel-footer userInfoContainerFooter">
                 <div class="row">
                     <div class="col-md-12">
-                        <a href="#/profile/{{quickie.speaker.id}}" class="btn btn-default btn-sm pull-right">View
+                        <a href="/profile/{{quickie.speaker.id}}" class="btn btn-default btn-sm pull-right">View
                             Profile</a>
                     </div>
                 </div>
@@ -43,7 +43,7 @@
         <div class="col-md-8">
             <h3>
                 {{quickie.quickie.title}}
-                <a href="#/quickies/{{quickie.quickie.id}}/edit" class="btn-lg highlightBlue" ng-show="page.editable">
+                <a href="/quickies/{{quickie.quickie.id}}/edit" class="btn-lg highlightBlue" ng-show="page.editable">
                     <span class="glyphicon glyphicon-pencil " title="Edit profile"></span>
                 </a>
             </h3>
@@ -60,7 +60,7 @@
                 </li>
                 <li>
                     <div data-addthis-toolbox
-                         data-url="http://quickat.cpollet.net/#quickies/{{quickie.quickie.id}}"
+                         data-url="http://quickat.cpollet.net/quickies/{{quickie.quickie.id}}"
                          data-title="{{quickie.quickie.title}}"
                          data-description="{{quickie.quickie.description}}"
                          id="bp-{{quickie.quickie.id}}"

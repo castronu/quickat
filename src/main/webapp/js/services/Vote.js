@@ -2,7 +2,7 @@
     'use strict';
     quickiesApp.factory('Votes', ['$resource',
         function ($resource) {
-            return $resource('/quickies/:quickieId/vote', {quickieId: '@quickieId'}, {
+            return $resource('/api/quickies/:quickieId/vote', {quickieId: '@quickieId'}, {
                 create: {method: 'POST'},
                 delete: {method: 'DELETE'}
             });

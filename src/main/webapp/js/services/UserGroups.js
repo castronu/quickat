@@ -2,7 +2,7 @@
     'use strict';
     quickiesApp.factory('UserGroups', ['$resource',
         function ($resource) {
-            return $resource('/userGroups', {}, {
+            return $resource('/api/userGroups', {}, {
                 list: {method: 'GET', isArray:true}
             });
         }
